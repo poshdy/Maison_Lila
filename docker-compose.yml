@@ -1,0 +1,94 @@
+version: "3"
+services:
+  server:
+    build:
+      dockerfile: Dockerfile
+      context: "./maison-lila-server"
+    restart: always
+    deploy:
+      replicas: 4
+      restart_policy: 
+        condition: any
+      update_config: 
+        parallelism: 2
+        delay: 15s  
+    container_name: server
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL:  ${DATABASE_URL}
+      - ACCESS_TOKEN:  ${ACCESS_TOKEN}   
+      - REFRESH_TOKEN: ${REFRESH_TOKEN}  
+      - APP_PASSWORD:  ${APP_PASSWORD}
+      -  
+    ports:
+      - 8000:8000
+    networks:
+      - mynetwork
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+
+  postgres:
+    image: postgres:16
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST_AUTH_METHOD: ${POSTGRES_HOST_AUTH_METHOD}
+
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  admin:
+    build:
+      dockerfile: Dockerfile
+      context: "./maison-lila-dash"
+    restart: always
+    container_name: admin
+    depends_on:
+      - server
+    environment:
+      - NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+    ports:
+      - 3001:3001
+    networks:
+      - mynetwork
+
+  store:
+    build:
+      dockerfile: Dockerfile
+      context: "./store"
+    restart: always
+    container_name: store
+    environment:
+     - NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+     - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+    depends_on:
+      - server
+      - admin
+    env_file:
+      - ./store/.env
+    ports:
+      - 3000:3000
+    networks:
+      - mynetwork
+
+volumes:
+  postgres:
+networks:
+  mynetwork:
+    driver: bridge

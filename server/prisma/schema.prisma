@@ -1,0 +1,306 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Roles
+enum ROLE {
+  USER
+  ADMIN
+  MANAGER
+}
+
+model User {
+  id             String      @id @default(uuid())
+  email          String      @unique
+  hashedPassword String
+  name           String
+  role           ROLE        @default(USER)
+  order          Order[]
+  couponUsed     BlackList[]
+  address        Address[]
+  Review         Review[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Zone {
+  id        String    @id @default(uuid())
+  name      String
+  fees      Decimal
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Address   Address[]
+}
+
+model Address {
+  id          String  @id @default(uuid())
+  streetName  String
+  BuildingNo  String
+  Floor       String
+  apartmentNo String
+  zoneId      String  @default("")
+  zone        Zone    @relation(fields: [zoneId], references: [id], onDelete: SetDefault)
+  city        String  @default("Cairo")
+  Order       Order[]
+  User        User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId      String?
+}
+
+model Category {
+  id          String        @id @default(uuid())
+  name        String
+  imageUrl    String
+  products    Product[]
+  subCategory SubCategory[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model SubCategory {
+  id        String    @id @default(uuid())
+  name      String
+  parentId  String
+  parent    Category  @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Product {
+  id            String   @id @default(uuid())
+  name          String
+  price         Decimal
+  discountValue Decimal? @default(0)
+  salePrice     Decimal? @default(0)
+
+  stock       Int       @default(10)
+  description String
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId  String?
+
+  SubCategory   SubCategory? @relation(fields: [subCategoryId], references: [id], onDelete: SetNull)
+  subCategoryId String?
+
+  featured   Boolean? @default(false)
+  bestSeller Boolean? @default(false)
+  SoldOut    Boolean? @default(false)
+  newArrival Boolean? @default(false)
+
+  UpdatedBy  UpdatedBy[]
+  orderItems OrderItems[]
+  image      Images[]
+  Review     Review[]
+  Sales      Sales[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([id, name])
+}
+
+model UpdatedBy {
+  id        String   @id @default(uuid())
+  productId String
+  adminName String
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Rating {
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+
+model BottomImage {
+  id        String   @id @default(uuid())
+  published Boolean  @default(false)
+  text      String
+  title     String
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  published Boolean  @default(false)
+  content   String
+  rating    Rating
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id             String       @id @default(uuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phoneNumber    String
+  Address        Address?     @relation(fields: [addressId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  addressId      String?
+  comment        String?
+  orderSummaryId String
+  orderSummary   OrderSummary @relation(fields: [orderSummaryId], references: [id])
+  orderStatus    OrderStatus  @default(PENDING)
+  OrderItems     OrderItems[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model OrderSummary {
+  id            String        @id @default(uuid())
+  order         Order[]
+  paymentMethod PaymentMethod @default(CASH)
+  Subtotal      Decimal
+  DeliveryFee   Decimal?
+  Discount      Decimal       @default(0)
+  OrderTotal    Decimal
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERD
+}
+
+enum PaymentMethod {
+  CASH
+  ONLINEPAYMENT
+}
+
+model OrderItems {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Sales {
+  productId    String   @id
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  price        Decimal
+  soldAt       Decimal
+  quantitySold Int
+  Revenue      Decimal
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model Coupons {
+  id         String      @id @default(uuid())
+  name       String      @unique
+  decription String
+  expiration DateTime
+  amount     Decimal
+  Minimum    Int         @default(150)
+  countUsed  Int?        @default(0)
+  maxUsage   Int         @default(20)
+  valid      Boolean     @default(true)
+  BlackList  BlackList[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model BlackList {
+  id         String   @id @default(uuid())
+  userId     String
+  couponCode String
+  createdAt  DateTime @default(now())
+
+  // Foreign keys to reference users and coupons
+  user   User    @relation(fields: [userId], references: [id])
+  coupon Coupons @relation(fields: [couponCode], references: [name])
+}
+
+model SpecialOrder {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  message   String
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Slider {
+  id        String          @id @default(uuid())
+  place     PLACE           @default(TOP)
+  name      String
+  published Boolean         @default(false)
+  content   SliderContent[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model SliderContent {
+  id        String   @id @default(uuid())
+  slider    Slider   @relation(fields: [sliderId], references: [id], onDelete: Cascade)
+  sliderId  String
+  title     String
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  image     String
+}
+
+enum PLACE {
+  TOP
+  BOTTOM
+}
+
+model Banner {
+  id        String   @id @default(uuid())
+  title     String
+  text      String
+  image     String
+  place     PLACE    @default(TOP)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Anouncement {
+  id        String   @id @default(uuid())
+  text      String
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Images {
+  id        String   @id @default(uuid())
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+}
+
+model ContactInfo {
+  id        String   @id @default(uuid())
+  phone     String
+  email     String
+  instagram String
+  facebook  String
+  tiktok    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
