@@ -86,4 +86,4 @@ volumes:
   postgres:
 networks:
   mynetwork:
-    driver: bridge
+    driver: overlay
