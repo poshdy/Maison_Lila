@@ -1,0 +1,74 @@
+version: "3"
+services:
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    image: posh3120/node-server:v1.1  
+    depends_on:
+      - postgres
+    env_file:
+      - ./server/.env
+    ports:
+      - 8000:8000
+    networks:
+      - mynetwork
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+    -  POSTGRES_HOST=postgres
+    -  POSTGRES_USER=postgres
+    -  POSTGRES_DB=maisonlila
+    -  POSTGRES_HOST_AUTH_METHOD=trust
+
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  admin:
+    build:
+      dockerfile: Dockerfile
+      context: "./dashboard"
+    image: posh3120/dashboard:v1.1
+    depends_on:
+      - server
+    env_file:
+      - ./dashboard/.env
+    ports:
+      - 3001:3001
+    networks:
+      - mynetwork
+
+  store:
+    build: 
+      context: ./store
+      dockerfile: Dockerfile
+    image: posh3120/store
+    depends_on:
+      - server
+      - admin
+    ports:
+      - 3000:3000
+    env_file:
+      - ./store/.env  
+    networks:
+      - mynetwork
+
+volumes:
+  postgres:
+networks:
+  mynetwork:
+    driver: bridge

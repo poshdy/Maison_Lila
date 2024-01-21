@@ -1,6 +1,5 @@
+"use client";
 import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -22,6 +21,8 @@ import {
 import { SubCatColumn } from "@/types";
 import { productSubCatFormValues, productSubCatSchema } from "@/Schemas";
 import { Client } from "@/axiosClient";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 type Props = {
   subCategory: SubCatColumn[];
 };

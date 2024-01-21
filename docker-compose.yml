@@ -1,10 +1,9 @@
 version: "3"
 services:
   server:
-    build: ./server
-    image: posh3120/node-server:v1.0
+    image: posh3120/node-server:v1.1
     deploy:
-      replicas: 4
+      replicas: 2
       restart_policy: 
         condition: any
       update_config: 
@@ -18,7 +17,7 @@ services:
       - REFRESH_TOKEN=${REFRESH_TOKEN}
       - APP_PASSWORD=${APP_PASSWORD}
     ports:
-      - 8000:8000
+      - 8081:8000
     networks:
       - mynetwork
 
@@ -47,9 +46,7 @@ services:
       - mynetwork
 
   admin:
-    build:
-      dockerfile: Dockerfile
-      context: "./dashboard"
+    image: posh3120/dashboard:v1.1 
     deploy:
       replicas: 2
       restart_policy: 
@@ -63,14 +60,12 @@ services:
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
     ports:
-      - 3001:3001
+      - 8083:3001
     networks:
       - mynetwork
 
   store:
-    build:
-      dockerfile: Dockerfile
-      context: "./store"
+    image: posh3120/store:latest
     deploy:
       replicas: 2
       restart_policy: 
@@ -85,7 +80,7 @@ services:
       - server
       - admin
     ports:
-      - 3000:3000
+      - 8082:3000
     networks:
       - mynetwork
 
@@ -93,4 +88,4 @@ volumes:
   postgres:
 networks:
   mynetwork:
-    driver: overlay
+    driver: bridge

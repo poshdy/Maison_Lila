@@ -39,7 +39,6 @@ interface ProductFormProps {
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
   category,
-  subCategory,
 }) => {
   const params = useParams();
   const { name } = AdminStore();
