@@ -15,11 +15,8 @@ services:
     container_name: server
     depends_on:
       - postgres
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - ACCESS_TOKEN=${ACCESS_TOKEN}   
-      - REFRESH_TOKEN=${REFRESH_TOKEN}  
-      - APP_PASSWORD=${APP_PASSWORD}
+    env_file:
+      - ./server/.env
       -  
     ports:
       - 8000:8000
