@@ -16,7 +16,7 @@ const UserDetails = (props: Props) => {
   const { address } = AddressStore();
   const { user } = useUser();
   return (
-    <section>
+    <section className="space-y-2">
       <Card>
         <CardHeader>
           <CardTitle>Account</CardTitle>

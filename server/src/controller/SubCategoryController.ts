@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { prismadb } from "../lib/prismadb.js";
 
+
+
+
 export const addSubCategory = async (req: Request, res: Response) => {
   const { name, categoryId } = req.body;
   const Subcategory = await prismadb.subCategory.create({
@@ -16,11 +19,12 @@ export const addSubCategory = async (req: Request, res: Response) => {
     .send(`New Sub-Category with ${Subcategory.name} Created Successfully`);
 };
 
+
+
 export const getSubCategories = async (req: Request, res: Response) => {
   const SubCategories = await prismadb.subCategory.findMany({
     select: {
       name: true,
-
       createdAt: true,
       id: true,
       parent: {
@@ -52,6 +56,9 @@ export const getSubCategory = async (req: Request, res: Response) => {
   });
   res.status(200).send(Subcategory);
 };
+
+
+
 
 export const updateSubCategory = async (req: Request, res: Response) => {
   const { id } = req.params;

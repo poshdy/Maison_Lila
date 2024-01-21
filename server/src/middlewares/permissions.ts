@@ -14,7 +14,7 @@ export const Roles = (roles: string[]) => {
           return res
             .status(403)
             .send(
-              "you dont have access or your token has expired please login again"
+              "your token has expired please"
             );
         }
         if (roles.includes(data.role)) {
@@ -24,7 +24,7 @@ export const Roles = (roles: string[]) => {
           console.log(data?.role)
           return res
             .status(403)
-            .send("you are not allowed from manager middleware");
+            .send("you are not allowed");
         }
       }
     );

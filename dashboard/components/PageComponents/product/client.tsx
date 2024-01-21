@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 import { useRouter } from "next/navigation";
 import { ProductColmun } from "@/types";
+import { RestockStore } from "@/zustand/Restock-store";
 
 type Props = {
   data: ProductColmun[];
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const ProductClient = ({ data, page }: Props) => {
+  const { onOpen } = RestockStore();
   const router = useRouter();
   return (
     <section className="space-y-3">
@@ -27,9 +29,22 @@ const ProductClient = ({ data, page }: Props) => {
         >
           Add new <Plus className="ml-3 h-5 w-5" />
         </Button>
+        <Button
+          variant={"action"}
+          onClick={() => onOpen()}
+          className=" rounded-lg flex justify-center"
+        >
+          Resrock Products
+        </Button>
       </div>
       <Separator />
-      <DataTable name="products" page={page} searchKey="name" columns={columns} data={data} />
+      <DataTable
+        name="products"
+        page={page}
+        searchKey="name"
+        columns={columns}
+        data={data}
+      />
     </section>
   );
 };

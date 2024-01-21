@@ -1,4 +1,5 @@
 import { ProductForm } from "@/components/Forms/ProductForm";
+import ProductSubCatForm from "@/components/Forms/ProductSubCatForm";
 import { getData, getDataById } from "@/fetchers";
 
 const Productspage = async ({ params }: { params: { productId: string } }) => {
@@ -14,6 +15,7 @@ const Productspage = async ({ params }: { params: { productId: string } }) => {
           initialData={product}
           category={category}
         />
+        <ProductSubCatForm subCategory={subCategory} />
       </div>
     </section>
   );

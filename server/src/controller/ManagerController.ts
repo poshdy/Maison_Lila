@@ -7,7 +7,6 @@ import {
 } from "../services/authServices.js";
 import jwt from "jsonwebtoken";
 import { AuthSchema } from "../validation/Schemas.js";
-let refreshtokens: string[] = [];
 
 export const ManagerLogin = async (req: Request, res: Response) => {
   const { error, value } = AuthSchema.validate(req.body);
@@ -37,18 +36,16 @@ export const ManagerLogin = async (req: Request, res: Response) => {
 
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    // sameSite: "none",
+    sameSite: "none",
+    secure: true,
     maxAge: 259200000,
   });
-  res
-    .status(200)
-
-    .send({
-      role: manager.role,
-      name: manager.name,
-      email: manager.email,
-      accessToken: token,
-    });
+  res.status(200).send({
+    role: manager.role,
+    name: manager.name,
+    email: manager.email,
+    accessToken: token,
+  });
 };
 
 export const Token = async (req: Request, res: Response) => {
@@ -66,11 +63,10 @@ export const Token = async (req: Request, res: Response) => {
       }
       const newAccessToken = await generateToken(user);
       const newRefreshToken = await generateRefreshToken(user);
-
-      refreshtokens.push(token);
       res.cookie("token", newRefreshToken, {
         httpOnly: true,
-        // sameSite: "none",
+        sameSite: "none",
+        secure: true,
         maxAge: 259200000,
       });
       res.send({ accessToken: newAccessToken });

@@ -89,20 +89,13 @@ export const topProducts = async () => {
 };
 export const CreateProduct = async (req: Request) => {
   try {
-    const { name, description, price, categoryId, image } =
-      req.body;
+    const { name, description, price, categoryId, image } = req.body;
     const product = await prismadb.product.create({
       data: {
         name,
         description,
         price,
         category: { connect: { id: categoryId } },
-        // SubCategory: {
-        //   create: {
-        //     name: req.body.subCat,
-        //     parent: { connect: { id: categoryId } },
-        //   },
-        // },
         image: {
           createMany: {
             data: [...image.map((image: { url: string }) => image)],
@@ -209,32 +202,57 @@ export const GetAllProducts = async (
   start: number,
   category: querystring
 ) => {
-  return await prismadb.product.findMany({
-    select: {
-      name: true,
-      bestSeller: true,
-      newArrival: true,
-      description: true,
-      price: true,
-      id: true,
-      SoldOut: true,
-      stock: true,
-      createdAt: true,
-      UpdatedBy: {
-        select: {
-          adminName: true,
-        },
-      },
-      discountValue: true,
-      salePrice: true,
-      category: { select: { name: true } },
-      image: true,
-    },
-    where: {
-      category: { name: { contains: category as string } },
-    },
 
-    skip: start,
-    take: limit,
-  });
+  if (category) {
+    return await prismadb.product.findMany({
+      select: {
+        name: true,
+        bestSeller: true,
+        newArrival: true,
+        description: true,
+        price: true,
+        id: true,
+        SoldOut: true,
+        stock: true,
+        createdAt: true,
+        UpdatedBy: {
+          select: {
+            adminName: true,
+          },
+        },
+        discountValue: true,
+        salePrice: true,
+        category: { select: { name: true } },
+        image: true,
+      },
+      where: {
+        category: { name: { contains: category as string } },
+      },
+    });
+  } else {
+    return await prismadb.product.findMany({
+      select: {
+        name: true,
+        bestSeller: true,
+        newArrival: true,
+        description: true,
+        price: true,
+        id: true,
+        SoldOut: true,
+        stock: true,
+        createdAt: true,
+        UpdatedBy: {
+          select: {
+            adminName: true,
+          },
+        },
+        discountValue: true,
+        salePrice: true,
+        category: { select: { name: true } },
+        image: true,
+      },
+      skip: start,
+      take: limit,
+    });
+  }
 };

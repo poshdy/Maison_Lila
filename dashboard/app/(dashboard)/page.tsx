@@ -17,7 +17,6 @@ const OverViewpage = async () => {
         Top Products
       </h2>
       <TopProducts />
-  
     </section>
   );
 };

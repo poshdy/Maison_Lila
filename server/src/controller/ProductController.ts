@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { prismadb } from "../lib/prismadb.js";
 import { AppError } from "../utils/AppError.js";
 import {
@@ -15,6 +15,24 @@ export const addProducts = async (req: Request, res: Response) => {
 
   res.status(201).send(product);
 };
+
+export const addSubCatToProduct = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  const { SubCategoryId } = req.body;
+
+  await prismadb.product.update({
+    where: {
+      id: productId,
+    },
+    data: {
+      SubCategory: { connect: { id: SubCategoryId } },
+    },
+  });
+  res.status(200).send("Product Added Successfully to Sub-Category");
+};
+
+
+
 export const getProducts = async (req: Request, res: Response) => {
   const { bestseller, newArrival, page, category } = req.query;
   const limit = 10;
@@ -55,6 +73,34 @@ export const getProduct = async (req: Request, res: Response) => {
 
   res.status(200).send(product);
 };
+
+export const searchProducts = async (req: Request, res: Response) => {
+  const { query } = req.query;
+  const product = await prismadb.product.findMany({
+    where: {
+      OR: [
+        { name: { contains: query as string } },
+        { category: { name: { contains: query as string } } },
+      ],
+    },
+    include: {
+      image: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+  if (product.length == 0) {
+    throw new AppError("we dont have this product", "not found products", 404);
+  }
+  res.status(200).send(product);
+};
+
+
+
 export const updateProducts = async (req: Request, res: Response) => {
   const { id } = req.params;
   const {
@@ -95,51 +141,6 @@ export const updateProducts = async (req: Request, res: Response) => {
 
   res.status(200).send(product);
 };
-export const deleteProducts = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const product = await prismadb.product.delete({
-    where: {
-      id,
-    },
-  });
-  if (!product) {
-    throw new AppError(
-      "product with this id is not found",
-      "product not found",
-      404
-    );
-  }
-  res.status(200).send(product);
-};
-export const searchProducts = async (req: Request, res: Response) => {
-  const { query } = req.query;
-  const product = await prismadb.product.findMany({
-    where: {
-      OR: [
-        { name: { contains: query as string } },
-        { category: { name: { contains: query as string } } },
-      ],
-    },
-    include: {
-      image: true,
-      category: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-  if (product.length == 0) {
-    throw new AppError("we dont have this product", "not found products", 404);
-  }
-  res.status(200).send(product);
-};
-export const TopProducts = async (req: Request, res: Response) => {
-  const product = await topProducts();
-  console.log(product);
-  res.status(200).json(product);
-};
 
 export const ReStock = async (req: Request, res: Response) => {
   const restock = await prismadb.product.updateMany({
@@ -149,16 +150,25 @@ export const ReStock = async (req: Request, res: Response) => {
   });
   res.status(200).send("our products has has been restocked");
 };
+
 export const RestockProduct = async (req: Request, res: Response) => {
   const data = await RestockAllProducts(req);
   res.status(200).send("our products has has been restocked");
 };
+
 export const BestSeller = async (req: Request, res: Response) => {
   const update = await toggleBestSeller(req);
 
   res.status(200).send(update);
 };
 
+
+
+export const TopProducts = async (req: Request, res: Response) => {
+  const product = await topProducts();
+  console.log(product);
+  res.status(200).json(product);
+};
 export const productsStock = async (req: Request, res: Response) => {
   const product = await prismadb.$transaction(async (tx) => {
     const InStock = await tx.product.count({
@@ -180,4 +190,26 @@ export const productsStock = async (req: Request, res: Response) => {
     OutOfStock: product.OutOfStock,
     All: product.All,
   });
+};
+
+
+
+
+
+
+export const deleteProducts = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const product = await prismadb.product.delete({
+    where: {
+      id,
+    },
+  });
+  if (!product) {
+    throw new AppError(
+      "product with this id is not found",
+      "product not found",
+      404
+    );
+  }
+  res.status(200).send(product);
 };

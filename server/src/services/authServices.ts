@@ -23,7 +23,7 @@ export const generateToken = async ({ id, role, email }: User) => {
     { id: id, role: role, email },
     process.env.ACCESS_TOKEN as string,
     {
-      expiresIn: "20m",
+      expiresIn: "40m",
     }
   );
 };
@@ -42,7 +42,7 @@ export const getAuthHeader = async (req: Request) => {
       throw new AppError(
         "token is missing",
         "auth token is missing please provide it",
-        400
+        403
       );
     }
     return token;

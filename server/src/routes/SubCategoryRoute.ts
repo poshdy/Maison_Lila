@@ -12,9 +12,15 @@ import {
 const router = express.Router();
 
 router.post("/", Roles(["MANAGER", "ADMIN"]), tryCatch(addSubCategory));
+
+
 router.get("/", tryCatch(getSubCategories));
 router.get("/:id", tryCatch(getSubCategory));
+
+
 router.patch("/:id", Roles(["MANAGER", "ADMIN"]), tryCatch(updateSubCategory));
+
+
 router.delete("/:id", Roles(["MANAGER", "ADMIN"]), tryCatch(deleteSubCategory));
 
 export default router;

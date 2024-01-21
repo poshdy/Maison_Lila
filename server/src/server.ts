@@ -25,6 +25,7 @@ import BottomImageRoute from "./routes/BottomImageRoute.js";
 import SubCategoryRoute from "./routes/SubCategoryRoute.js";
 
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { env } from "process";
 
 const PORT = process.env.PORT || 8000;
 const app = express();

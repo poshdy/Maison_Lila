@@ -1,10 +1,8 @@
 version: "3"
 services:
   server:
-    build:
-      dockerfile: Dockerfile
-      context: "./maison-lila-server"
-    restart: always
+    build: ./server
+    image: posh3120/node-server:v1.0
     deploy:
       replicas: 4
       restart_policy: 
@@ -12,7 +10,6 @@ services:
       update_config: 
         parallelism: 2
         delay: 15s  
-    container_name: server
     depends_on:
       - postgres
     environment:
@@ -28,7 +25,6 @@ services:
   adminer:
     image: adminer
     restart: always
-    container_name: adminer
     ports:
       - 8080:8080
     depends_on:
@@ -39,7 +35,6 @@ services:
   postgres:
     image: postgres:16
     restart: always
-    container_name: postgres
     environment:
     -  POSTGRES_HOST=${POSTGRES_HOST}
     -  POSTGRES_USER=${POSTGRES_USER}
@@ -54,9 +49,14 @@ services:
   admin:
     build:
       dockerfile: Dockerfile
-      context: "./maison-lila-dash"
-    restart: always
-    container_name: admin
+      context: "./dashboard"
+    deploy:
+      replicas: 2
+      restart_policy: 
+        condition: any
+      update_config: 
+        parallelism: 1
+        delay: 15s 
     depends_on:
       - server
     environment:
@@ -71,8 +71,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: "./store"
-    restart: always
-    container_name: store
     deploy:
       replicas: 2
       restart_policy: 

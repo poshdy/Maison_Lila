@@ -1,8 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
-// import { StoreModal } from "@/components/models/alert-model";
+import RestockModel from "../models/RestockModel";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -15,5 +13,9 @@ export const ModalProvider = () => {
     return null;
   }
 
-  return <>{/* <StoreModal /> */}</>;
+  return (
+    <>
+      <RestockModel />
+    </>
+  );
 };
