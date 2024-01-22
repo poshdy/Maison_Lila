@@ -3,7 +3,7 @@ services:
   server:
     image: posh3120/node-server:v1.1
     deploy:
-      replicas: 2
+      replicas: 3
       restart_policy: 
         condition: any
       update_config: 
@@ -12,6 +12,7 @@ services:
     depends_on:
       - postgres
     environment:
+      - MAISON_LILA_SHOP_URL=${MAISON_LILA_SHOP_URL}  
       - DATABASE_URL=${DATABASE_URL}
       - ACCESS_TOKEN=${ACCESS_TOKEN}
       - REFRESH_TOKEN=${REFRESH_TOKEN}
@@ -36,7 +37,7 @@ services:
     -  POSTGRES_HOST=${POSTGRES_HOST}
     -  POSTGRES_USER=${POSTGRES_USER}
     -  POSTGRES_DB=${POSTGRES_DB}
-    -  POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD}
+    -  POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
     volumes:
       - postgres:/var/lib/postgresql/data
