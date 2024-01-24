@@ -1,15 +1,41 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine AS base
+FROM base AS deps
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
-COPY . ./
+
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+
 RUN npm run build
 
-# Production stage
-FROM node:20-alpine AS production
-RUN apk update && apk upgrade && apk add dumb-init
+
+FROM base AS runner
 WORKDIR /app
-COPY --from=builder /app/next.config.js /app/next.config.js
-COPY --from=builder  /app/.next/standalone ./
-ENV HOST=0.0.0.0 PORT=3001 NODE_ENV=production
-CMD ["dumb-init","node","server.js"]
+
+ENV NODE_ENV production
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3001
+
+ENV PORT 3001
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["node", "server.js"]
