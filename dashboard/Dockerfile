@@ -9,10 +9,6 @@ RUN npm run build
 FROM node:20-alpine AS production
 RUN apk update && apk upgrade && apk add dumb-init
 WORKDIR /app
-ENV NODE_ENV production
-COPY --from=builder package*.json ./
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/.next /app/.next
-EXPOSE 3000
-CMD ["npm", "start"]
+COPY --from=builder  /app/.next/standalone ./
+ENV HOST=0.0.0.0 PORT=3001 NODE_ENV=production
+CMD ["node","server.js"]

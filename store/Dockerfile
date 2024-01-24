@@ -10,16 +10,14 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install 
+RUN npm ci
 COPY . ./
 RUN npm run build
 
 # Production stage
 FROM node:20-alpine AS production
 WORKDIR /app
-ENV NODE_ENV production
-COPY package*.json ./
-RUN npm install
-COPY --from=builder /app/.next ./.next
-EXPOSE 3000
-CMD ["npm", "start"]
+COPY --from=builder /app/next.config.js /app/next.config.js
+COPY --from=builder  /app/.next/standalone ./
+ENV HOST=0.0.0.0 PORT=3000 NODE_ENV=production
+CMD ["node","server.js"]
