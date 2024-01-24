@@ -20,4 +20,4 @@ WORKDIR /app
 COPY --from=builder /app/next.config.js /app/next.config.js
 COPY --from=builder  /app/.next/standalone ./
 ENV PORT=3000 NODE_ENV=production
-CMD ["node","/app/.next/standalone/server.js"]
+CMD ["node","server.js"]
