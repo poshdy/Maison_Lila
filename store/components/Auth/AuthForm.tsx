@@ -30,7 +30,7 @@ const AuthForm = (props: Props) => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       const res = await axios.post(
-        `${process.env.BASE_URL}/auth/sign-up`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/sign-up`,
         data,
         { withCredentials: true }
       );

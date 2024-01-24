@@ -30,7 +30,7 @@ const LoginForm = (props: Props) => {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const res = await axios.post(
-        `${process.env.BASE_URL}/auth/login`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
         data,
         { withCredentials: true }
       );

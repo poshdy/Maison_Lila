@@ -3,7 +3,7 @@ import { useUser } from "./zustand/user-store";
 import { jwtDecode } from "jwt-decode";
 import dayjs, { unix } from "dayjs";
 export const Client = axios.create({
-  baseURL: process.env.BASE_URL ,
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL ,
   withCredentials: true,
 });
 
