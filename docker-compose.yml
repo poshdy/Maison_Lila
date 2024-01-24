@@ -45,7 +45,7 @@ services:
       - mynetwork
 
   admin:
-    image: posh3120/dashboard:v1.5
+    image: posh3120/dashboard:v1.6
     deploy:
       replicas: 2
       restart_policy: 
