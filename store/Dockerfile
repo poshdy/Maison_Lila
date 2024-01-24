@@ -19,5 +19,5 @@ FROM node:20-alpine AS production
 WORKDIR /app
 COPY --from=builder /app/next.config.js /app/next.config.js
 COPY --from=builder  /app/.next/standalone ./
-ENV HOST=0.0.0.0 PORT=3000 NODE_ENV=production
-CMD ["node","server.js"]
+ENV PORT=3000 NODE_ENV=production
+CMD ["node","/app/.next/standalone/server.js"]
