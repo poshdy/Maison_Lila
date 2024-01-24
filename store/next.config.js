@@ -3,7 +3,7 @@ const nextConfig = {
     images: {
         remotePatterns: [{ hostname: "res.cloudinary.com" }],
       },
-      output:"standalone"
+      output:"standalone",
 }
 
 module.exports = nextConfig

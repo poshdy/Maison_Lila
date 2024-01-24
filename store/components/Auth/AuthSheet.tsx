@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useCart } from "@/zustand/cart-store";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { BASE_URL } from "@/constants";
 
 type Props = {};
 
@@ -25,7 +26,7 @@ const AuthSheet = (props: Props) => {
   const { removeAll } = useCart();
 
   const logOut = async () => {
-    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logOut`, null, {
+    await axios.post(`${BASE_URL}/auth/logOut`, null, {
       withCredentials: true,
     });
     removeAll();

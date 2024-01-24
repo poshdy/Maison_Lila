@@ -5,3 +5,5 @@ export const NAVITEMS = [
   { name: "Contact", path: "/#contact" },
   { name: "Cart", path: "/cart" },
 ];
+
+export const BASE_URL = "http://localhost:8001/v1";

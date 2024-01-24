@@ -2,9 +2,10 @@ import axios from "axios";
 import { AdminStore } from "./zustand/use-admin-store";
 import { jwtDecode } from "jwt-decode";
 import dayjs, { unix } from "dayjs";
+import { BASE_URL } from "./constants";
 
 export const Client = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: BASE_URL,
   withCredentials: true,
 });
 

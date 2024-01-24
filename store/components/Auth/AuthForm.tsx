@@ -18,10 +18,11 @@ import axios from "axios";
 import { useUser } from "@/zustand/user-store";
 import { useNoticationModel } from "@/zustand/notification-store";
 import toast from "react-hot-toast";
+import { BASE_URL } from "@/constants";
 type Props = {};
 
 const AuthForm = (props: Props) => {
-  const {onOpen} = useNoticationModel()
+  const { onOpen } = useNoticationModel();
   const { SetUser } = useUser();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -29,15 +30,13 @@ const AuthForm = (props: Props) => {
   let isLoading = form.formState.isSubmitting;
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/sign-up`,
-        data,
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${BASE_URL}/auth/sign-up`, data, {
+        withCredentials: true,
+      });
       SetUser(res.data);
-     onOpen("Your account is created successfully",`Thank You!`)
+      onOpen("Your account is created successfully", `Thank You!`);
     } catch (error: any) {
-      toast.error("Something Went Wrong")
+      toast.error("Something Went Wrong");
     } finally {
       form.reset();
     }
@@ -87,7 +86,12 @@ const AuthForm = (props: Props) => {
             )}
           />
 
-          <Button variant={"action"} className="w-full" disabled={isLoading} type="submit">
+          <Button
+            variant={"action"}
+            className="w-full"
+            disabled={isLoading}
+            type="submit"
+          >
             create account
           </Button>
         </form>

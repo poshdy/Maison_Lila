@@ -2,8 +2,9 @@ import axios from "axios";
 import { useUser } from "./zustand/user-store";
 import { jwtDecode } from "jwt-decode";
 import dayjs, { unix } from "dayjs";
+import { BASE_URL } from "./constants";
 export const Client = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL ,
+  baseURL: BASE_URL,
   withCredentials: true,
 });
 
@@ -17,12 +18,9 @@ Client.interceptors.request.use(
       return req;
     }
     try {
-      const res = await axios.get(
-        `${process.env.BASE_URL}/auth/token`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`${BASE_URL}/auth/token`, {
+        withCredentials: true,
+      });
       useUser.getState().updateAccessToken(res.data.accessToken);
     } catch (error: any) {
       console.log(error.message);
