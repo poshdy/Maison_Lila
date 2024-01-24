@@ -1,23 +1,41 @@
-FROM node:20-alpine
+FROM node:20-alpine AS base
+FROM base AS deps
 WORKDIR /app
-COPY package*.json .
-RUN npm install
-COPY . ./
-RUN npm run build 
+COPY package*.json ./
+RUN npm ci
+
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+
+RUN npm run build
+
+
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
 EXPOSE 3000
-CMD [ "npm","start" ]
 
-# FROM node:20-alpine AS builder
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm ci
-# COPY . ./
-# RUN npm run build
+ENV PORT 3000
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
 
-# # Production stage
-# FROM node:20-alpine AS production
-# WORKDIR /app
-# COPY --from=builder /app/next.config.js /app/next.config.js
-# COPY --from=builder  /app/.next/standalone ./
-# ENV PORT=3000 NODE_ENV=production
-# CMD ["node","server.js"]
+CMD ["node", "server.js"]
