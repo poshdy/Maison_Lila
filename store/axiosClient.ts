@@ -3,7 +3,7 @@ import { useUser } from "./zustand/user-store";
 import { jwtDecode } from "jwt-decode";
 import dayjs, { unix } from "dayjs";
 export const Client = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: process.env.BASE_URL ,
   withCredentials: true,
 });
 
@@ -18,14 +18,12 @@ Client.interceptors.request.use(
     }
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/token`,
+        `${process.env.BASE_URL}/auth/token`,
         {
           withCredentials: true,
         }
       );
       useUser.getState().updateAccessToken(res.data.accessToken);
-
-      console.log("after refresh", res.data);
     } catch (error: any) {
       console.log(error.message);
     }

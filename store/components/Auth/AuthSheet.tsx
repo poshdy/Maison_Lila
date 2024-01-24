@@ -25,7 +25,7 @@ const AuthSheet = (props: Props) => {
   const { removeAll } = useCart();
 
   const logOut = async () => {
-    await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logOut`, null, {
+    await axios.post(`${process.env.BASE_URL}/auth/logOut`, null, {
       withCredentials: true,
     });
     removeAll();
