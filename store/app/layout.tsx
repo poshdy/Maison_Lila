@@ -28,8 +28,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const anoun  = await getData("anoun/published");
-  console.log(anoun)
+  const anoun = await getData("anoun/published");
   return (
     <html lang="en">
       <ClientProvider>
@@ -37,7 +36,7 @@ export default async function RootLayout({
           className={`${font.className} min-h-screen relative flex flex-col  text-[#3C2E3D] overflow-x-hidden  bg-[#fffefd]`}
         >
           <main className="flex-1">
-            <Anouncement anoun={anoun} />
+            {anoun && <Anouncement anoun={anoun} />}
 
             <Navbar />
             {children}

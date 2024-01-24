@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Roles
 enum ROLE {
   USER
   ADMIN
@@ -223,10 +222,8 @@ model BlackList {
   userId     String
   couponCode String
   createdAt  DateTime @default(now())
-
-  // Foreign keys to reference users and coupons
-  user   User    @relation(fields: [userId], references: [id])
-  coupon Coupons @relation(fields: [couponCode], references: [name])
+  user       User     @relation(fields: [userId], references: [id])
+  coupon     Coupons  @relation(fields: [couponCode], references: [name])
 }
 
 model SpecialOrder {

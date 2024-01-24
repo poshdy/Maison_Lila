@@ -4,7 +4,8 @@ services:
     build: 
       context: ./server
       dockerfile: Dockerfile
-    image: posh3120/node-server:v1.1  
+    image: posh3120/node-server:v1.2  
+    restart: always
     depends_on:
       - postgres
     env_file:
@@ -13,7 +14,7 @@ services:
       - 8000:8000
     networks:
       - mynetwork
-
+    
   adminer:
     image: adminer
     restart: always
@@ -31,8 +32,7 @@ services:
     -  POSTGRES_HOST=postgres
     -  POSTGRES_USER=postgres
     -  POSTGRES_DB=maisonlila
-    -  POSTGRES_HOST_AUTH_METHOD=trust
-
+    -  POSTGRES_PASSWORD=Mr3122000
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:

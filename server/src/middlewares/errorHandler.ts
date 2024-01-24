@@ -11,7 +11,7 @@ export const errorHandler = async (
   if (error.name == "ValidationError") {
     return res.status(400).send({
       type: "ValidationError",
-      details: `message from error hander ${error.message}`,
+      details: `message from error handler ${error.message}`,
     });
   }
 

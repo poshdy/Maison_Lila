@@ -58,7 +58,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       <CldUploadWidget
         onUpload={onUpload}
         onError={onError}
-        uploadPreset="th6l2dni"
+        uploadPreset="a4umugsr"
       >
         {({ open, error }) => {
           console.log(error);

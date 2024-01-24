@@ -12,7 +12,6 @@ export default async function Home() {
   const bestseller: Product[] | null = await getData("product?bestseller=true");
   const newArrival: Product[] | null = await getData("product?newArrival=true");
   const banner: banner | null = await getData("banner/published");
-  const anoun: Anoun | null = await getData("anoun/published");
   const bottomImage: BottomImage | null = await getData(
     "bottom-image/published"
   );

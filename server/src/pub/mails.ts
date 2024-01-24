@@ -192,28 +192,28 @@ EmailEvent.on("user-creation", async (user: any) => {
   }
 });
 
-// EmailEvent.on("Server-Error", async (name: string, Emessage: string) => {
-//   try {
-//     const WelcomeMessage: Content = {
-//       body: {
-//         name: "Posh",
-//         title: "Server Error",
-//         intro: `error name ${name} error message ${Emessage}`,
+EmailEvent.on("Server-Error", async (name: string, Emessage: string) => {
+  try {
+    const WelcomeMessage: Content = {
+      body: {
+        name: "Posh",
+        title: "Server Error",
+        intro: `error name ${name} error message ${Emessage}`,
 
-//         outro: "thank you for choosing MAISON LILA",
-//       },
-//     };
+        outro: "thank you for choosing MAISON LILA",
+      },
+    };
 
-//     const client = MailSchema.generate(WelcomeMessage);
-//     let message = {
-//       from: process.env.USER,
-//       to: "developerroshdy@gmail.com",
-//       subject: "Server Error",
-//       html: client,
-//     };
+    const client = MailSchema.generate(WelcomeMessage);
+    let message = {
+      from: process.env.USER,
+      to: "developerroshdy@gmail.com",
+      subject: "Server Error",
+      html: client,
+    };
 
-//     await Transporter.sendMail(message);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    await Transporter.sendMail(message);
+  } catch (error) {
+    console.log(error);
+  }
+});
