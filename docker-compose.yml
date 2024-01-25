@@ -47,7 +47,6 @@ services:
   admin:
     image: posh3120/dashboard:v2.5
     deploy:
-      replicas: 2
       restart_policy: 
         condition: any
       update_config: 
@@ -66,7 +65,6 @@ services:
   store:
     image: posh3120/store:v2.5
     deploy:
-      replicas: 2
       restart_policy: 
         condition: any
       update_config: 
