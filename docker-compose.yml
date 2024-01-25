@@ -64,7 +64,7 @@ services:
       - mynetwork
 
   store:
-    image: posh3120/store:v2.0
+    image: posh3120/store:v2.1
     deploy:
       replicas: 2
       restart_policy: 
