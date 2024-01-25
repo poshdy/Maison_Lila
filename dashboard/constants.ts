@@ -31,7 +31,7 @@ export const SIDE_BAR_ITEMS = [
   // { path: "/settings", name: "Settings", Icon: Settings },
 ];
 
-export const BASE_URL = "http://localhost:8001/v1";
+export const BASE_URL = "http://api.maisonlila.shop";
 
 export const POSITIONS = ["TOP", "BOTTOM"];
 

@@ -21,7 +21,7 @@ Client.interceptors.request.use(
     }
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/manager/token`,
+        `${BASE_URL}/manager/token`,
         {
           withCredentials: true,
         }

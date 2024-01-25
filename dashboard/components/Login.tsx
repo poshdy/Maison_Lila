@@ -17,6 +17,7 @@ import { formSchema } from "@/Schemas";
 import axios from "axios";
 import { AdminStore } from "@/zustand/use-admin-store";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/constants";
 
 const Login = () => {
   const { setAdmin } = AdminStore();
@@ -32,7 +33,7 @@ const Login = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/manager/login`,
+        `${BASE_URL}/manager/login`,
         data,
         { withCredentials: true }
       );
