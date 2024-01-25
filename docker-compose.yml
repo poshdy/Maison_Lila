@@ -3,11 +3,11 @@ services:
   server:
     image: posh3120/node-server:v1.3
     deploy:
-      replicas: 3
+      replicas: 2
       restart_policy: 
         condition: any
       update_config: 
-        parallelism: 2
+        parallelism: 1
         delay: 15s  
     depends_on:
       - postgres
@@ -45,7 +45,7 @@ services:
       - mynetwork
 
   admin:
-    image: posh3120/dashboard:v2.1
+    image: posh3120/dashboard:v2.3
     deploy:
       replicas: 2
       restart_policy: 
@@ -64,7 +64,7 @@ services:
       - mynetwork
 
   store:
-    image: posh3120/store:v2.1
+    image: posh3120/store:v2.2
     deploy:
       replicas: 2
       restart_policy: 
