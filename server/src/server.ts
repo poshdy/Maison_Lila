@@ -33,7 +33,7 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://maisonlila.shop", "http://api.maisonlila.shop"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
