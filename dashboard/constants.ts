@@ -31,7 +31,7 @@ export const SIDE_BAR_ITEMS = [
   // { path: "/settings", name: "Settings", Icon: Settings },
 ];
 
-export const BASE_URL = "http://93.188.164.110:8081/v1";
+export const BASE_URL = "https://93.188.164.110:8081/v1";
 
 export const POSITIONS = ["TOP", "BOTTOM"];
 
