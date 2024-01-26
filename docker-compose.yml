@@ -4,15 +4,15 @@ services:
     image: posh3120/node-server:v1.4
     deploy:
       replicas: 2
-      restart_policy: 
+      restart_policy:
         condition: any
-      update_config: 
+      update_config:
         parallelism: 1
-        delay: 15s  
+        delay: 15s
     depends_on:
       - postgres
     environment:
-      - MAISON_LILA_SHOP_URL=${MAISON_LILA_SHOP_URL}  
+      - MAISON_LILA_SHOP_URL=${MAISON_LILA_SHOP_URL}
       - DATABASE_URL=${DATABASE_URL}
       - ACCESS_TOKEN=${ACCESS_TOKEN}
       - REFRESH_TOKEN=${REFRESH_TOKEN}
@@ -34,10 +34,10 @@ services:
   postgres:
     image: postgres:16
     environment:
-    -  POSTGRES_HOST=${POSTGRES_HOST}
-    -  POSTGRES_USER=${POSTGRES_USER}
-    -  POSTGRES_DB=${POSTGRES_DB}
-    -  POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -47,16 +47,16 @@ services:
   admin:
     image: posh3120/dashboard:v3.3
     deploy:
-      restart_policy: 
+      restart_policy:
         condition: any
-      update_config: 
+      update_config:
         parallelism: 1
-        delay: 15s 
+        delay: 15s
     depends_on:
       - server
     environment:
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
-      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dq2hgf98y
     ports:
       - 8083:3001
     networks:
@@ -65,14 +65,14 @@ services:
   store:
     image: posh3120/store:v3.3
     deploy:
-      restart_policy: 
+      restart_policy:
         condition: any
-      update_config: 
+      update_config:
         parallelism: 1
-        delay: 15s 
+        delay: 15s
     environment:
-     - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
-     - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dq2hgf98y
     depends_on:
       - server
       - admin
