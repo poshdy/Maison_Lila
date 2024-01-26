@@ -45,7 +45,7 @@ services:
       - mynetwork
 
   admin:
-    image: posh3120/dashboard:v3.4
+    image: posh3120/dashboard:v3.6
     deploy:
       restart_policy:
         condition: any
@@ -55,7 +55,6 @@ services:
     depends_on:
       - server
     environment:
-      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dq2hgf98y
     ports:
       - 8083:3001
@@ -63,7 +62,7 @@ services:
       - mynetwork
 
   store:
-    image: posh3120/store:v3.3
+    image: posh3120/store:v3.4
     deploy:
       restart_policy:
         condition: any
