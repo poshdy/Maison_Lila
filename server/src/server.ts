@@ -38,6 +38,8 @@ app.use(
       "http://localhost:8082",
       "http://localhost:8083",
     ],
+    credentials: true,
+    preflightContinue: true,
   })
 );
 app.use(cookie());
