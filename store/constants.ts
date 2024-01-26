@@ -6,4 +6,4 @@ export const NAVITEMS = [
   { name: "Cart", path: "/cart" },
 ];
 
-export const BASE_URL = "http://localhost:8081/v1";
+export const BASE_URL = "http://93.188.164.110:8081/v1";
