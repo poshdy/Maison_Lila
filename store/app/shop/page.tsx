@@ -12,7 +12,7 @@ const Shop = async ({
 }) => {
   const categories: Category[] | null = await getData("category");
   const products: Product[] | null = await getData(
-    `/product?page=1&category=${searchParams?.category}`
+    `/product?page=${searchParams?.page || "1"}&category=${searchParams?.category}`
   );
 
   return (

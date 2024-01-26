@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <Link
-          href={`/orders?page=${Number(page) > 1 ? Number(page) - 1 : '1'}`}
+          href={`/${name}?page=${Number(page) > 1 ? Number(page) - 1 : '1'}`}
           // variant="outline"
           // size="sm"
           onClick={() => table.previousPage()}
