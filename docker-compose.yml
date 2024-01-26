@@ -45,7 +45,7 @@ services:
       - mynetwork
 
   admin:
-    image: posh3120/dashboard:v3.1
+    image: posh3120/dashboard:v3.2
     deploy:
       restart_policy: 
         condition: any
@@ -63,7 +63,7 @@ services:
       - mynetwork
 
   store:
-    image: posh3120/store:v3.2
+    image: posh3120/store:v3.3
     deploy:
       restart_policy: 
         condition: any
