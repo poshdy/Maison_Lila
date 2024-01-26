@@ -25,18 +25,19 @@ import BottomImageRoute from "./routes/BottomImageRoute.js";
 import SubCategoryRoute from "./routes/SubCategoryRoute.js";
 
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { env } from "process";
-
 const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(helmet());
 app.use(
   cors({
-    origin: ["https://maisonlila.shop", "https://admin.maisonlila.shop","www.maisonlila.shop"],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-    optionsSuccessStatus: 204,
+    origin: [
+      "https://maisonlila.shop",
+      "https://admin.maisonlila.shop",
+      "www.maisonlila.shop",
+      "http://localhost:8082",
+      "http://localhost:8083",
+    ],
   })
 );
 app.use(cookie());

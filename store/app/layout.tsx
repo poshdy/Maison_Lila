@@ -9,8 +9,6 @@ import MobileBottomNav from "@/components/navigation/mob-bottom-menu";
 import { ModalProvider } from "@/Providers/model-provider";
 import { getData } from "@/fetchers";
 import Anouncement from "@/components/Anouncement";
-import { Anoun } from "@/types";
-import { Server } from "@/axiosServer";
 
 const font = Abhaya_Libre({
   subsets: ["latin", "latin-ext"],

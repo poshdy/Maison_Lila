@@ -6,4 +6,4 @@ export const NAVITEMS = [
   { name: "Cart", path: "/cart" },
 ];
 
-export const BASE_URL = "https://api.maisonlila.shop";
+export const BASE_URL = "http://localhost:8081/v1";
