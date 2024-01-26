@@ -64,8 +64,10 @@ export const Login = async (req: Request, res: Response) => {
 
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    secure:true,
-    // sameSite: "none",
+    secure: true,
+    path: "/",
+    domain:".maisonlila.shop",
+    sameSite: "none",
     maxAge: 259200000,
   });
   res.status(200).send({
@@ -95,7 +97,10 @@ export const Token = async (req: Request, res: Response) => {
       refreshtokens.push(token);
       res.cookie("token", newRefreshToken, {
         httpOnly: true,
-        secure:true,
+        secure: true,
+        path: "/",
+        domain:".maisonlila.shop",
+        sameSite: "none",
         maxAge: 259200000,
       });
       res.send({ accessToken: newAccessToken });

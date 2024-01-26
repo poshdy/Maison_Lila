@@ -36,9 +36,11 @@ export const ManagerLogin = async (req: Request, res: Response) => {
 
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    sameSite: "none",
     secure: true,
+    path: "/",
+    sameSite: "none",
     maxAge: 259200000,
+    domain:".maisonlila.shop"
   });
   res.status(200).send({
     role: manager.role,
@@ -65,8 +67,10 @@ export const Token = async (req: Request, res: Response) => {
       const newRefreshToken = await generateRefreshToken(user);
       res.cookie("token", newRefreshToken, {
         httpOnly: true,
-        sameSite: "none",
         secure: true,
+        path: "/",
+        domain:".maisonlila.shop",
+        sameSite: "none",
         maxAge: 259200000,
       });
       res.send({ accessToken: newAccessToken });
