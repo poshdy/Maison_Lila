@@ -56,7 +56,7 @@ services:
       - server
     environment:
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
-      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME='dq2hgf98y'
+      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dq2hgf98y
     ports:
       - 8083:3001
     networks:

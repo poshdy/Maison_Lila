@@ -38,5 +38,6 @@ ENV PORT 3001
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 ENV NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="dq2hgf98y"
+ENV NEXT_PUBLIC_BASE_URL="https://api.maisonlila.shop"
 
 CMD ["node", "server.js"]
