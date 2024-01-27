@@ -10,10 +10,10 @@ const Shop = async ({
 }: {
   searchParams: { category: string; page: string };
 }) => {
-  let cateogory = searchParams.category.length > 2 ? `&category=${searchParams.category}` : null
+  // let cateogory = searchParams.category.length > 2 ? `&category=${searchParams.category}` : null
   const categories: Category[] | null = await getData("category");
   const products: Product[] | null = await getData(
-    `/product?page=${searchParams?.page || "1"}${cateogory}`
+    `/product?page=${searchParams?.page || "1"}`
   );
 
   return (
