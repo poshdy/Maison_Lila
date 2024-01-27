@@ -215,13 +215,13 @@ export type OrderDeatils = {
     streetName: string;
     BuildingNo: string;
     Floor: string;
+    zone: ZoneColumn;
     apartmentNo: string;
     city: string;
   };
   orderStatus: string;
   comment: null | string;
   paymentMethod: string;
-  zone: ZoneColumn;
   orderTotal: string;
   createdAt: string;
 };

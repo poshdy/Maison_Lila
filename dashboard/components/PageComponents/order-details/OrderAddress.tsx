@@ -28,7 +28,7 @@ const OrderAddress = ({ address }: Props) => {
           city <Badge>{address.Address.city}</Badge>
         </h4>
         <h4 className={header}>
-          Zone <Badge>{address.zone.name}</Badge>
+          Zone <Badge>{address?.Address?.zone?.name}</Badge>
         </h4>
         <h4 className={header}>
           Floor <Badge>{address.Address.Floor}</Badge>

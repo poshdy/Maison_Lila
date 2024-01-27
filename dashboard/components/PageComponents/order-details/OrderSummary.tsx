@@ -37,7 +37,7 @@ const OrderSummary = ({ summary }: Props) => {
           Discount value <Badge>{summary?.orderSummary?.Discount} EGP</Badge>
         </h4>
         <h4 className={header}>
-          Shipping Price <Badge>{summary?.zone?.fees} EGP</Badge>
+          Shipping Price <Badge>{summary?.Address?.zone.fees} EGP</Badge>
         </h4>
         <h4 className={header}>
           Payment Method <Badge>{summary?.orderSummary?.paymentMethod}</Badge>
