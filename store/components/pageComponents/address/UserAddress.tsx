@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Address } from "@/types";
 import { AddressStore } from "@/zustand/address-store";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -10,12 +11,16 @@ type Props = {
 };
 
 const UserAddress = ({ address }: Props) => {
-  console.log(address)
+  const router = useRouter()
   const { setAddress } = AddressStore();
+  const handleClick = (add:Address)=>{
+    setAddress(add)
+    router.push("/review")
+  }
   return (
-    <>
+    <div className="px-2">
       {address?.map((add) => (
-        <Card key={add?.id} onClick={() => setAddress(add)}>
+        <Card key={add?.id} onClick={()=>handleClick(add)}>
           <CardHeader>
             <CardTitle>Address</CardTitle>
           </CardHeader>
@@ -25,10 +30,12 @@ const UserAddress = ({ address }: Props) => {
           </CardContent>
         </Card>
       ))}
-      <h4 className="text-2xl text-gray-400">
-        Add new Address <Plus className="ml-2 w-5 h-5" />
-      </h4>
-    </>
+      <div className="my-2">
+        <h4 className="text-xl text-center text-gray-400">
+          Add new Address <Plus className="ml-2 w-5 h-5" />
+        </h4>
+      </div>
+    </div>
   );
 };
 

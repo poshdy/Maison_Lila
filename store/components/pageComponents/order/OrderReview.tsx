@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 import OrderAddress from "@/components/pageComponents/order/OrderAddress";
+import { Card, CardHeader } from "@/components/ui/card";
 type Props = {};
 
 const OrderReview = (props: Props) => {
@@ -22,8 +23,9 @@ const OrderReview = (props: Props) => {
           items?.map((item) => <CartProduct key={item?.id} product={item} />)}
       </div>
       <OrderAddress address={address} />
-      <div className="space-y-2 sticky bottom-20 w-full">
+      <Card className="space-y-2  w-full">
         <CartSummary zone={address?.zone} />
+      </Card>
         <Button
           onClick={() => push("/order")}
           variant={"action"}
@@ -31,7 +33,6 @@ const OrderReview = (props: Props) => {
         >
           Continue
         </Button>
-      </div>
     </>
   );
 };
