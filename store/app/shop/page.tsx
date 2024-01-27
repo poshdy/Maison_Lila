@@ -1,4 +1,5 @@
 import CategoriesSlider from "@/components/Categories-Slider";
+import Empty from "@/components/Empty";
 import Heading from "@/components/Heading";
 import ProductCard from "@/components/pageComponents/shop/ProductCard";
 import Wrapper from "@/components/Wrapper";
@@ -10,14 +11,8 @@ const Shop = async ({
 }: {
   searchParams: { category: string; page: string };
 }) => {
-  let cateogory =
-    searchParams.category.length > 2
-      ? `&category=${searchParams.category}`
-      : null;
   const categories: Category[] | null = await getData("category");
-  const products: Product[] | null = await getData(
-    `product?page=1`
-  );
+  const products: Product[] | null = await getData("product?page=1");
 
   return (
     <Wrapper>
@@ -26,10 +21,13 @@ const Shop = async ({
         {categories && <CategoriesSlider categories={categories} />}
 
         <section className="grid px-2 grid-cols-2 md:grid-cols-4 justify-items-center content-center gap-3">
-          {products &&
+          {products ? (
             products?.map((product) => (
               <ProductCard key={product?.id} product={product} />
-            ))}
+            ))
+          ) : (
+            <Empty />
+          )}
         </section>
       </section>
     </Wrapper>

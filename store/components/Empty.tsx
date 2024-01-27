@@ -2,9 +2,11 @@ import React from "react";
 import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
-type Props = {};
+type Props = {
+  title?:string
+};
 
-const Empty = (props: Props) => {
+const Empty = ({title}: Props) => {
   return (
     <section className="flex flex-col space-y-4 items-center justify-center w-full h-screen">
       <ShoppingBag size={25} />
