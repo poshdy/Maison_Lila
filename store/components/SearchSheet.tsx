@@ -56,6 +56,9 @@ const SearchSheet = () => {
                 </FormItem>
               )}
             />
+            <Button variant={"action"} className="w-full " type="submit">
+              Search
+            </Button>
           </form>
         </Form>
         <section className="overflow-y-scroll grid grid-cols-4">
@@ -65,9 +68,6 @@ const SearchSheet = () => {
             </div>
           ))}
         </section>
-        <Button variant={"action"} className="w-full " type="submit">
-          Search
-        </Button>
       </SheetContent>
     </Sheet>
   );

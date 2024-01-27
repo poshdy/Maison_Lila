@@ -16,7 +16,7 @@ const Shop = async ({
       : null;
   const categories: Category[] | null = await getData("category");
   const products: Product[] | null = await getData(
-    `product?page=${searchParams?.page || "1"}${cateogory}`
+    `product?page=1`
   );
 
   return (
