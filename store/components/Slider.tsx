@@ -1,15 +1,13 @@
 "use client";
 import React from "react";
-
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { slider, SliderContent } from "@/types";
+import { slider } from "@/types";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Image from "next/image";
-import { Button } from "./ui/button";
 import Wrapper from "./Wrapper";
 import Link from "next/link";
 type Props = {
@@ -24,15 +22,18 @@ const Slider = ({ data }: Props) => {
           {data?.content?.map((sl) => (
             <CarouselItem
               key={sl.id}
-              className="flex md:flex-row md:items-start md:justify-around flex-col space-y-2 items-center justify-center"
+              className="flex md:flex-row md:items-start md:justify-around flex-col items-center justify-center space-y-2"
             >
               <div className="md:pt-12 text-center md:text-left md:flex md:flex-col md:items-start md:justify-center">
-                <h1 className=" text-3xl md:text-7xl ">{sl.title}</h1>
+                <h1 className=" text-3xl font-bold md:text-7xl ">{sl.title}</h1>
                 <div className="hidden md:flex md:items-start md:justify-start flex-col">
                   <p className="">{sl.text}</p>
-                  <Button className="bg-transparent text-black font-medium">
+                  <Link
+                    href={"shop"}
+                    className="px-5 py-2 bg-transparent hover:bg-black hover:text-white duration-300 ease-in-out text-black  flex items-center gap-1 font-bold text-base"
+                  >
                     Shop Now <IoIosArrowRoundForward className="" size={20} />
-                  </Button>
+                  </Link>
                 </div>
               </div>
 
@@ -41,16 +42,17 @@ const Slider = ({ data }: Props) => {
                   fill
                   className="object-cover rounded-t-full"
                   sizes="100vh,100vh"
-                  alt="ne"
+                  alt="slider-image"
                   src={sl?.image}
                 />
               </div>
-              <div className="md:hidden flex items-center text-center space-y-1 justify-center flex-col">
-                <p className="">{sl.text}</p>
-                <Link href={"shop"}>
-                  <Button className="bg-transparent font-medium text-black hover:bg-transparent ">
-                    Shop Now <IoIosArrowRoundForward className="" size={20} />
-                  </Button>
+              <div className="md:hidden flex items-center text-center justify-center flex-col space-y-4">
+                <p className="text-gray-900  text-base">{sl.text}</p>
+                <Link
+                  href={"shop"}
+                  className="px-5 py-2 bg-transparent hover:bg-black hover:text-white duration-300 ease-in-out text-black  flex items-center gap-1 font-bold text-base"
+                >
+                  Shop Now <IoIosArrowRoundForward className="" size={20} />
                 </Link>
               </div>
             </CarouselItem>

@@ -9,11 +9,11 @@ type Props = {
 };
 
 const ProductButton = ({ product, count }: Props) => {
-  const { id, name, price, SoldOut  ,  salePrice} = product;
+  const { id, name, price, SoldOut, salePrice } = product;
   const image = product?.image?.at(0)?.url;
   const { addItem } = useCart();
   return (
-    <Button
+    <button
       disabled={SoldOut}
       onClick={() =>
         addItem({
@@ -24,11 +24,10 @@ const ProductButton = ({ product, count }: Props) => {
           quantity: count ? count : 1,
         })
       }
-      className="w-full rounded-2xl bg-[#3C2E3D] font-bold text-white transition-all duration-300 ease-in-out"
+      className="font-bold text-lg bg-transparent hover:bg-transparent p-0 px-0 py-0 m-0 text-black"
     >
-      {SoldOut ? "Out Of Stock" :  `Add to Bag`}
-     
-    </Button>
+      {SoldOut ? "Out Of Stock" : `Add to Bag`}
+    </button>
   );
 };
 

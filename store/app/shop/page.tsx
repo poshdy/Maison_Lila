@@ -12,7 +12,9 @@ const Shop = async ({
   searchParams: { category: string; page: string };
 }) => {
   const categories: Category[] | null = await getData("category");
-  const products: Product[] | null = await getData("product?page=1");
+  const products: Product[] | null = await getData(
+    `product?page=1&category=${searchParams.category}`
+  );
 
   return (
     <Wrapper>
@@ -20,14 +22,10 @@ const Shop = async ({
         <Heading title="Shop" subTitle="" />
         {categories && <CategoriesSlider categories={categories} />}
 
-        <section className="grid px-2 grid-cols-2 md:grid-cols-4 justify-items-center content-center gap-3">
-          {products ? (
-            products?.map((product) => (
-              <ProductCard key={product?.id} product={product} />
-            ))
-          ) : (
-            <Empty />
-          )}
+        <section className="flex md:flex-row flex-col gap-2">
+          {products?.map((product) => (
+            <ProductCard key={product?.id} product={product} />
+          ))}
         </section>
       </section>
     </Wrapper>

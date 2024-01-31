@@ -1,14 +1,16 @@
-import { NAVITEMS } from "@/constants";
 import React from "react";
-import Link from "next/link";
-import { Facebook, Instagram, Phone } from "lucide-react";
+
 
 const MediaLinks = () => {
   return (
-    <div className="flex flex-row md:self-end md:pb-3 items-center gap-2">
-      <Facebook size={20} />
-      <Instagram size={20} />
-      <Phone size={20} />
+    <div className="flex flex-col items-center gap-1 font-semibold">
+      <span className="hover:scale-105 duration-100 ease-in-out">Facebook</span>
+      <span className="hover:scale-105 transition-all duration-100 ease-in-out">
+        Instagram
+      </span>
+      <span className="hover:scale-105  duration-100 ease-in-out">
+        01016908226
+      </span>
     </div>
   );
 };

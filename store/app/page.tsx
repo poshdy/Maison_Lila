@@ -15,9 +15,8 @@ export default async function Home() {
   const bottomImage: BottomImage | null = await getData(
     "bottom-image/published"
   );
-  // console.log(anoun)
   return (
-    <main className="w-full space-y-6">
+    <main className="w-full space-y-10">
       {SLIDER && <Slider data={SLIDER} />}
       <Services />
       {categories && <CategoriesSlider categories={categories} />}

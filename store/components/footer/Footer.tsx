@@ -6,9 +6,16 @@ import MediaLinks from "./MediaLinks";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col justify-start items-center pt-4 md:flex-row md:justify-around mt-2 space-y-4 h-[55vh] text-white bg-[#3C2E3D]">
-      <div className="w-[80px] h-[80px] md:w-[100px] md:h-[100px]  relative">
-        <Image src={Logo} className="w-full h-full" alt="logo" />
+    <footer className="w-full bg-[#3C2E3D] text-white  flex flex-col items-center space-y-4 pb-10">
+      <div className="relative w-20 md:w-28 aspect-square">
+        <Image
+          fill
+          src={Logo}
+          alt="logo"
+          className="object-cover"
+          sizes="100vh , 100vw"
+          priority
+        />
       </div>
       <FooterLinks />
       <MediaLinks />

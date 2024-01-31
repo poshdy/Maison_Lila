@@ -19,6 +19,9 @@ export const fetchCache = "force-no-store";
 export const metadata: Metadata = {
   title: "MAISON LILA",
   description: "Maison lila is Home made healthy bakery",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default async function RootLayout({
@@ -31,11 +34,10 @@ export default async function RootLayout({
     <html lang="en">
       <ClientProvider>
         <body
-          className={`${font.className} min-h-screen relative flex flex-col  text-[#3C2E3D] overflow-x-hidden  bg-[#fffefd]`}
+          className={`${font.className} min-h-screen relative flex flex-col  text-[#3C2E3D] overflow-x-hidden  bg-[#fffcf8]`}
         >
-          <main className="flex-1">
+          <main className="flex-1 pb-10 space-y-3">
             {anoun && <Anouncement anoun={anoun} />}
-
             <Navbar />
             {children}
             <Toaster />

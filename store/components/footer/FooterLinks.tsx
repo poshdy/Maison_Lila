@@ -5,11 +5,10 @@ type Props = {};
 
 const FooterLinks = (props: Props) => {
   return (
-    <div className="flex flex-col items-center gap-2">
-      <h3 className="font-bold text-base md:text-lg hidden md:flex">Navigation</h3>
+    <div className="flex flex-col items-center gap-1 text-base font-semibold ">
       {NAVITEMS.map((n) => (
         <Link
-          className="hover:scale-105 transition-all text-sm hover:font-semibold duration-100 ease-in-out"
+          className="hover:scale-105 transition-all duration-100 ease-in-out"
           key={n.name}
           href={`${n.path}`}
         >

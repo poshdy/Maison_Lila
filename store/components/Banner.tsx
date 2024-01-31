@@ -28,10 +28,11 @@ const Banner = async ({ banner }: Props) => {
               {banner?.title}
             </h4>
             <p className="text-base ">{banner?.text}</p>
-            <Link className="" href={"customized-order"}>
-              <Button className="bg-transparent text-white font-medium hover:bg-transparent">
-                Order Now <IoIosArrowRoundForward className="" size={20} />
-              </Button>
+            <Link
+              href={"customized-order"}
+              className="px-5 py-2 bg-transparent text-white hover:bg-white hover:text-black duration-300 ease-in-out flex items-center gap-1 font-bold text-base"
+            >
+              Order Now <IoIosArrowRoundForward className="" size={20} />
             </Link>
           </div>
         </section>

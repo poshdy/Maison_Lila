@@ -22,20 +22,22 @@ const ProductClient = ({ data, page }: Props) => {
     <section className="space-y-3">
       <div className="flex items-center justify-between ">
         <Heading title="Products" description="manage your store Products" />
-        <Button
-          variant={"lila"}
-          onClick={() => router.push("/products/new")}
-          className=" rounded-lg flex justify-center"
-        >
-          Add new <Plus className="ml-3 h-5 w-5" />
-        </Button>
-        <Button
-          variant={"action"}
-          onClick={() => onOpen()}
-          className=" rounded-lg flex justify-center"
-        >
-          Resrock Products
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant={"lila"}
+            onClick={() => router.push("/products/new")}
+            className=" rounded-lg flex justify-center"
+          >
+            Add new <Plus className="ml-3 h-5 w-5" />
+          </Button>
+          <Button
+            variant={"link"}
+            onClick={() => onOpen()}
+            className=" rounded-lg flex justify-center"
+          >
+            Resrock Products
+          </Button>
+        </div>
       </div>
       <Separator />
       <DataTable

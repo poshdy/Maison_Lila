@@ -10,7 +10,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ShoppingBagIcon } from "lucide-react";
+import { ShoppingCartIcon } from "lucide-react";
 import { useCart } from "@/zustand/cart-store";
 import CartProduct from "./CartProduct";
 import CartSummary from "./CartSummary";
@@ -48,7 +48,7 @@ const CartDrawer = () => {
             {items?.length}
           </span>
         )}
-        <ShoppingBagIcon className="cursor-pointer" />
+        <ShoppingCartIcon className="cursor-pointer" />
       </DrawerTrigger>
       <DrawerContent className="h-screen ">
         {items.length <= 0 ? (

@@ -15,7 +15,7 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
   );
 
   return (
-    <section className="my-2 min-h-screen space-y-4">
+    <section className="my-2 min-h-screen space-y-8">
       {product && (
         <>
           <div className="flex flex-col md:flex-row w-[90%] mx-auto">

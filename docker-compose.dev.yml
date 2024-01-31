@@ -1,20 +1,23 @@
 version: "3"
 services:
   server:
-    build: 
+    build:
       context: ./server
-      dockerfile: Dockerfile
-    image: posh3120/node-server:v1.2  
+      dockerfile: Dockerfile.dev
     restart: always
     depends_on:
       - postgres
-    env_file:
-      - ./server/.env
+    environment:
+      - DATABASE_URL=postgresql://postgres:Mr3122000@postgres:5432/maisonlila?schema=maisonlila&sslmode=prefer
+      - ACCESS_TOKEN=23b7fc54a5c4b9a174c627780934e7b73eadde7c3adaa721d282c6f622c376220f54dbeff5fd2bb19edee258494ccb674f8bf2d3a65d5800d6d9e4105bd43839
+      - REFRESH_TOKEN=393e15c38f14257f244a5397a18d4d2795a4d54bad96d6003863a05d305e2c7de0084a17f7a371c3f0abac47bc3c00e3ee6f9b8bbd06db1818369a7ae4abf059  
+      - APP_PASSWORD=jrujjgpbnuelmnmm
+      - SENDER=Maisonlilacustomerservice@gmail.com
     ports:
       - 8000:8000
     networks:
       - mynetwork
-    
+
   adminer:
     image: adminer
     restart: always
@@ -29,10 +32,10 @@ services:
     image: postgres:16
     restart: always
     environment:
-    -  POSTGRES_HOST=postgres
-    -  POSTGRES_USER=postgres
-    -  POSTGRES_DB=maisonlila
-    -  POSTGRES_PASSWORD=Mr3122000
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=maisonlila
+      - POSTGRES_PASSWORD=Mr3122000
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:
@@ -40,30 +43,29 @@ services:
 
   admin:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: "./dashboard"
-    image: posh3120/dashboard:v1.1
+    environment:
+      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dq2hgf98y
     depends_on:
       - server
-    env_file:
-      - ./dashboard/.env
     ports:
       - 3001:3001
     networks:
       - mynetwork
 
   store:
-    build: 
+    build:
       context: ./store
-      dockerfile: Dockerfile
-    image: posh3120/store
+      dockerfile: Dockerfile.dev
     depends_on:
       - server
       - admin
     ports:
       - 3000:3000
-    env_file:
-      - ./store/.env  
+    environment:
+      - NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dq2hgf98y
+      - NEXT_PUBLIC_BASE_URL='http://localhost:8000/v1'
     networks:
       - mynetwork
 

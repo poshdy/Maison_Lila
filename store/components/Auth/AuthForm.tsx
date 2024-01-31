@@ -68,7 +68,11 @@ const AuthForm = (props: Props) => {
               <FormItem>
                 <FormLabel>name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="Please write you name"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -80,7 +84,11 @@ const AuthForm = (props: Props) => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Please write you email" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Please write you Password"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}

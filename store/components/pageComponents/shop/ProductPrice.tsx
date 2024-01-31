@@ -8,9 +8,11 @@ type Props = {
 
 const ProductPrice = ({ product }: Props) => {
   return (
-    <h3 className="font-semibold text-base">
-      {formattedPrice(product?.price)}
-    </h3>
+    <>
+      <h3 className="font-semibold text-base">
+        {formattedPrice(product?.price)}
+      </h3>
+    </>
   );
 };
 
