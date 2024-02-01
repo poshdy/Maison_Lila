@@ -58,9 +58,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           imageUrl: data.imageUrl,
         });
       }
-      router.refresh();
       router.push(`/categories`);
       toast.success(toastMessage);
+      router.refresh();
     } catch (error: any) {
       toast.error("Something went wrong.");
     } finally {
@@ -72,9 +72,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       await Client.delete(`/category/${params.categoryId}`);
-      router.refresh();
       router.push(`/categories`);
       toast.success("Category deleted.");
+      router.refresh();
     } catch (error: any) {
       toast.error(
         "Make sure you removed all categories using this Category first."

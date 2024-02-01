@@ -6,16 +6,24 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { BASE_URL } from "@/constants";
+import { useRouter } from "next/navigation";
 const Nav = () => {
   const { role } = AdminStore();
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const LogOut = async () => {
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/manager/log-out`,
-      {},
-      { withCredentials: true }
-    );
-    toast.success("Logged Out Successfully");
+    try {
+      await axios.post(
+        `${BASE_URL}/manager/log-out`,
+        {},
+        { withCredentials: true }
+      );
+      toast.success("Logged Out Successfully");
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
 
   useEffect(() => {

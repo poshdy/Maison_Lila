@@ -8,11 +8,12 @@ const SliderContentPage = async ({
 }: {
   params: { sliderContentId: string };
 }) => {
-  const slider = await getDataById(`/slider/content`, params.sliderContentId);
+  const content = await getDataById(`/content`, params.sliderContentId);
+  console.log(content);
   const sliders = await getData("/slider");
   return (
     <section>
-      <SliderContentForm initialData={slider} sliders={sliders} />
+      <SliderContentForm initialData={content} sliders={sliders} />
     </section>
   );
 };

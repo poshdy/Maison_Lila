@@ -23,7 +23,7 @@ services:
 
   server:
     build: .
-    image: posh3120/node-server:v1.5
+    # image: posh3120/node-server:v1.5
     restart: always
     depends_on:
       - postgres

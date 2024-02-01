@@ -49,10 +49,10 @@ export const onConfirm = async (
   try {
     setLoading(true);
     const re = await Client.delete(`${url}/${id}`);
-    toast.success(`${re.statusText}`);
+    toast.success(`Item Deleted Successfully`);
     router.refresh();
   } catch (error: any) {
-    toast.error(`SomeThing went Wrong ${error.message}`);
+    toast.error(`SomeThing went Wrong`);
   } finally {
     setOpen(false);
     setLoading(false);
@@ -75,7 +75,7 @@ export const onDelete = async (
 ) => {
   try {
     const re = await Client.delete(`${url}/${id}`);
-    toast.success(`${re.statusText}`);
+    toast.success("Item Deleted Successfully");
     router.refresh();
   } catch (error: any) {
     toast.error(

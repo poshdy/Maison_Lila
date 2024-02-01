@@ -46,7 +46,7 @@ const ProductSubCatForm = ({ subCategory }: Props) => {
   return (
     <section>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="SubCategoryId"
@@ -81,7 +81,7 @@ const ProductSubCatForm = ({ subCategory }: Props) => {
               </FormItem>
             )}
           />
-          <Button variant={"lila"}>ADD</Button>
+          <Button className="w-full" variant={"lila"}>ADD</Button>
         </form>
       </Form>
     </section>

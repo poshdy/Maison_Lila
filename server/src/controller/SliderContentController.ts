@@ -27,14 +27,14 @@ export const getContent = async (req: Request, res: Response) => {
   res.status(201).send(content);
 };
 export const getSliderContent = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const content = await prismadb.sliderContent.findUnique({
     where: {
       id,
     },
     select: {
-      createdAt: true,
       id: true,
+      createdAt: true,
       image: true,
       text: true,
       title: true,
@@ -46,10 +46,10 @@ export const getSliderContent = async (req: Request, res: Response) => {
       },
     },
   });
-  res.status(201).send(`content added to slider ${content}`);
+  res.status(200).send(content);
 };
 export const updateSliderContent = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const content = await prismadb.sliderContent.update({
     where: {
       id,
@@ -68,7 +68,7 @@ export const updateSliderContent = async (req: Request, res: Response) => {
   res.status(201).send(`Slider content Updated Successfully`);
 };
 export const deleteSliderContent = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const content = await prismadb.sliderContent.delete({
     where: {
       id,

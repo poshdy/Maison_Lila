@@ -29,7 +29,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={() =>
-          onConfirm(data.id, "/slider/content", setLoading, setOpen, router)
+          onConfirm(data.id, "/content", setLoading, setOpen, router)
         }
         loading={loading}
       />

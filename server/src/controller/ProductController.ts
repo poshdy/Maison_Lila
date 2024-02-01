@@ -31,8 +31,6 @@ export const addSubCatToProduct = async (req: Request, res: Response) => {
   res.status(200).send("Product Added Successfully to Sub-Category");
 };
 
-
-
 export const getProducts = async (req: Request, res: Response) => {
   const { bestseller, newArrival, page, category } = req.query;
   const limit = 10;
@@ -99,8 +97,6 @@ export const searchProducts = async (req: Request, res: Response) => {
   res.status(200).send(product);
 };
 
-
-
 export const updateProducts = async (req: Request, res: Response) => {
   const { id } = req.params;
   const {
@@ -108,19 +104,19 @@ export const updateProducts = async (req: Request, res: Response) => {
     description,
     price,
     stock,
+    image,
     discountValue,
     SoldOut,
     categoryId,
     adminName,
   } = req.body;
 
-  // add this function as util function
   let finalValue;
   if (discountValue) {
     finalValue = (await price) - (price * discountValue) / 100;
   }
 
-  const product = await prismadb.product.update({
+  await prismadb.product.update({
     where: {
       id,
     },
@@ -128,14 +124,29 @@ export const updateProducts = async (req: Request, res: Response) => {
       description,
       name,
       price,
+      image: {
+        deleteMany: {},
+      },
       category: { connect: { id: categoryId } },
       stock,
       SoldOut,
       discountValue,
       UpdatedBy: {
-        create: { adminName },
+        create: { adminName: adminName },
       },
       salePrice: finalValue,
+    },
+  });
+  const product = await prismadb.product.update({
+    where: {
+      id,
+    },
+    data: {
+      image: {
+        createMany: {
+          data: [...image.map((image: { url: string }) => image)],
+        },
+      },
     },
   });
 
@@ -162,8 +173,6 @@ export const BestSeller = async (req: Request, res: Response) => {
   res.status(200).send(update);
 };
 
-
-
 export const TopProducts = async (req: Request, res: Response) => {
   const product = await topProducts();
   console.log(product);
@@ -173,12 +182,12 @@ export const productsStock = async (req: Request, res: Response) => {
   const product = await prismadb.$transaction(async (tx) => {
     const InStock = await tx.product.count({
       where: {
-        SoldOut: true,
+        SoldOut: false,
       },
     });
     const OutOfStock = await tx.product.count({
       where: {
-        SoldOut: false,
+        SoldOut: true,
       },
     });
     const All = await tx.product.count();
@@ -191,11 +200,6 @@ export const productsStock = async (req: Request, res: Response) => {
     All: product.All,
   });
 };
-
-
-
-
-
 
 export const deleteProducts = async (req: Request, res: Response) => {
   const { id } = req.params;

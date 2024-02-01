@@ -28,7 +28,7 @@ const AnounForm = ({ initialData }: Props) => {
   const [open, setOpen] = useState(false);
   const form = useForm<AnounFormValues>({
     resolver: zodResolver(AnounSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       text: "",
     },
   });

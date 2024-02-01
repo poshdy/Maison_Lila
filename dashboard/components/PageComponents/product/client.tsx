@@ -8,7 +8,8 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 import { useRouter } from "next/navigation";
 import { ProductColmun } from "@/types";
-import { RestockStore } from "@/zustand/Restock-store";
+import { Client } from "@/axiosClient";
+import toast from "react-hot-toast";
 
 type Props = {
   data: ProductColmun[];
@@ -16,8 +17,16 @@ type Props = {
 };
 
 const ProductClient = ({ data, page }: Props) => {
-  const { onOpen } = RestockStore();
   const router = useRouter();
+  const RestockAll = async () => {
+    try {
+      const res = await Client.patch("/product/restock", { restock: 10 });
+      toast.success("All Products are Restocked");
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went Wrong");
+    }
+  };
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between ">
@@ -32,7 +41,7 @@ const ProductClient = ({ data, page }: Props) => {
           </Button>
           <Button
             variant={"link"}
-            onClick={() => onOpen()}
+            onClick={() => RestockAll()}
             className=" rounded-lg flex justify-center"
           >
             Resrock Products

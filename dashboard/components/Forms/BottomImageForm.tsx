@@ -54,7 +54,7 @@ export const BottomImageForm: React.FC<BottomImageFormProps> = ({
   const onSubmit = async (data: BottomImageFormValues) => {
     try {
       if (initialData) {
-        await Update("/bottom-image", params.BottomImageId, data);
+        await Update("/bottom-image", params.bottomImageId, data);
       } else {
         await Create("/bottom-image", data);
       }
@@ -72,7 +72,7 @@ export const BottomImageForm: React.FC<BottomImageFormProps> = ({
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={() =>
-          onDelete("/bottom-image", params.BottomImageId, router, setOpen)
+          onDelete("/bottom-image", params.bottomImageId, router, setOpen)
         }
         loading={isLoading}
       />

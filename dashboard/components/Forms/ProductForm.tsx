@@ -49,22 +49,17 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const description = initialData ? "Edit a Product." : "Add a new Product";
   const toastMessage = initialData ? "Product updated." : "Product created.";
   const action = initialData ? "Save changes" : "Create";
-  const defaultValues = initialData
-    ? {
-        ...initialData,
-      }
-    : {
-        name: "",
-        image: [],
-        price: "",
-        categoryId: "",
-        description: "",
-        discountValue: "",
-      };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
-    defaultValues,
+    defaultValues: initialData || {
+      name: "",
+      image: [],
+      price: "",
+      categoryId: "",
+      description: "",
+      discountValue: "",
+    },
   });
   let isLoading = form.formState.isLoading;
   const onSubmit = async (data: ProductFormValues) => {
@@ -83,7 +78,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     } catch (error: any) {
       toast.error(`${error.message}`);
     } finally {
-      router.refresh()
+      router.refresh();
     }
   };
 
@@ -205,7 +200,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               </FormItem>
             )}
           />
-        
+
           <FormField
             control={form.control}
             name="description"
@@ -214,7 +209,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormLabel>Product description</FormLabel>
                 <FormControl>
                   <textarea
-                    className="w-full h-60 p-1 rounded-lg"
+                    className="w-full h-60 p-2 rounded-lg"
                     disabled={isLoading}
                     placeholder="anything"
                     {...field}
@@ -237,7 +232,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               </FormItem>
             )}
           />
-          <Button disabled={isLoading} className="ml-auto" type="submit">
+          <Button
+            disabled={isLoading}
+            className="w-full"
+            variant={"lila"}
+            type="submit"
+          >
             {action}
           </Button>
         </form>

@@ -9,7 +9,7 @@ export const ProductAttributes = async (
 ) => {
   try {
     const res = await Client.patch(`/product/best-seller/${id}`, { term });
-    toast.success(`${res.status}`);
+    toast.success(`Product Updated to ${term}`);
     console.log(res.data);
     router.refresh();
   } catch (error: any) {
@@ -19,17 +19,9 @@ export const ProductAttributes = async (
 export const Restock = async (id: string, router: AppRouterInstance) => {
   try {
     const res = await Client.patch(`/product/restock/${id}`, { restock: 10 });
-    toast.success(`${res.status}`);
+    toast.success(`Product Restocked`);
     router.refresh();
   } catch (error: any) {
     console.log(error.message);
   }
 };
-// export const Stock = async () => {
-//   try {
-//     const res = await Ser.get(`/product/stock`);
-//     return res.data;
-//   } catch (error: any) {
-//     console.log(error.message);
-//   }
-// };

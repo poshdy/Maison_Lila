@@ -74,6 +74,7 @@ const SliderContentForm = ({ initialData, sliders }: Props) => {
     } catch (error: any) {
       toast.error("Something went wrong.");
     } finally {
+      router.refresh();
     }
   };
 
