@@ -36,7 +36,11 @@ const ProductSubCatForm = ({ subCategory }: Props) => {
   let isLoading = form.formState.isLoading;
   const onSubmit = async (data: productSubCatFormValues) => {
     try {
-      const res = await Client.patch(`/sub-category/${params.productId}`, data);
+      const res = await Client.patch(
+        `/product/sub-category/${params.productId}`,
+        data,
+        { withCredentials: true }
+      );
       toast.success("Sub Category Added Successfully");
       router.push("/products");
     } catch (error) {
@@ -81,7 +85,9 @@ const ProductSubCatForm = ({ subCategory }: Props) => {
               </FormItem>
             )}
           />
-          <Button className="w-full" variant={"lila"}>ADD</Button>
+          <Button className="w-full" variant={"lila"}>
+            ADD
+          </Button>
         </form>
       </Form>
     </section>

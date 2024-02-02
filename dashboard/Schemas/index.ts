@@ -59,6 +59,7 @@ export const productSchema = z.object({
   name: z.string(),
   description: z.string(),
   price: z.string(),
+  stock: z.coerce.number().optional(),
   categoryId: z.string(),
   image: z.object({ url: z.string() }).array(),
   discountValue: z.string().optional(),
@@ -67,11 +68,11 @@ export type ProductFormValues = z.infer<typeof productSchema>;
 export const productSubCatSchema = z.object({
   SubCategoryId: z.string(),
 });
+export type productSubCatFormValues = z.infer<typeof productSubCatSchema>;
 export type RestockFormValues = z.infer<typeof RestockSchema>;
 export const RestockSchema = z.object({
   restock: z.number(),
 });
-export type productSubCatFormValues = z.infer<typeof productSubCatSchema>;
 
 export const CouponSchema = z.object({
   name: z.string().optional(),

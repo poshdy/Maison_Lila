@@ -10,9 +10,9 @@ type Props = {
 
 const ProductCard = ({ product }: Props) => {
   return (
-    <>
+    <section className="w-full flex flex-col">
       <Link href={`shop/${product?.id}`} className="w-full">
-        <div className="relative max-w-[350px] h-[40vh] max-h-[50vh]">
+        <div className="relative max-w-[300px] h-[40vh] max-h-[50vh] shadow-md">
           <Image
             fill
             className={"object-cover"}
@@ -23,7 +23,7 @@ const ProductCard = ({ product }: Props) => {
         </div>
       </Link>
       <ProductCardInfo product={product} />
-    </>
+    </section>
   );
 };
 

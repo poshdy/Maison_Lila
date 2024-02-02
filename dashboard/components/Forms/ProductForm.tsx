@@ -56,6 +56,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       name: "",
       image: [],
       price: "",
+      stock: 10,
       categoryId: "",
       description: "",
       discountValue: "",
@@ -129,7 +130,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="md:grid md:grid-cols-2 gap-8">
+          <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -158,6 +159,24 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <Input
                       disabled={isLoading}
                       placeholder="50EGP"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Stock</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={isLoading}
+                      placeholder="10"
                       {...field}
                     />
                   </FormControl>

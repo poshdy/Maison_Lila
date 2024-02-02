@@ -10,12 +10,14 @@ const Productspage = async ({
 }) => {
   const data = await Server.get(`/product?page=${searchParams.page || "1"}`);
   const products = data.data;
+
   const formattedProducts: ProductColmun[] = products?.map(
     (item: ProductColmun) => ({
       id: item?.id,
       name: item?.name,
       stock: item?.stock,
       category: item?.category?.name,
+      SubCategory: item?.SubCategory?.name,
       bestSeller: item?.bestSeller,
       newArrival: item?.newArrival,
       updatedBy: item?.UpdatedBy?.adminName,
@@ -26,7 +28,6 @@ const Productspage = async ({
       createdAt: DATE(item?.createdAt),
     })
   );
-
   return (
     <section>
       <div className="space-y-10">

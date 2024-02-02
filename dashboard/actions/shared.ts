@@ -90,3 +90,12 @@ export const DATE = (createdAt: string) => {
   const formattedDate = format(parseISO(createdAt), "PPP");
   return formattedDate;
 };
+export const formattedPrice = (price: number) => {
+  const p = new Intl.NumberFormat("en-US", {
+    currency: "EGP",
+    style: "currency",
+  }).format(price);
+
+  return p;
+};
+

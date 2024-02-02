@@ -41,9 +41,9 @@ export default async function RootLayout({
             <Navbar />
             {children}
             <Toaster />
-            <Footer />
             <ModalProvider />
           </main>
+          <Footer />
           <MobileBottomNav />
         </body>
       </ClientProvider>

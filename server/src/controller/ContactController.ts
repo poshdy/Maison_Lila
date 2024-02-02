@@ -48,15 +48,11 @@ export const updateContact = async (req: Request, res: Response) => {
   });
 };
 export const deleteContact = async (req: Request, res: Response) => {
-  const id = req.params;
-
-  if (!id) {
-    return res.status(400).json("you must provide Contact id");
-  }
+  const { id } = req.params;
 
   const Contact = await prismadb.contactInfo.delete({
     where: {
-      id: String(id),
+      id,
     },
   });
   res.status(200).send({

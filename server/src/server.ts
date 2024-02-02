@@ -39,7 +39,6 @@ app.use(
       "http://localhost:3001",
     ],
     credentials: true,
-    preflightContinue: true,
   })
 );
 app.use(cookie());

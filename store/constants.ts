@@ -6,5 +6,5 @@ export const NAVITEMS = [
   { name: "Contact", path: "/#contact" },
 ];
 
-export const BASE_URL ="https://api.maisonlila.shop";
-
+export const BASE_URL = "https://api.maisonlila.shop";
+// "http://localhost:8000/v1"

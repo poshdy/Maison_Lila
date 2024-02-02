@@ -44,7 +44,7 @@ const ProductClient = ({ data, page }: Props) => {
             onClick={() => RestockAll()}
             className=" rounded-lg flex justify-center"
           >
-            Resrock Products
+            Restock Products
           </Button>
         </div>
       </div>

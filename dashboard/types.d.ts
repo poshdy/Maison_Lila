@@ -161,7 +161,7 @@ export type ProductColmun = {
   id: string;
   name: string;
   price: string;
-  stock: string;
+  stock: number;
   createdAt: string;
   UpdatedBy: {
     adminName: string;
@@ -177,6 +177,10 @@ export type ProductColmun = {
   }[];
   category: {
     name: string;
+  };
+  SubCategory: {
+    name: string;
+    id: string;
   };
 };
 

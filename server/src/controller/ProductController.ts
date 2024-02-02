@@ -17,12 +17,12 @@ export const addProducts = async (req: Request, res: Response) => {
 };
 
 export const addSubCatToProduct = async (req: Request, res: Response) => {
-  const { productId } = req.params;
+  const { id } = req.params;
   const { SubCategoryId } = req.body;
 
   await prismadb.product.update({
     where: {
-      id: productId,
+      id,
     },
     data: {
       SubCategory: { connect: { id: SubCategoryId } },

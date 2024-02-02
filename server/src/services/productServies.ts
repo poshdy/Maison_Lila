@@ -89,11 +89,12 @@ export const topProducts = async () => {
 };
 export const CreateProduct = async (req: Request) => {
   try {
-    const { name, description, price, categoryId, image } = req.body;
+    const { name, description, price, categoryId, image ,stock} = req.body;
     const product = await prismadb.product.create({
       data: {
         name,
         description,
+        stock,
         price,
         category: { connect: { id: categoryId } },
         image: {
@@ -202,7 +203,6 @@ export const GetAllProducts = async (
   start: number,
   category: querystring
 ) => {
-
   if (category) {
     return await prismadb.product.findMany({
       select: {
@@ -248,6 +248,12 @@ export const GetAllProducts = async (
         },
         discountValue: true,
         salePrice: true,
+        SubCategory: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
         category: { select: { name: true } },
         image: true,
       },

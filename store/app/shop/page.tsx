@@ -17,19 +17,20 @@ const Shop = async ({
   );
 
   return (
-    <Wrapper>
-      <section className="min-h-screen space-y-6 ">
-        <Heading title="Shop" subTitle="" />
-        {categories && <CategoriesSlider categories={categories} />}
-
-        <section className="flex md:flex-row flex-col gap-2">
-          {products?.map((product) => (
-            <ProductCard key={product?.id} product={product} />
-          ))}
-        </section>
+    // <Wrapper>
+    <section className="min-h-screen space-y-20 container">
+      <Heading title="Shop" subTitle="" />
+      {categories && <CategoriesSlider categories={categories} />}
+      <section className="grid md:grid-cols-4 grid-col-1 justify-items-center gap-2 content-center py-3">
+        {products?.map((product) => (
+          <ProductCard key={product?.id} product={product} />
+        ))}
       </section>
-    </Wrapper>
+    </section>
   );
 };
 
 export default Shop;
+{
+  /* </Wrapper> */
+}

@@ -4,11 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./actions";
 import { ProductColmun } from "@/types";
 import { Badge } from "@/components/ui/badge";
+import { formattedPrice } from "@/actions/shared";
 
 export const columns: ColumnDef<ProductColmun>[] = [
   {
     accessorKey: "image",
-    header: "Image",
+    header: "Img",
     cell: ({ row }) => {
       const urls = row?.original?.image?.map((i) => i);
       return (
@@ -33,6 +34,10 @@ export const columns: ColumnDef<ProductColmun>[] = [
   {
     accessorKey: "price",
     header: "Price",
+    cell: ({ row }) => {
+      const value = String(row?.original?.price);
+      return <h3 className={"font-bold"}>{formattedPrice(+value)}</h3>;
+    },
   },
   {
     accessorKey: "stock",
@@ -41,10 +46,18 @@ export const columns: ColumnDef<ProductColmun>[] = [
   {
     accessorKey: "category",
     header: "Category",
+    cell: ({ row }) => {
+      const value = String(row?.original?.category);
+      return <h3 className={"font-bold"}>{value}</h3>;
+    },
+  },
+  {
+    accessorKey: "SubCategory",
+    header: "Sub-Cat",
   },
   {
     accessorKey: "SoldOut",
-    header: "Sold-Out",
+    header: "SoldOut",
     cell: ({ row }) => {
       const value = String(row?.original?.SoldOut);
       return (
@@ -61,10 +74,38 @@ export const columns: ColumnDef<ProductColmun>[] = [
   {
     accessorKey: "bestSeller",
     header: "bestSeller",
+    cell: ({ row }) => {
+      const value = String(row?.original?.bestSeller);
+      return (
+        <Badge
+          className={
+            row?.original?.bestSeller == false
+              ? "bg-fuchsia-600"
+              : "bg-pink-600"
+          }
+        >
+          {value}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "newArrival",
     header: "newArrival",
+    cell: ({ row }) => {
+      const value = String(row?.original?.newArrival);
+      return (
+        <Badge
+          className={
+            row?.original?.newArrival == false
+              ? "bg-fuchsia-600"
+              : "bg-pink-600"
+          }
+        >
+          {value}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "SalePrice",
@@ -74,10 +115,6 @@ export const columns: ColumnDef<ProductColmun>[] = [
 
       return <h3 className="font-medium">{val == 0 ? "No Discount" : val}</h3>;
     },
-  },
-  {
-    accessorKey: "UpdatedBy",
-    header: "updated-by",
   },
   {
     accessorKey: "createdAt",
