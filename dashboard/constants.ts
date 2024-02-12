@@ -32,7 +32,8 @@ export const SIDE_BAR_ITEMS = [
 ];
 
 export const BASE_URL = "https://api.maisonlila.shop";
-// "http://localhost:8000/v1"
+// http://localhost:8000/v1
+
 export const POSITIONS = ["TOP", "BOTTOM"];
 
 export const ORDER_STATUS = ["PENDING", "CONFIRMED", "DEVLIVERD"];

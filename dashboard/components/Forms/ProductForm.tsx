@@ -66,15 +66,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onSubmit = async (data: ProductFormValues) => {
     try {
       if (initialData) {
-        await Update("/product", params.productId, {
-          ...data,
-          adminName: name,
-        });
+        await Update("/product", params.productId, data);
       } else {
+        console.log(data);
         await Create("/product", data);
       }
-      router.refresh();
       router.push(`/products`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(`${error.message}`);

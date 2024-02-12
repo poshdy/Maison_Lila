@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { prismadb } from "../lib/prismadb.js";
 import { AppError } from "../utils/AppError.js";
 import QueryString from "qs";
+import { ProductSchema } from "../validation/Schemas.js";
 
 export type OrderItem = {
   productId: string;
@@ -89,7 +90,11 @@ export const topProducts = async () => {
 };
 export const CreateProduct = async (req: Request) => {
   try {
-    const { name, description, price, categoryId, image ,stock} = req.body;
+    // const { error, value } = ProductSchema.validate(req.body);
+    const { name, description, price, categoryId, image, stock } = req.body;
+    // if (error) {
+    //   throw error;
+    // }
     const product = await prismadb.product.create({
       data: {
         name,

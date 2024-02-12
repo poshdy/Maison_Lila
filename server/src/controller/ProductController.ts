@@ -108,7 +108,6 @@ export const updateProducts = async (req: Request, res: Response) => {
     discountValue,
     SoldOut,
     categoryId,
-    adminName,
   } = req.body;
 
   let finalValue;
@@ -131,9 +130,6 @@ export const updateProducts = async (req: Request, res: Response) => {
       stock,
       SoldOut,
       discountValue,
-      UpdatedBy: {
-        create: { adminName: adminName },
-      },
       salePrice: finalValue,
     },
   });

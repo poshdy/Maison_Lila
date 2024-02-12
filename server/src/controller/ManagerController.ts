@@ -39,8 +39,8 @@ export const ManagerLogin = async (req: Request, res: Response) => {
     secure: true,
     path: "/",
     sameSite: "none",
+    domain:".maisonlila.shop",
     maxAge: 259200000,
-    domain:".maisonlila.shop"
   });
   res.status(200).send({
     role: manager.role,

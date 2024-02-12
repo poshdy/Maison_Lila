@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import {
   addCategory,
   getCategory,
@@ -14,7 +14,6 @@ import { Roles } from "../middlewares/permissions.js";
 const router = express.Router();
 
 router.post("/",  Roles(["MANAGER","ADMIN"]), tryCatch(addCategory));
-router.post("/messi", tryCatch(addCategory));
 router.get("/", tryCatch(getCategories));
 router.get("/:id", PathId, tryCatch(getCategory));
 router.patch("/:id",  Roles(["MANAGER","ADMIN"]), PathId, tryCatch(updateCategory));

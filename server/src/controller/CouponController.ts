@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import { prismadb } from "../lib/prismadb.js";
+import { CouponSchema } from "../validation/Schemas.js";
 
 export const CreateCoupon = async (req: Request, res: Response) => {
+  const { error, value } = CouponSchema.validate(req.body);
+  if (error) {
+    throw error;
+  }
   const Coupon = await prismadb.coupons.create({
-    data: { ...req.body },
+    data: { ...value },
   });
   res.status(201).send({
     message: `new Coupon created with name: ${Coupon.name}`,
@@ -26,12 +31,15 @@ export const getCoupon = async (req: Request, res: Response) => {
 
 export const updateCoupon = async (req: Request, res: Response) => {
   const { id } = req.params;
-
+  const { error, value } = CouponSchema.validate(req.body);
+  if (error) {
+    throw error;
+  }
   const Coupon = await prismadb.coupons.update({
     where: {
       id,
     },
-    data: { ...req.body },
+    data: { ...value },
   });
 
   res.status(201).send(Coupon);

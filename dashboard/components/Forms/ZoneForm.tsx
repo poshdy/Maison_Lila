@@ -5,6 +5,7 @@ import {
   FormLabel,
   FormField,
   FormItem,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ const ZoneForm = ({ initialData }: Props) => {
     resolver: zodResolver(ZoneSchema),
     defaultValues: initialData || {
       name: "",
-      fees: "",
+      fees: 0,
     },
   });
   const params = useParams();
@@ -48,8 +49,8 @@ const ZoneForm = ({ initialData }: Props) => {
       } else {
         await Create("/zone", data);
       }
-      router.refresh();
       router.push(`/zones`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error("Something went wrong.");
@@ -80,10 +81,11 @@ const ZoneForm = ({ initialData }: Props) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>zone name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Rehab..." {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -92,10 +94,11 @@ const ZoneForm = ({ initialData }: Props) => {
               name="fees"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>delivery fees</FormLabel>
+                  <FormLabel>Delivery Fees</FormLabel>
                   <FormControl>
-                    <Input placeholder="40..." {...field} />
+                    <Input type="number" placeholder="40..." {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

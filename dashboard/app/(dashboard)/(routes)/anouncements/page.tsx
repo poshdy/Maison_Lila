@@ -1,8 +1,7 @@
 import AnouncementClient from "@/components/PageComponents/anoun/client";
 import { AnounColumn } from "@/types";
-import { format, parseISO } from "date-fns";
 import { getData } from "@/fetchers";
-
+import { DATE } from "@/actions/shared";
 const Anouncements = async () => {
   const data = await getData("/anoun");
   const formattedAnoun: AnounColumn[] | null = data?.map(
@@ -10,7 +9,7 @@ const Anouncements = async () => {
       id: item?.id,
       text: item?.text,
       published: item?.published,
-      createdAt: format(parseISO(item?.createdAt), "PPP"),
+      createdAt: DATE(item?.createdAt),
     })
   );
 

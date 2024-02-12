@@ -8,24 +8,19 @@ export const addCategory = async (req: Request, res: Response) => {
   if (error) {
     throw error;
   }
-
-  const category = await prismadb.category.create({
+  await prismadb.category.create({
     data: { name, imageUrl },
   });
   res.status(201).send(`New Category with ${name} Created Successfully`);
 };
 export const getCategories = async (req: Request, res: Response) => {
   const category = await prismadb.category.findMany({
-    include: {
-      products: true,
-      subCategory: true,
-    },
+    include: { subCategory: true },
   });
   res.status(200).send(category);
 };
 export const getCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
-
   const category = await prismadb.category.findUnique({
     where: {
       id,
@@ -43,13 +38,17 @@ export const getCategory = async (req: Request, res: Response) => {
 };
 export const updateCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { error, value } = CategorySchema.validate(req.body);
+  if (error) {
+    throw error;
+  }
   const category = await prismadb.category.update({
     where: {
       id,
     },
     data: {
-      name: req.body.name,
-      imageUrl: req.body.imageUrl,
+      name: value.name,
+      imageUrl: value.imageUrl,
     },
   });
 

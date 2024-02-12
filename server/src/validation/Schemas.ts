@@ -10,17 +10,23 @@ export const ZoneSchema = Joi.object({
   fees: Joi.number(),
 });
 export const BottomImageSchema = Joi.object({
-  text: Joi.string(),
-  title: Joi.string(),
-  image: Joi.string(),
+  text: Joi.string().required(),
+  title: Joi.string().required(),
+  image: Joi.string().required(),
 });
 
 export const ProductSchema = Joi.object({
   name: Joi.string().required(),
   price: Joi.number().required(),
-  description: Joi.string().required().min(10),
+  description: Joi.string().required(),
+  stock: Joi.number().default(10).optional(),
+  discountValue: Joi.number().optional(),
   categoryId: Joi.string().required(),
-  images: Joi.array().items(Joi.string()),
+  image: Joi.array().items(
+    Joi.object({
+      url: Joi.string(),
+    })
+  ),
 });
 export const SliderSchema = Joi.object({
   name: Joi.string().required(),
@@ -29,7 +35,7 @@ export const SliderSchema = Joi.object({
 export const BannerSchema = Joi.object({
   text: Joi.string().required(),
   image: Joi.string().required(),
-  title: Joi.string(),
+  title: Joi.string().required(),
 });
 export const AnouncementSchema = Joi.object({
   text: Joi.string().required(),
@@ -37,4 +43,13 @@ export const AnouncementSchema = Joi.object({
 export const CategorySchema = Joi.object({
   name: Joi.string().required(),
   imageUrl: Joi.string().required(),
+});
+
+export const CouponSchema = Joi.object({
+  name: Joi.string().required(),
+  amount: Joi.number().required(),
+  decription: Joi.string().required(),
+  Minimum: Joi.number().required(),
+  expiration: Joi.date().required(),
+  maxUsage: Joi.number().required(),
 });

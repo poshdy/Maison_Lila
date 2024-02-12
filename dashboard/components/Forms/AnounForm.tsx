@@ -5,6 +5,7 @@ import {
   FormLabel,
   FormField,
   FormItem,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -49,9 +50,9 @@ const AnounForm = ({ initialData }: Props) => {
       } else {
         await Create(`/anoun`, data);
       }
+      toast.success(toastMessage);
       router.refresh();
       router.push(`/anouncements`);
-      toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -82,13 +83,15 @@ const AnounForm = ({ initialData }: Props) => {
               name="text"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Anouncement name</FormLabel>
+                  <FormLabel>Anouncement</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Write the anouncement content"
+                      disabled={isLoading}
+                      placeholder="Get 20EGP OFF..."
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

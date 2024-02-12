@@ -2,7 +2,7 @@ export type ZoneColumn = {
   id: string;
   name: string;
   createdAt: string;
-  fees: string;
+  fees: number;
 };
 
 export type AnounColumn = {

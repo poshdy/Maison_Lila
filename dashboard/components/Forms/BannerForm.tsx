@@ -52,8 +52,8 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
       } else {
         await Create("/banner", data);
       }
-      router.refresh();
       router.push(`/banners`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(`${error.message}`);
@@ -86,7 +86,7 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Banner Image</FormLabel>
+                <FormLabel>Image</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}

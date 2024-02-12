@@ -17,30 +17,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Trash } from "lucide-react";
-import { Heading } from "@/components/Heading";
 import { AlertModal } from "@/components/models/alert-model";
 import { Create, Update, onDelete } from "@/actions/shared";
+import { SubCategorySchema, SubCategoryFormValues } from "@/Schemas";
+import FormHeader from "../ui/FormHeader";
 
 type Props = {
   initialData: SubCatColumn[];
   data: CategoryColumn[];
 };
-const formSchema = z.object({
-  name: z.string(),
-  categoryId: z.string(),
-});
-type SubCategoryFormValues = z.infer<typeof formSchema>;
+
 const SubCategoryForm = ({ initialData, data }: Props) => {
   const [open, setOpen] = useState(false);
-
   const title = initialData ? "Edit SubCategory" : "Create SubCategory";
   const description = initialData
     ? "Edit a SubCategory."
@@ -53,7 +47,7 @@ const SubCategoryForm = ({ initialData, data }: Props) => {
   const router = useRouter();
 
   const form = useForm<SubCategoryFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(SubCategorySchema),
   });
 
   let loading = form.formState.isSubmitting;
@@ -64,8 +58,8 @@ const SubCategoryForm = ({ initialData, data }: Props) => {
       } else {
         await Create("/subCategory", data);
       }
-      router.refresh();
       router.push(`/categories`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error("Something went wrong.");
@@ -82,19 +76,13 @@ const SubCategoryForm = ({ initialData, data }: Props) => {
         }
         loading={loading}
       />
-      <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
+      <FormHeader
+        description={description}
+        initialData={initialData}
+        setOpen={setOpen}
+        isLoading={loading}
+        title={title}
+      />
       <Separator />
       <Form {...form}>
         <form

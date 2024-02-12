@@ -47,7 +47,7 @@ export const publishBanner = async (req: Request, res: Response) => {
       },
     });
   });
-  res.status(200).send(`Banner Publish state upadated Successfully`);
+  res.status(200).send(`Banner Publish state updated Successfully`);
 };
 export const ChangePosition = async (req: Request, res: Response) => {
   const { id } = req.params;

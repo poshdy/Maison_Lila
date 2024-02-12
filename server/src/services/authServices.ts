@@ -23,7 +23,7 @@ export const generateToken = async ({ id, role, email }: User) => {
     { id: id, role: role, email },
     process.env.ACCESS_TOKEN as string,
     {
-      expiresIn: "40m",
+      expiresIn: "20m",
     }
   );
 };

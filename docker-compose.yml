@@ -1,7 +1,7 @@
 version: "3"
 services:
   server:
-    image: posh3120/node-server:v1.7
+    image: posh3120/node-server:v1.8
     deploy:
       replicas: 2
       restart_policy:
@@ -45,7 +45,7 @@ services:
       - mynetwork
 
   admin:
-    image: posh3120/dashboard:v4.0
+    image: posh3120/dashboard:v4.1
     deploy:
       restart_policy:
         condition: any
@@ -62,7 +62,7 @@ services:
       - mynetwork
 
   store:
-    image: posh3120/store:v4.2
+    image: posh3120/store:v4.3
     deploy:
       restart_policy:
         condition: any

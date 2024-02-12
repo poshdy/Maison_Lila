@@ -3,7 +3,6 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,13 +15,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { Heading } from "@/components/Heading";
 import { AlertModal } from "@/components/models/alert-model";
 import ImageUpload from "@/components/ui/image-upload";
 import { CategoryColumn } from "@/types";
 import { CategoryFormValues, CategorySchema } from "@/Schemas";
-import { Client } from "@/axiosClient";
-
+import { Create, Update, onDelete } from "@/actions/shared";
+import FormHeader from "../ui/FormHeader";
 interface CategoryFormProps {
   initialData: CategoryColumn | null;
 }
@@ -30,9 +28,7 @@ interface CategoryFormProps {
 export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
-
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const title = initialData ? "Edit Category" : "Create Category";
   const description = initialData ? "Edit a Category." : "Add a new Category";
@@ -47,41 +43,19 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     },
   });
 
+  let isLoading = form.formState.isSubmitting;
   const onSubmit = async (data: CategoryFormValues) => {
     try {
-      setLoading(true);
       if (initialData) {
-        await Client.patch(`/category/${params.categoryId}`, data);
+        await Update("/category", params.categoryId, data);
       } else {
-        await Client.post(`/category`, {
-          name: data.name,
-          imageUrl: data.imageUrl,
-        });
+        await Create("/category", data);
       }
       router.push(`/categories`);
-      toast.success(toastMessage);
       router.refresh();
+      toast.success(toastMessage);
     } catch (error: any) {
       toast.error("Something went wrong.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onDelete = async () => {
-    try {
-      setLoading(true);
-      await Client.delete(`/category/${params.categoryId}`);
-      router.push(`/categories`);
-      toast.success("Category deleted.");
-      router.refresh();
-    } catch (error: any) {
-      toast.error(
-        "Make sure you removed all categories using this Category first."
-      );
-    } finally {
-      setLoading(false);
-      setOpen(false);
     }
   };
 
@@ -90,22 +64,18 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
+        onConfirm={() =>
+          onDelete("/category", params.categoryId, router, setOpen)
+        }
+        loading={isLoading}
       />
-      <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
+      <FormHeader
+        title={title}
+        initialData={initialData}
+        description={description}
+        isLoading={isLoading}
+        setOpen={setOpen}
+      />
       <Separator />
       <Form {...form}>
         <form
@@ -117,11 +87,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category image</FormLabel>
+                <FormLabel>Image</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
-                    disabled={loading}
+                    disabled={isLoading}
                     onChange={(url) => field.onChange(url)}
                     onRemove={() => field.onChange("")}
                   />
@@ -136,11 +106,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>category name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading}
-                      placeholder="Category name"
+                      disabled={isLoading}
+                      type="text"
+                      placeholder="Gluten free..."
                       {...field}
                     />
                   </FormControl>
@@ -149,7 +120,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               )}
             />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <Button disabled={isLoading} className="ml-auto" type="submit">
             {action}
           </Button>
         </form>

@@ -32,7 +32,7 @@ const DatePicker = ({ field }: Props) => {
                 !field.value && "text-muted-foreground"
               )}
             >
-              {field?.value ? (
+              {field.value ? (
                 format(field.value, "PPP")
               ) : (
                 <span>Pick a date</span>
@@ -44,7 +44,7 @@ const DatePicker = ({ field }: Props) => {
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             mode="single"
-            selected={field.value}
+            selected={field?.value}
             onSelect={field.onChange}
             initialFocus
           />

@@ -58,8 +58,8 @@ export const BottomImageForm: React.FC<BottomImageFormProps> = ({
       } else {
         await Create("/bottom-image", data);
       }
-      router.refresh();
       router.push(`/bottom-image`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(`${error.message}`);

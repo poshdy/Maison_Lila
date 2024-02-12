@@ -49,13 +49,11 @@ export const CouponForm = ({ initialData }: Props) => {
       } else {
         await Create("/coupon", data);
       }
-      router.refresh();
       router.push(`/coupons`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error.message);
-    } finally {
-      console.log(data);
     }
   };
   return (
