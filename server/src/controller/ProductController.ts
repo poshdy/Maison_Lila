@@ -32,12 +32,12 @@ export const addSubCatToProduct = async (req: Request, res: Response) => {
 };
 
 export const getProducts = async (req: Request, res: Response) => {
-  const { bestseller, newArrival, page, category } = req.query;
+  const { bestseller, newArrival, page, category, subCat } = req.query;
   const limit = 10;
   const start = (Number(page) * 1 - 1) * limit;
   let product;
   if (!bestseller && !newArrival) {
-    product = await GetAllProducts(limit, start, category);
+    product = await GetAllProducts(limit, start, category, subCat);
   } else if (bestseller || newArrival) {
     product = await SortedProducts(bestseller, newArrival);
   }

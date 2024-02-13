@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import dayjs, { unix } from "dayjs";
 import { BASE_URL } from "./constants";
 
-let token = useUser.getState().user.accessToken;
+let token = useUser.getState().user?.accessToken;
 export const Client = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -13,7 +13,7 @@ export const Client = axios.create({
 
 Client.interceptors.request.use(async (req) => {
   if (!token) {
-    token = useUser.getState().user.accessToken;
+    token = useUser.getState().user?.accessToken;
     req.headers.Authorization = `Bearer ${token}`;
   }
   const admin = jwtDecode(token as string);

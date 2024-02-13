@@ -36,7 +36,7 @@ const CartPage = () => {
   return (
     <>
       {items && items?.length <= 0 ? (
-        <Empty />
+        <Empty title="Your Cart Is Empty" text="Start shopping to fill it up!" action="GO SHOPPING"/>
       ) : (
         <section className="min-h-screen space-y-20 mt-2 w-full px-4">
           <div className="space-y-4 max-h-[40vh] overflow-y-scroll">

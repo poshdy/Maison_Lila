@@ -7,4 +7,3 @@ export const NAVITEMS = [
 ];
 
 export const BASE_URL = "https://api.maisonlila.shop";
-// "https://api.maisonlila.shop";

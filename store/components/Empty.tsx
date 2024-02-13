@@ -4,19 +4,21 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 type Props = {
   title?:string
+  text?:string
+  action?:string
 };
 
-const Empty = ({title}: Props) => {
+const Empty = ({title , text,action}: Props) => {
   return (
-    <section className="flex flex-col space-y-4 items-center justify-center w-full h-screen">
+    <section className="flex flex-col space-y-4 items-center justify-center w-full">
       <ShoppingBag size={25} />
 
       <h3 className="text-2xl font-bold leading-tight tracking-tight">
-        YOUR CART IS EMPTY!
+        {title}
       </h3>
-      <p>Start shopping to fill it up</p>
+      <p>{text}</p>
       <Link className="" href={"shop"}>
-        <Button>Go Shopping</Button>
+        <Button>{action}</Button>
       </Link>
     </section>
   );

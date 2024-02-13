@@ -52,7 +52,13 @@ const CartDrawer = () => {
       </DrawerTrigger>
       <DrawerContent className="h-screen ">
         {items.length <= 0 ? (
-          <Empty />
+          <div className="pt-5">
+            <Empty
+              title="Your Cart Is Empty"
+              text="Start shopping to fill it up!"
+              action="GO SHOPPING"
+            />
+          </div>
         ) : (
           <>
             <div className="mx-auto w-full overflow-y-scroll md:w-[90%]">

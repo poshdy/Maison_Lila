@@ -18,15 +18,12 @@ type Props = {
 
 const ProductSlider = ({ data, title }: Props) => {
   return (
-    <Wrapper>
+    <>
       <Heading title={title} />
       <Carousel className="w-full">
-        <CarouselContent className="flex">
+        <CarouselContent className="">
           {data?.map((prod) => (
-            <CarouselItem
-              className="sm:basis-1/2  md:basis-1/4"
-              key={prod.id}
-            >
+            <CarouselItem className="flex justify-center  md:basis-1/4" key={prod.id}>
               <ProductCard key={prod.id} product={prod} />
             </CarouselItem>
           ))}
@@ -35,7 +32,7 @@ const ProductSlider = ({ data, title }: Props) => {
         <CarouselPrevious variant={"ghost"} />
         <CarouselNext variant={"ghost"} />
       </Carousel>
-    </Wrapper>
+    </>
   );
 };
 

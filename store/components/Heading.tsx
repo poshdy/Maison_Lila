@@ -14,7 +14,7 @@ const Heading = ({ title, subTitle, size }: Props) => {
     >
       <h2
         className={cn(
-          " text-3xl font-medium  leading-tight tracking-tighter text-[#3C2E3D]",
+          "text-3xl font-light leading-tight tracking-tighter",
           size
         )}
       >

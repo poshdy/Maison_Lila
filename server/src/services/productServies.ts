@@ -206,7 +206,8 @@ export const SortedProducts = async (
 export const GetAllProducts = async (
   limit: number,
   start: number,
-  category: querystring
+  category: querystring,
+  subCat: querystring
 ) => {
   if (category) {
     return await prismadb.product.findMany({
@@ -232,6 +233,30 @@ export const GetAllProducts = async (
       },
       where: {
         category: { name: { contains: category as string } },
+      },
+    });
+  }
+  if (subCat) {
+    return await prismadb.product.findMany({
+      select: {
+        name: true,
+        bestSeller: true,
+        newArrival: true,
+        description: true,
+        price: true,
+        id: true,
+        SubCategory: true,
+        SoldOut: true,
+        stock: true,
+        createdAt: true,
+        discountValue: true,
+        salePrice: true,
+        category: { select: { name: true } },
+
+        image: true,
+      },
+      where: {
+        SubCategory: { name: { contains: subCat as string } },
       },
     });
   } else {

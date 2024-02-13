@@ -20,13 +20,13 @@ const CategoriesSlider = ({ categories }: Props) => {
   const router = useRouter();
   return (
     <Wrapper>
-      <Heading title="Shop by Category" />
-      <Carousel className="">
+      <Carousel>
+        <Heading title="Shop by Category" />
         <CarouselContent className="w-full">
           {categories?.map((category) => (
             <CarouselItem
               key={category.id}
-              className="basis-1/2 md:basis-1/5 flex items-center flex-col justify-center "
+              className="basis-1/2 md:basis-1/5 flex items-center space-x-2 flex-col justify-center"
             >
               <div
                 onClick={() => router.push(`/shop?category=${category.name}`)}
@@ -36,7 +36,8 @@ const CategoriesSlider = ({ categories }: Props) => {
                   alt="category"
                   className="object-cover"
                   fill
-                  src={category.imageUrl}
+                  sizes="100wv,100vh"
+                  src={category?.imageUrl}
                 />
               </div>
               <h4 className="text-base md:text-xl">{category.name}</h4>

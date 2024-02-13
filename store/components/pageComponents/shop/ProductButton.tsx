@@ -24,7 +24,7 @@ const ProductButton = ({ product, count }: Props) => {
           quantity: count ? count : 1,
         })
       }
-      className="font-bold text-lg bg-transparent hover:bg-transparent p-0 px-0 py-0 m-0 text-black"
+      className="font-bold text-xl"
     >
       {SoldOut ? "Out Of Stock" : `Add to Bag`}
     </button>

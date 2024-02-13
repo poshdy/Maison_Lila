@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const MobileBottomNav = () => {
   return (
-    <section className="md:hidden fixed bottom-0 text-white w-full h-14 z-10 shadow-md bg-[#1f1f1f]">
+    <section className="md:hidden fixed bottom-0 text-white w-full h-14 z-10 shadow-md bg-black">
       <div className="flex items-center text-[25px] px-3 justify-between">
         <Link href={"/"}>
           <Home className="cursor-pointer" />
