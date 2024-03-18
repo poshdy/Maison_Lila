@@ -16,6 +16,7 @@ import { AlertModal } from "@/components/models/alert-model";
 
 import { AnounColumn } from "@/types";
 import { Client } from "@/axiosClient";
+import { tr } from "date-fns/locale";
 
 interface CellActionProps {
   data: AnounColumn;
@@ -24,8 +25,10 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const PublishAnoun = async (id: string) => {
     try {
-      const res = await Client.patch(`/anoun/publish/${id}`, {});
-      toast.success(`${res.statusText}`);
+      const res = await Client.patch(`/anoun/${id}`, {
+        published: !data.published,
+      });
+      toast.success(`Anouncement Updated`);
       router.refresh();
       return res.data;
     } catch (err: any) {
@@ -76,7 +79,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem onClick={async () => await PublishAnoun(data.id)}>
-            <Edit className="mr-2 h-4 w-4" />   {data.published == true ? "UnPublish" : "Publish"}
+            <Edit className="mr-2 h-4 w-4" />{" "}
+            {data.published == true ? "UnPublish" : "Publish"}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/anouncements/${data.id}`)}

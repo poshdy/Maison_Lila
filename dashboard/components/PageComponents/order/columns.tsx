@@ -17,20 +17,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "payment-method",
     cell: ({ row }) => {
       let method = row.getValue("paymentMethod");
-      return (
-        <Badge className={method == "CASH" ? "bg-purple-500" : "bg-pink-500"}>
-          {method == "CASH" ? (
-            <div className="flex items-center gap-1 justify-center">
-              <DollarSign className="w-4 h-4" />
-              <span>Cash</span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1 justify-center">
-              <CreditCard /> <span>Online</span>
-            </div>
-          )}
-        </Badge>
-      );
+      return <div>{method == "CASH" ? "Cash On Delivery" : "Paid Online"}</div>;
     },
   },
   {
@@ -47,15 +34,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     cell: ({ row }) => {
       const status = row.original.orderStatus;
 
-      let className;
-      if (status == "PENDING") {
-        className = "bg-gray-500 text-white";
-      } else if (status == "CONFIRMED") {
-        className = " bg-yellow-300/80 text-white";
-      } else {
-        className = "bg-green-300/80";
-      }
-      return <Badge className={className}>{status}</Badge>;
+      return <Badge>{status}</Badge>;
     },
   },
   {

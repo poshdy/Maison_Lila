@@ -2,6 +2,7 @@ import AnouncementClient from "@/components/PageComponents/anoun/client";
 import { AnounColumn } from "@/types";
 import { getData } from "@/fetchers";
 import { DATE } from "@/actions/shared";
+import Wrapper from "@/components/ui/wrapper";
 const Anouncements = async () => {
   const data = await getData("/anoun");
   const formattedAnoun: AnounColumn[] | null = data?.map(
@@ -14,11 +15,9 @@ const Anouncements = async () => {
   );
 
   return (
-    <section>
-      <div className="space-y-12">
-        {formattedAnoun && <AnouncementClient data={formattedAnoun} />}
-      </div>
-    </section>
+    <Wrapper>
+      {formattedAnoun && <AnouncementClient data={formattedAnoun} />}
+    </Wrapper>
   );
 };
 

@@ -1,40 +1,40 @@
-import CategoriesSlider from "@/components/Categories-Slider";
-import Empty from "@/components/Empty";
-import Heading from "@/components/Heading";
-import Pagination from "@/components/pageComponents/shop/Pagination";
+import Empty from "@/components/Shared/Empty";
+import Heading from "@/components/Shared/Heading";
 import ProductCard from "@/components/pageComponents/shop/ProductCard";
-import Wrapper from "@/components/Wrapper";
+import Wrapper from "@/components/Shared/Wrapper";
 import { getData } from "@/fetchers";
 import { Category, Product } from "@/types";
-import Link from "next/link";
+import Filters from "@/components/pageComponents/shop/Filters";
 
 const Shop = async ({
   searchParams,
 }: {
-  searchParams: { category: string; page: string; subCat: string };
+  searchParams: {
+    bestSeller: string;
+    newArrival: string;
+    recommended: string;
+  };
 }) => {
   let query;
-  if (searchParams.category) {
-    query = `product?page=${searchParams.page || "1"}&category=${
-      searchParams.category
-    }`;
-  } else if (searchParams.subCat) {
-    query = `product?page=${searchParams.page || "1"}&subCat=${
-      searchParams.subCat
-    }`;
-  } else {
-    query = `product?page=${searchParams?.page || "1"}`;
+  if (searchParams.bestSeller) {
+    query = `product?bestSeller=true`;
   }
+  // if (searchParams.newArrival) {
+  //   query = `product?newArrival=true`;
+  // else if (searchParams.recommended) {
+  //   query = `product?recommended=true`;
+  // } else {
+  //   query = "product";
+  // }
 
+  const products: Product[] | null = await getData(query || "product");
   const categories: Category[] | null = await getData("category");
-  const products: Product[] | null = await getData(query);
 
   return (
     <Wrapper>
-      <Heading title="Shop" subTitle="" />
-
-      {categories && <CategoriesSlider categories={categories} />}
-      <section className="grid md:grid-cols-4 grid-col-1 justify-items-center gap-x-3 gap-y-2 content-center">
+      <Heading size="text-3xl" title="Shop" />
+      <Filters categories={categories} />
+      <section className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-5 justify-items-center">
         {products.length <= 0 ? (
           <Empty
             title="No Products Found For This Category "
@@ -46,8 +46,6 @@ const Shop = async ({
           ))
         )}
       </section>
-
-      {/* <Pagination page={searchParams.page} /> */}
     </Wrapper>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Notification } from "@/components/models/notifaction-model";
-import { Auth } from "@/components/models/auth-model";
+import { SuccessfullModal } from "@/components/models/notifaction-model";
+import ErrorModal from "@/components/models/error-model";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -16,8 +16,8 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <Notification />
-      <Auth />
+      <ErrorModal />
+      <SuccessfullModal />
     </>
   );
 };

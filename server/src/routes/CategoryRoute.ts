@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  addCategory,
-  getCategory,
-  getCategories,
-  deleteCategory,
-  updateCategory,
+  OnCreateCategory,
+  OnDeleteCategory,
+  OnGetCategories,
+  OnGetCategory,
+  OnUpdateCategory,
 } from "../controller/CategoryController.js";
 
 import { tryCatch } from "../utils/tryCatch.js";
@@ -13,10 +13,20 @@ import { Roles } from "../middlewares/permissions.js";
 
 const router = express.Router();
 
-router.post("/",  Roles(["MANAGER","ADMIN"]), tryCatch(addCategory));
-router.get("/", tryCatch(getCategories));
-router.get("/:id", PathId, tryCatch(getCategory));
-router.patch("/:id",  Roles(["MANAGER","ADMIN"]), PathId, tryCatch(updateCategory));
-router.delete("/:id",  Roles(["MANAGER","ADMIN"]), PathId, tryCatch(deleteCategory));
+router.post("/", Roles(["MANAGER", "ADMIN"]), tryCatch(OnCreateCategory));
+router.get("/", tryCatch(OnGetCategories));
+router.get("/:id", PathId, tryCatch(OnGetCategory));
+router.patch(
+  "/:id",
+  Roles(["MANAGER", "ADMIN"]),
+  PathId,
+  tryCatch(OnUpdateCategory)
+);
+router.delete(
+  "/:id",
+  Roles(["MANAGER", "ADMIN"]),
+  PathId,
+  tryCatch(OnDeleteCategory)
+);
 
 export default router;

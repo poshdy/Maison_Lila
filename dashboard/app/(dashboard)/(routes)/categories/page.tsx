@@ -1,41 +1,40 @@
 import React from "react";
 import CategoryClient from "@/components/PageComponents/category/client";
-import { CategoryColumn, SubCatColumn } from "@/types";
+import { CategoryColumn } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import SubCategoryClient from "@/components/PageComponents/sub-cat/SubCategoryClient";
 import { getData } from "@/fetchers";
 import { DATE } from "@/actions/shared";
+import Wrapper from "@/components/ui/wrapper";
 
 const CategoiesPage = async () => {
   const data = await getData("/category");
-  const formattedCategory: CategoryColumn[] | null = data?.map(
-    (item: CategoryColumn) => ({
+  const formattedCategory: CategoryColumn[] | null = data
+    ?.filter((item: any) => item.parentId == null)
+    .map((item: CategoryColumn) => ({
       id: item?.id,
       name: item?.name,
       imageUrl: item?.imageUrl,
-      subCategory: item?.subCategory.map((c) => c?.name),
+      Category: item.Category,
+      products: item._count.products,
       createdAt: DATE(item?.createdAt),
-    })
-  );
-  const SubCatData = await getData("subCategory");
-  const formattedSubCategory: SubCatColumn[] | null = SubCatData?.map(
-    (item: SubCatColumn) => ({
+    }));
+  const formattedSubCategory: CategoryColumn[] | null = data
+    .filter((item: any) => item.parentId != null)
+    ?.map((item: CategoryColumn) => ({
       id: item?.id,
       name: item?.name,
-      parent: item?.parent.name,
-      categoryId: item?.parent.id,
-      createdAt: DATE(item?.createdAt),
-    })
-  );
+      subCategory: item?.subCategory?.name,
+    }));
   return (
-    <section className="space-y-6">
+    <Wrapper>
       {formattedCategory && <CategoryClient data={formattedCategory} />}
 
       <Separator />
       {formattedSubCategory && (
         <SubCategoryClient data={formattedSubCategory} />
       )}
-    </section>
+    </Wrapper>
   );
 };
 export default CategoiesPage;

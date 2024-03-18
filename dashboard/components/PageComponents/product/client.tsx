@@ -20,7 +20,7 @@ const ProductClient = ({ data, page }: Props) => {
   const router = useRouter();
   const RestockAll = async () => {
     try {
-      const res = await Client.patch("/product/restock", { restock: 10 });
+      const res = await Client.patch("/product/restock", { stock: 10 });
       toast.success("All Products are Restocked");
       router.refresh();
     } catch (error) {

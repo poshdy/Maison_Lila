@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./action";
 import { CategoryColumn } from "@/types";
 import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: "imageUrl",
@@ -21,14 +22,19 @@ export const columns: ColumnDef<CategoryColumn>[] = [
 
   {
     accessorKey: "subCategory",
-    header: "name",
+    header: "sub-category",
     cell: ({ row }) => {
+      const value = row.original.Category.map((cat) => cat.name);
       return (
-        <Badge className="bg-fuchsia-600 font-bold">
-          {String(row.original.subCategory)}
-        </Badge>
+        <div>
+          {value.length > 0 ? value.map((cat) => <Badge>{cat}</Badge>) : <X />}
+        </div>
       );
     },
+  },
+  {
+    accessorKey: "products",
+    header: "products",
   },
   {
     accessorKey: "createdAt",

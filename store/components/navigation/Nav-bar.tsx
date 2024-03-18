@@ -3,13 +3,13 @@ import { CiSearch } from "react-icons/ci";
 import Logo from "./Logo";
 import { NAVITEMS } from "@/constants";
 import Link from "next/link";
-import MobileNav from "./Mobile-nav";
-
+import MobileNav from "./mobile/Mobile-nav";
+import SearchSheet from "../SearchSheet";
 
 const Navbar = () => {
   return (
     <header className="w-full">
-      <nav className="hidden w-[80%] mx-auto md:flex justify-between items-center px-6 py-2">
+      <nav className="hidden w-[90%] mx-auto md:flex justify-between items-center px-6 py-2">
         <Logo />
         <div className="flex items-center gap-5">
           <>
@@ -19,7 +19,7 @@ const Navbar = () => {
               </Link>
             ))}
           </>
-          <CiSearch />
+          <SearchSheet color="text-text" />
         </div>
       </nav>
       <MobileNav />

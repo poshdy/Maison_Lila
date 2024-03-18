@@ -24,16 +24,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { AlertModal } from "@/components/models/alert-model";
 import ImageUpload from "@/components/ui/image-upload";
-import { CategoryColumn, ProductColmun, SubCatColumn } from "@/types";
+import { CategoryColumn, ProductColmun } from "@/types";
 import { ProductFormValues, productSchema } from "@/Schemas";
 import { Create, Update, onDelete } from "@/actions/shared";
 import FormHeader from "@/components/ui/FormHeader";
-import { AdminStore } from "@/zustand/use-admin-store";
+import { Checkbox } from "../ui/checkbox";
 
 interface ProductFormProps {
   initialData: ProductColmun | null;
   category: CategoryColumn[];
-  subCategory: SubCatColumn[];
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
@@ -41,7 +40,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   category,
 }) => {
   const params = useParams();
-  const { name } = AdminStore();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -55,11 +53,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     defaultValues: initialData || {
       name: "",
       image: [],
-      price: "",
+      price: 0,
+      salePrice: 0,
       stock: 10,
+      bestSeller: false,
+      newArrival: false,
+      recommended: false,
       categoryId: "",
       description: "",
-      discountValue: "",
     },
   });
   let isLoading = form.formState.isLoading;
@@ -68,7 +69,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       if (initialData) {
         await Update("/product", params.productId, data);
       } else {
-        console.log(data);
         await Create("/product", data);
       }
       router.push(`/products`);
@@ -102,7 +102,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
+          className="space-y-10 w-full"
         >
           <FormField
             control={form.control}
@@ -155,6 +155,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormLabel>Product price</FormLabel>
                   <FormControl>
                     <Input
+                      type="number"
                       disabled={isLoading}
                       placeholder="50EGP"
                       {...field}
@@ -166,9 +167,63 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="stock"
+              name="salePrice"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Sale Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={isLoading}
+                      placeholder="30EGP"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="md:grid md:grid-cols-2 gap-8">
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category name</FormLabel>
+                  <FormControl>
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Select a Category name"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {category.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem className="">
                   <FormLabel>Product Stock</FormLabel>
                   <FormControl>
                     <Input
@@ -183,40 +238,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category name</FormLabel>
-                <FormControl>
-                  <Select
-                    disabled={isLoading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a Category name"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {category.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           <FormField
             control={form.control}
@@ -226,7 +247,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormLabel>Product description</FormLabel>
                 <FormControl>
                   <textarea
-                    className="w-full h-60 p-2 rounded-lg"
+                    className="w-full h-40 p-2 rounded-lg"
                     disabled={isLoading}
                     placeholder="anything"
                     {...field}
@@ -236,19 +257,48 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="discountValue"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Discount Value</FormLabel>
-                <FormControl>
-                  <Input disabled={isLoading} placeholder="15%" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <h3 className="font-bold">Product Attributes</h3>
+          <div className="grid grid-cols-3 gap-3">
+            <FormField
+              control={form.control}
+              name="bestSeller"
+              render={({ field }) => (
+                <FormItem className="flex items-center flex-col gap-x-1">
+                  <FormLabel>Best-Seller</FormLabel>
+                  <FormControl>
+                    <Checkbox value={"true"} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="newArrival"
+              render={({ field }) => (
+                <FormItem className="flex items-center flex-col gap-x-1">
+                  <FormLabel>New-Arrival</FormLabel>
+                  <FormControl>
+                    <Checkbox value={"true"} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="recommended"
+              render={({ field }) => (
+                <FormItem className="flex items-center flex-col gap-x-1">
+                  <FormLabel>Recommended</FormLabel>
+                  <FormControl>
+                    <Checkbox value={"true"} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <Button
             disabled={isLoading}
             className="w-full"

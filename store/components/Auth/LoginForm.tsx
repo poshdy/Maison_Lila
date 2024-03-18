@@ -6,21 +6,26 @@ import {
   FormItem,
   FormLabel,
   FormField,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { LoginFormValues, LoginSchema } from "./authSchema";
+import { LoginFormValues, LoginSchema } from "@/Schemas";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useUser } from "@/zustand/user-store";
-import { useNoticationModel } from "@/zustand/notification-store";
+import axios from "axios";
 import { BASE_URL } from "@/constants";
+import { useAlert } from "@/zustand/alert-store";
+import { useNoticationModel } from "@/zustand/notification-store";
+import { useRouter } from "next/navigation";
 type Props = {};
 
 const LoginForm = (props: Props) => {
-  const { onOpen } = useNoticationModel();
+  const { Display } = useAlert();
   const { SetUser } = useUser();
+  const success = useNoticationModel();
+  const { push } = useRouter();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
   });
@@ -31,61 +36,74 @@ const LoginForm = (props: Props) => {
         withCredentials: true,
       });
       SetUser(res.data);
-      onOpen("", `Logged in Successfully!`);
+      success.Display(
+        `Welcome Back ${res?.data?.name}`,
+        "Logged In Successfully",
+        "shop"
+      );
+      push("/");
     } catch (error: any) {
-      console.log(error.message);
+      const { data } = error?.response;
+      Display("Error", data);
+      form.reset();
     } finally {
       form.reset();
     }
   };
-  return (
-    <section>
-      <Form {...form}>
-        <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="Please write you email"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Please write your Password"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
 
-          <Button
-            variant={"action"}
-            className="w-full"
-            disabled={isLoading}
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
-      </Form>
-    </section>
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 w-[90%] mx-auto"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isLoading}
+                  type="email"
+                  placeholder="Email"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isLoading}
+                  type="password"
+                  placeholder="Password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          variant={"action"}
+          className="w-full"
+          disabled={isLoading}
+          type="submit"
+        >
+          Login
+        </Button>
+      </form>
+    </Form>
   );
 };
 

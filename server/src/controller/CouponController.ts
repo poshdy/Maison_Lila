@@ -1,56 +1,46 @@
 import { Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
-import { CouponSchema } from "../validation/Schemas.js";
+import {
+  CreateCoupon,
+  DeleteCoupon,
+  GetCoupon,
+  GetCoupons,
+  UpdateCoupon,
+} from "../services/coupon/index.js";
+import { ExtractId } from "../helpers/ExtractId.js";
 
-export const CreateCoupon = async (req: Request, res: Response) => {
-  const { error, value } = CouponSchema.validate(req.body);
-  if (error) {
-    throw error;
-  }
-  const Coupon = await prismadb.coupons.create({
-    data: { ...value },
-  });
+export const OnCreateCoupon = async (req: Request, res: Response) => {
+  const data = req.body;
+  await CreateCoupon(data);
   res.status(201).send({
-    message: `new Coupon created with name: ${Coupon.name}`,
-    Coupon,
+    message: "Coupon Created Successfully",
   });
 };
-export const getCoupons = async (req: Request, res: Response) => {
-  const Coupon = await prismadb.coupons.findMany();
-  res.status(200).send(Coupon);
-};
-export const getCoupon = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const Coupon = await prismadb.coupons.findUnique({
-    where: {
-      id,
-    },
+export const OnGetCoupons = async (req: Request, res: Response) => {
+  const data = await GetCoupons();
+  res.status(200).send({
+    data,
   });
-  res.status(200).send(Coupon);
+};
+export const OnGetCoupon = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const data = await GetCoupon(id);
+  res.status(200).send({
+    data,
+  });
 };
 
-export const updateCoupon = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { error, value } = CouponSchema.validate(req.body);
-  if (error) {
-    throw error;
-  }
-  const Coupon = await prismadb.coupons.update({
-    where: {
-      id,
-    },
-    data: { ...value },
+export const OnUpdateCoupon = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const data = req.body;
+  await UpdateCoupon(id, data);
+  res.status(200).send({
+    message: "Coupon Updated Successfully",
   });
-
-  res.status(201).send(Coupon);
 };
-export const deleteCoupon = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const Coupon = await prismadb.coupons.delete({
-    where: {
-      id,
-    },
+export const OnDeleteCoupon = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  await DeleteCoupon(id);
+  res.status(200).send({
+    message: "Coupon Deleted Successfully",
   });
-  res.status(200).send(Coupon);
 };

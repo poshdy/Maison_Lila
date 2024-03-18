@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AuthForm from "./AuthForm";
+import AuthForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 type Props = {};
 
@@ -15,7 +15,7 @@ const AuthTabs = (props: Props) => {
         <AuthForm />
       </TabsContent>
       <TabsContent value="Login">
-        <LoginForm/>
+        <LoginForm />
       </TabsContent>
     </Tabs>
   );

@@ -36,6 +36,8 @@ export const BannerSchema = Joi.object({
   text: Joi.string().required(),
   image: Joi.string().required(),
   title: Joi.string().required(),
+  action: Joi.string().optional(),
+  location: Joi.string().optional(),
 });
 export const AnouncementSchema = Joi.object({
   text: Joi.string().required(),

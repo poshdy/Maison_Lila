@@ -1,5 +1,5 @@
 "use client";
-import { CategoryColumn, SubCatColumn } from "@/types";
+import { CategoryColumn } from "@/types";
 import React, { useState } from "react";
 import {
   Form,
@@ -29,7 +29,7 @@ import { SubCategorySchema, SubCategoryFormValues } from "@/Schemas";
 import FormHeader from "../ui/FormHeader";
 
 type Props = {
-  initialData: SubCatColumn[];
+  initialData: CategoryColumn[];
   data: CategoryColumn[];
 };
 
@@ -54,9 +54,9 @@ const SubCategoryForm = ({ initialData, data }: Props) => {
   const onSubmit = async (data: SubCategoryFormValues) => {
     try {
       if (initialData) {
-        await Update("/subCategory", params.subId, data);
+        await Update("/category", params.subId, data);
       } else {
-        await Create("/subCategory", data);
+        await Create("/category", data);
       }
       router.push(`/categories`);
       router.refresh();
@@ -71,9 +71,7 @@ const SubCategoryForm = ({ initialData, data }: Props) => {
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={() =>
-          onDelete("/subCategory", params.subId, router, setOpen)
-        }
+        onConfirm={() => onDelete("/category", params.subId, router, setOpen)}
         loading={loading}
       />
       <FormHeader
@@ -91,7 +89,7 @@ const SubCategoryForm = ({ initialData, data }: Props) => {
         >
           <FormField
             control={form.control}
-            name="categoryId"
+            name="parentId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category name</FormLabel>

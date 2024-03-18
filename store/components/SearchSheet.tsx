@@ -18,49 +18,43 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { SearchSchema } from "@/Schemas";
-
-const SearchSheet = () => {
+import CartItem from "./pageComponents/cart/CartItem";
+import { cn } from "@/lib/utils";
+type Props = {
+  color: string;
+};
+const SearchSheet = ({ color }: Props) => {
   const [search, setSearch] = useState<Product[]>([]);
-  const form = useForm<z.infer<typeof SearchSchema>>({
-    resolver: zodResolver(SearchSchema),
-  });
-  const onSubmit = async (data: z.infer<typeof SearchSchema>) => {
+  const [query, setQuery] = useState("");
+  const onSubmit = async () => {
     try {
-      const res = await Client.get(`/product/search?query=${data.query}`);
-      setSearch(res.data);
+      const res = await Client.get(`/product/search?query=${query}`);
+      console.log(res);
+      setSearch(res.data.data);
     } catch (error: any) {
       console.log(error.message);
+      setQuery("");
     } finally {
-      form.reset();
+      setQuery("");
     }
   };
   return (
     <Sheet>
       <SheetTrigger>
-        <Search className="cursor-pointer" />
+        <Search className={cn("cursor-pointer w-6 h-6", color)} />
       </SheetTrigger>
       <SheetContent className="h-screen w-full space-y-2  ">
         <SheetHeader>
           <SheetTitle>Search Products</SheetTitle>
         </SheetHeader>
-        <Form {...form}>
-          <form className="" onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="query"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type="text" placeholder="Cookies..." {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <Button variant={"action"} className="w-full " type="submit">
-              Search
-            </Button>
-          </form>
-        </Form>
+
+        <form>
+          <Input
+            placeholder="try 'Cookies' "
+            onChange={(e) => setQuery(e.target.value)}
+            type="text"
+          />
+        </form>
         <section className="overflow-y-scroll grid grid-cols-4">
           {search?.map((item) => (
             <div key={item.id} className="col-span-2">
@@ -68,9 +62,35 @@ const SearchSheet = () => {
             </div>
           ))}
         </section>
+        <Button
+          className="fixed bottom-1 left-0 w-full"
+          onClick={() => onSubmit()}
+        >
+          Search
+        </Button>
       </SheetContent>
     </Sheet>
   );
 };
 
 export default SearchSheet;
+{
+  /* <Form {...form}>
+<form className="" onSubmit={form.handleSubmit(onSubmit)}>
+  <FormField
+    control={form.control}
+    name="query"
+    render={({ field }) => (
+      <FormItem>
+        <FormControl>
+          <Input type="text" placeholder="try 'Cookies'" {...field} />
+        </FormControl>
+      </FormItem>
+    )}
+  />
+  <Button variant={"action"} className="w-full " type="submit">
+    Search
+  </Button>
+</form>
+</Form> */
+}

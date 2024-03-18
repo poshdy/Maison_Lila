@@ -7,9 +7,9 @@ import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/Heading";
 import { columns } from "./sub-cat-columns";
-import { SubCatColumn } from "@/types";
+import { CategoryColumn } from "@/types";
 type Props = {
-  data: SubCatColumn[];
+  data: CategoryColumn[];
 };
 
 const SubCategoryClient = ({ data }: Props) => {

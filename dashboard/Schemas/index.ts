@@ -26,6 +26,7 @@ export const BannerSchema = z.object({
   text: z.string().min(1, "text must contains atleast one character"),
   image: z.string(),
   title: z.string().min(1, "title must contains atleast one character"),
+  location: z.string().optional(),
 });
 
 export const BottomImageSchema = z.object({
@@ -64,11 +65,14 @@ export const productSchema = z.object({
   description: z
     .string()
     .min(1, "Description must contains atleast one character"),
-  price: z.string().min(1, "Price Required"),
+  price: z.coerce.number().min(0, "Price is Required"),
+  salePrice: z.coerce.number().optional(),
   stock: z.coerce.number().optional(),
   categoryId: z.string().min(1, "Category Required"),
   image: z.object({ url: z.string() }).array(),
-  discountValue: z.string().optional(),
+  bestSeller: z.boolean().optional().default(false),
+  newArrival: z.boolean().optional().default(false),
+  recommended: z.boolean().optional().default(false),
 });
 
 export const productSubCatSchema = z.object({
@@ -99,5 +103,5 @@ export const SubCategorySchema = z.object({
   name: z
     .string()
     .min(1, "Sub-Category name must contains atleast one character"),
-  categoryId: z.string().min(1, "category is missing"),
+  parentId: z.string().min(1, "category is missing"),
 });

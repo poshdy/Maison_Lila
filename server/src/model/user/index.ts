@@ -1,0 +1,25 @@
+import { prismadb } from "../../lib/prismadb.js";
+
+export const FindUserOrders = async (id: string) => {
+  return await prismadb.user.findMany({
+    where: {
+      id,
+    },
+    select: {
+      order: true,
+      name: true,
+      email: true,
+      id: true,
+    },
+  });
+};
+export const FindUserAddress = async (id: string) => {
+  return await prismadb.address.findMany({
+    where: {
+      userId: id,
+    },
+    include: {
+      zone: true,
+    },
+  });
+};

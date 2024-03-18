@@ -1,22 +1,22 @@
 import express from "express";
 import {
-  deleteCoupon,
-  updateCoupon,
-  getCoupons,
-  CreateCoupon,
-  getCoupon,
+  OnCreateCoupon,
+  OnDeleteCoupon,
+  OnGetCoupon,
+  OnGetCoupons,
+  OnUpdateCoupon,
 } from "../controller/CouponController.js";
 
 const router = express.Router();
 import { tryCatch } from "../utils/tryCatch.js";
 import { PathId } from "../middlewares/path.js";
 import { Roles } from "../middlewares/permissions.js";
-import { Expiration } from "../services/couponService.js";
+// import { Expiration } from "../services/copoun/index.js";
 
-router.post("/", Roles(["MANAGER"]), tryCatch(CreateCoupon));
-router.get("/", Expiration, tryCatch(getCoupons));
-router.get("/:id", tryCatch(getCoupon));
-router.patch("/:id", Roles(["MANAGER"]), PathId, tryCatch(updateCoupon));
-router.delete("/:id", Roles(["MANAGER"]), PathId, tryCatch(deleteCoupon));
+router.post("/", Roles(["MANAGER"]), tryCatch(OnCreateCoupon));
+router.get("/", tryCatch(OnGetCoupons));
+router.get("/:id", tryCatch(OnGetCoupon));
+router.patch("/:id", Roles(["MANAGER"]), PathId, tryCatch(OnUpdateCoupon));
+router.delete("/:id", Roles(["MANAGER"]), PathId, tryCatch(OnDeleteCoupon));
 
 export default router;

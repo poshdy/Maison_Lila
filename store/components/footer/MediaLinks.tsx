@@ -1,16 +1,27 @@
+import { getData } from "@/fetchers";
+import { Facebook, FacebookIcon, Instagram } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
-
-const MediaLinks = () => {
+type Links = {
+  id: string;
+  facebook: string;
+  instagram: string;
+  phone: string;
+  email: string;
+};
+const MediaLinks = async () => {
+  const links: Links = await getData("contact");
+  console.log(links);
   return (
     <div className="flex flex-col items-center gap-1 font-semibold">
-      <span className="hover:scale-105 duration-100 ease-in-out">Facebook</span>
-      <span className="hover:scale-105 transition-all duration-100 ease-in-out">
-        Instagram
-      </span>
-      <span className="hover:scale-105  duration-100 ease-in-out">
-        01016908226
-      </span>
+      <Link href={links[0].facebook}>
+        <Facebook />
+      </Link>
+      <Link href={links[0].instagram}>
+        <Instagram />
+      </Link>
+      <h3>{links[0].phone}</h3>
     </div>
   );
 };

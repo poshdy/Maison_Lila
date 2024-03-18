@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-  
   adminer:
     image: adminer
     restart: always
@@ -12,29 +11,23 @@ services:
   postgres:
     image: postgres:16
     restart: always
-    environment:
-    -  POSTGRES_HOST=postgres
-    -  POSTGRES_USER=postgres
-    -  POSTGRES_DB=maisonlila
-    -  POSTGRES_PASSWORD=Mr3122000
+    env_file:
+      - .env
     volumes:
       - postgres:/var/lib/postgresql/data
 
-
   server:
-    build: .
-    # image: posh3120/node-server:v1.5
-    restart: always
-    depends_on:
-      - postgres
-    environment:
-      - DATABASE_URL=postgresql://postgres:Mr3122000@postgres:5432/maisonlila?schema=maisonlila&sslmode=prefer
-      - APP_PASSWORD=jrujjgpbnuelmnmm
-      - MAISON_LILA_SHOP_URL=www.google.con
-      - ACCESS_TOKEN=23b7fc54a5c4b9a174c627780934e7b73eadde7c3adaa721d282c6f622c376220f54dbeff5fd2bb19edee258494ccb674f8bf2d3a65d5800d6d9e4105bd43839
-      - REFRESH_TOKEN=393e15c38f14257f244a5397a18d4d2795a4d54bad96d6003863a05d305e2c7de0084a17f7a371c3f0abac47bc3c00e3ee6f9b8bbd06db1818369a7ae4abf059
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: developement
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+      - /app/node_modules
     ports:
-      - 8000:8000  
+      - 8000:8000
+    command: npm run dev
 volumes:
   postgres:
-  

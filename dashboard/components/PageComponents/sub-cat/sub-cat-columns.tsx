@@ -1,9 +1,9 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./actions";
-import { SubCatColumn } from "@/types";
+import { CategoryColumn } from "@/types";
 import { Badge } from "@/components/ui/badge";
-export const columns: ColumnDef<SubCatColumn>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "name",
     header: "name",
@@ -12,11 +12,8 @@ export const columns: ColumnDef<SubCatColumn>[] = [
     accessorKey: "parent",
     header: "main-category",
     cell: ({ row }) => {
-      return (
-        <Badge className="bg-fuchsia-600 font-bold">
-          {String(row.original.parent)}
-        </Badge>
-      );
+      const parent = row?.original?.subCategory;
+      return <Badge className="bg-fuchsia-600 font-bold">{parent}</Badge>;
     },
   },
   {

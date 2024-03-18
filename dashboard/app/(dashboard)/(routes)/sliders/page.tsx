@@ -4,15 +4,17 @@ import { Separator } from "@/components/ui/separator";
 import { getData } from "@/fetchers";
 import { DATE } from "@/actions/shared";
 import SliderContentTable from "@/components/PageComponents/slider-content/client";
+import Wrapper from "@/components/ui/wrapper";
 
 const SlidersPage = async () => {
   const sliders = await getData("/slider");
   const slidersContent = await getData("/content");
+
   const formattedSliders: SliderColumn[] | null = sliders?.map(
     (item: SliderColumn) => ({
       id: item?.id,
       name: item?.name,
-      place: item?.place,
+      location: item?.place,
       published: item?.published,
       content: item?.content,
       createdAt: DATE(item?.createdAt),
@@ -28,15 +30,12 @@ const SlidersPage = async () => {
       createdAt: DATE(item?.createdAt),
     }));
   return (
-    <section>
-      <div className="space-y-10">
-        {formattedSliders && <SliderTable data={formattedSliders} />}
-        {formattedSlidersContent && (
-          <SliderContentTable data={formattedSlidersContent} />
-        )}
-        <Separator />
-      </div>
-    </section>
+    <Wrapper>
+      {formattedSliders && <SliderTable data={formattedSliders} />}
+      {formattedSlidersContent && (
+        <SliderContentTable data={formattedSlidersContent} />
+      )}
+    </Wrapper>
   );
 };
 

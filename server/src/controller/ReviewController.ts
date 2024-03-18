@@ -1,113 +1,45 @@
-import { NextFunction, Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
+import { Request, Response } from "express";
+import {
+  CreateReview,
+  DeleteReview,
+  GetProductReview,
+  GetReview,
+  UpdateReview,
+} from "../services/review/index.js";
+export const OnCreateReview = async (req: Request, res: Response) => {
+  const data = req.body;
+  await CreateReview(data);
 
-export const addReview = async (req: Request, res: Response) => {
-  const { content, userId, productId } = req.body;
-  const createRev = await prismadb.review.create({
-    data: {
-      content,
-      rating: req.body.rating,
-      user: { connect: { id: userId } },
-      product: { connect: { id: productId } },
-    },
+  res.status(201).send({
+    message: "Review Created Successfully",
   });
-  res.status(201).send(createRev);
 };
-export const getPublished = async (req: Request, res: Response) => {
-  const allRev = await prismadb.review.findMany({
-    select: {
-      content: true,
-      id: true,
-      createdAt: true,
-      product: {
-        select: {
-          name: true,
-          id: true,
-          image: true,
-        },
-      },
-      rating: true,
-      user: {
-        select: {
-          email: true,
-          name: true,
-        },
-      },
-      published: true,
-    },
-    where: {
-      published: true,
-    },
+export const OnGetReviews = async (req: Request, res: Response) => {
+  const { state } = req.query;
+  const data = await GetReview(state);
+  res.status(200).send({
+    data: data,
   });
-
-  res.status(200).send(allRev);
 };
-export const getUnPublished = async (req: Request, res: Response) => {
-  const allRev = await prismadb.review.findMany({
-    include: {
-      user: {
-        select: {
-          name: true,
-          email: true,
-        },
-      },
-      product: {
-        select: {
-          name: true,
-          id: true,
-        },
-      },
-    },
-    where: {
-      published: false,
-    },
+export const OnGetProductReview = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  const data = await GetProductReview(productId);
+  res.status(200).send({
+    data,
   });
-
-  res.status(200).send(allRev);
 };
-
-export const publishReview = async (req: Request, res: Response) => {
+export const OnUpdateReview = async (req: Request, res: Response) => {
   const { id } = req.params;
-
-  await prismadb.$transaction(async (tx) => {
-    const review = await tx.review.findUnique({
-      where: {
-        id,
-      },
-    });
-    await tx.review.update({
-      where: {
-        id,
-      },
-      data: {
-        published: !review?.published,
-      },
-    });
+  await UpdateReview(id);
+  res.status(200).send({
+    message: "Review Updated Successfully",
   });
-
-  res.status(201).send("Review Published Successfully");
 };
-
-export const getProductReviews = async (req: Request, res: Response) => {
-  const productRev = await prismadb.review.findMany({
-    where: {
-      productId: req.params.productId,
-      published: true,
-    },
-    include: {
-      user: true,
-    },
-  });
-
-  res.status(200).send(productRev);
-};
-export const DeleteReview = async (req: Request, res: Response) => {
+export const OnDeleteReview = async (req: Request, res: Response) => {
   const { id } = req.params;
-  await prismadb.review.delete({
-    where: {
-      id,
-    },
+  await DeleteReview(id);
+  res.status(200).send({
+    message: "Review Deleted Successfully",
   });
-
-  res.status(200).send("Review Deleted Successfully");
 };
+

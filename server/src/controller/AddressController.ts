@@ -1,24 +1,47 @@
 import { Request, Response } from "express";
 import { prismadb } from "../lib/prismadb.js";
+
+import { ExtractId } from "../helpers/ExtractId.js";
 import {
   CreateAddress,
   DeleteAddress,
+  GetAddresses,
   UpdateAddress,
-} from "../services/AddressServices.js";
+} from "../services/address/index.js";
 
-export const addAddress = async (req: Request, res: Response) => {
-  const Address = await CreateAddress(req);
-  res.status(201).send(Address);
-};
-export const getAddressById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const Address = await prismadb.address.findUnique({
-    where: {
-      id,
-    },
+export const OnCreateAddress = async (req: Request, res: Response) => {
+  const data = req.body;
+  const address = await CreateAddress(data);
+  res.status(201).send({
+    message: "Address Created Successfully",
+    address,
   });
-  res.status(200).send(Address);
 };
+export const OnGetAddresses = async (req: Request, res: Response) => {
+  const userId = await req.params;
+  const data = await GetAddresses(userId);
+  res.status(201).send({
+    message: "Address Created Successfully",
+    data,
+  });
+};
+
+export const OnUpdateAddress = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const data = req.body;
+  await UpdateAddress(id, data);
+  res.status(201).send({
+    message: "Address Created Successfully",
+  });
+};
+export const OnDeleteAddress = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  await DeleteAddress(id);
+  res.status(201).send({
+    message: "Address Created Successfully",
+  });
+};
+
 export const getUserAddress = async (req: Request, res: Response) => {
   const { id } = req.params;
   const Address = await prismadb.address.findMany({
@@ -27,13 +50,4 @@ export const getUserAddress = async (req: Request, res: Response) => {
     },
   });
   res.status(200).send(Address);
-};
-
-export const updateAddress = async (req: Request, res: Response) => {
-  const Address = UpdateAddress(req);
-  res.status(201).send(`Address Updated Successfully`);
-};
-export const deleteAddress = async (req: Request, res: Response) => {
-  const Address = await DeleteAddress(req);
-  res.status(200).send("Address deleted Successfully");
 };

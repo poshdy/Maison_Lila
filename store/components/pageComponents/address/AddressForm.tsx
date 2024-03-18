@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { use } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Client } from "@/axiosClient";
@@ -48,15 +48,15 @@ const AddressForm = ({ zone }: Props) => {
       });
       setAddress({
         zone: {
-          id: res.data.zone.id,
-          fees: res.data.zone.fees,
-          name: res.data.zone?.name,
+          id: res?.data?.zone?.id,
+          fees: res?.data?.zone?.fees,
+          name: res?.data?.zone?.name,
         },
         apartmenNo: data.apartmentNo,
         BuildingNo: data.BuildingNo,
         city: "Cairo",
         Floor: data.Floor,
-        streetNumber: data.streetName,
+        streetName: data.streetName,
         userId: res.data.User.id,
         id: res?.data?.id,
       });

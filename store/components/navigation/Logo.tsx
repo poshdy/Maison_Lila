@@ -18,4 +18,3 @@ const Logo = () => {
 };
 
 export default Logo;
-// text-[#3C2E3D]

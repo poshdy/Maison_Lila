@@ -1,11 +1,8 @@
 "use client";
 import { AdminStore } from "@/zustand/use-admin-store";
 import React, { useEffect, useState } from "react";
-
-type Props = {};
-
-const Greeting = (props: Props) => {
-  const { name, role } = AdminStore();
+const Greeting = () => {
+  const { name } = AdminStore();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,9 +13,7 @@ const Greeting = (props: Props) => {
   }
   return (
     <div>
-      <h2 className="font-medium text-2xl tracking-tighter leading-tight">
-        Hello {name},
-      </h2>
+      <p className="tracking-tighter leading-tight">Welcome Back, {name}!</p>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Client } from "@/axiosClient";
 import { useUser } from "@/zustand/user-store";
 import UserOrders from "@/components/pageComponents/account/UserOrders";
-import Heading from "@/components/Heading";
+import Heading from "@/components/Shared/Heading";
 import UserPage from "@/components/Skeletons/UserPage";
 
 const AccountPage = () => {
@@ -23,7 +23,7 @@ const AccountPage = () => {
   }
   return (
     <section className="min-h-screen">
-      <Heading title="Your orders" />
+      <Heading title="Your orders" size="text-3xl" />
       {data &&
         data?.data?.order?.map((order: any) => (
           <UserOrders key={order.id} order={order} />

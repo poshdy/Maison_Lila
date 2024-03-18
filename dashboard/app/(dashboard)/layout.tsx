@@ -1,11 +1,13 @@
+import Nav from "@/components/Nav";
 import SideBar from "@/components/SideBar";
 const ProtectedLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className={` h-full relative `}>
-      <aside className="h-full flex w-[15%] flex-col fixed z-80 bg-white shadow-sm">
+    <div className={`h-full relative`}>
+      <aside className="h-full flex w-[15%] flex-col bg-main fixed z-80 shadow-sm">
         <SideBar />
       </aside>
-      <main className="md:pl-72 px-6 py-6 bg-[#f4f4f4] min-h-screen">
+      <main className="md:pl-72 p-5 bg-[#f3f3f3] min-h-screen">
+        <Nav />
         {children}
       </main>
     </div>

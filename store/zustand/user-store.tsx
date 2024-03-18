@@ -9,7 +9,7 @@ type User = {
   accessToken: string;
 };
 interface UserStore {
-  user: User | null
+  user: User | null;
   LogOut: () => void;
   SetUser: (payload: User) => void;
   updateAccessToken: (token: string) => void;
@@ -21,7 +21,7 @@ export const useUser = create<UserStore>()(
       (set, get) => ({
         user: null,
         SetUser(user) {
-          set({ user: user });
+          set({ user });
         },
 
         updateAccessToken: (newAccessToken) => {

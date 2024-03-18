@@ -1,67 +1,44 @@
 import { Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
-import { CategorySchema } from "../validation/Schemas.js";
-
-export const addCategory = async (req: Request, res: Response) => {
-  const { error, value } = CategorySchema.validate(req.body);
-  const { name, imageUrl } = value;
-  if (error) {
-    throw error;
-  }
-  await prismadb.category.create({
-    data: { name, imageUrl },
+import {
+  CreateCategory,
+  DeleteCategory,
+  GetCategories,
+  GetCategory,
+  UpdateCategory,
+} from "../services/category/index.js";
+import { ExtractId } from "../helpers/ExtractId.js";
+export const OnCreateCategory = async (req: Request, res: Response) => {
+  const data = req.body;
+  await CreateCategory(data);
+  res.status(201).send({
+    message: "Category Created Successfully",
   });
-  res.status(201).send(`New Category with ${name} Created Successfully`);
 };
-export const getCategories = async (req: Request, res: Response) => {
-  const category = await prismadb.category.findMany({
-    include: { subCategory: true },
+export const OnGetCategories = async (req: Request, res: Response) => {
+  const data = await GetCategories();
+  res.status(200).send({
+    data,
   });
-  res.status(200).send(category);
 };
-export const getCategory = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const category = await prismadb.category.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      products: {
-        where: {
-          categoryId: id,
-        },
-        include: { image: true },
-      },
-    },
+export const OnUpdateCategory = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const data = req.body;
+  await UpdateCategory(id, data);
+  res.status(200).send({
+    message: "Category Updated Successfully",
   });
-  res.status(200).send(category);
 };
-export const updateCategory = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { error, value } = CategorySchema.validate(req.body);
-  if (error) {
-    throw error;
-  }
-  const category = await prismadb.category.update({
-    where: {
-      id,
-    },
-    data: {
-      name: value.name,
-      imageUrl: value.imageUrl,
-    },
+export const OnDeleteCategory = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  await DeleteCategory(id);
+  res.status(200).send({
+    message: "Category Deleted Successfully",
   });
-
-  res
-    .status(201)
-    .send(`Category with ${category.name} Updated Successfully Successfully`);
 };
-export const deleteCategory = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const category = await prismadb.category.delete({
-    where: {
-      id,
-    },
+export const OnGetCategory = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const data = await GetCategory(id);
+  res.status(200).send({
+    data,
   });
-  res.status(200).send(`Category with ${category.name} Deleted Successfully`);
 };

@@ -7,7 +7,7 @@ type Props = {
 };
 const OurStory = async ({ bottomImage }: Props) => {
   return (
-    <section className=" text-[#3C2E3D] w-full flex flex-col  md:flex-row items-center gap-2 space-y-2  p-5">
+    <section className=" text-lila w-full flex flex-col  md:flex-row items-center gap-2 space-y-2  p-5">
       <div className="space-y-5 w-full text-center md:w-[50%] pt-5 felx flex-col items-center justify-center">
         <h3 className="text-3xl md:text-5xl font-semibold ">
           {bottomImage?.title}

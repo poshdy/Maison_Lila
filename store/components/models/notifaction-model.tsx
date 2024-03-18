@@ -1,34 +1,38 @@
 "use client";
-import { useState } from "react";
+import { Heart } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-
   DialogFooter,
 } from "@/components/ui/dialog";
 
 import { useNoticationModel } from "@/zustand/notification-store";
+import Text from "../Shared/Text";
+import Heading from "../Shared/Heading";
+import Link from "next/link";
+import ActionButton from "../Shared/NavigationButton";
 
-export const Notification = () => {
-  const proModal = useNoticationModel();
+export const SuccessfullModal = () => {
+  const { isOpen, message, title, Close } = useNoticationModel();
 
   return (
-    <Dialog  open={proModal.isOpen} onOpenChange={proModal.onClose}>
-      <DialogContent className="flex flex-col items-center gap-2">
-        <DialogHeader>
-          <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
-            <div className="flex items-center gap-x-2 font-bold text-xl">
-              {proModal.title}
-            </div>
-          </DialogTitle>
-      
-        </DialogHeader>
-        <section>
-          <p>{proModal.message}</p>
-        </section>
-        <DialogFooter></DialogFooter>
+    <Dialog open={isOpen} onOpenChange={Close}>
+      <DialogContent className="flex flex-col items-center justify-center h-64 space-y-4">
+        <div>
+          <DialogHeader>
+            <DialogTitle className="">
+              <Heading size="text-2xl font-semibold" title={title} />
+            </DialogTitle>
+          </DialogHeader>
+
+          <Text text={message} size="text-sm text-center" />
+        </div>
+
+        <DialogFooter onClick={() => Close()}>
+          <ActionButton action="shop" title="Start Shopping Now!" />
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

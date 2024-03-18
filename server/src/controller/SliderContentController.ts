@@ -1,78 +1,44 @@
 import { Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
+import {
+  CreateSliderContent,
+  DeleteSliderContent,
+  FindSliderContent,
+  FindSliderContents,
+  UpdateSliderContent,
+} from "../services/slider-content/index.js";
 
-export const addSliderContent = async (req: Request, res: Response) => {
-  const { sliderId } = req.body;
-  const content = await prismadb.sliderContent.create({
-    data: {
-      slider: { connect: { id: sliderId } },
-      image: req.body.image,
-      title: req.body.title,
-      text: req.body.text,
-    },
+export const OnCreateSliderContent = async (req: Request, res: Response) => {
+  const data = req.body;
+  await CreateSliderContent(data);
+  res.status(201).send({
+    message: "Slide Created Successfully",
   });
-  res.status(201).send(`content added to slider ${content}`);
 };
-export const getContent = async (req: Request, res: Response) => {
-  const content = await prismadb.sliderContent.findMany({
-    select: {
-      createdAt: true,
-      id: true,
-      image: true,
-      title: true,
-      text: true,
-      slider: true,
-    },
+export const OnGetSliderContents = async (req: Request, res: Response) => {
+  const data = await FindSliderContents();
+  res.status(200).send({
+    data,
   });
-  res.status(201).send(content);
 };
-export const getSliderContent = async (req: Request, res: Response) => {
+export const OnGetSliderContent = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const content = await prismadb.sliderContent.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      id: true,
-      createdAt: true,
-      image: true,
-      text: true,
-      title: true,
-      slider: {
-        select: {
-          name: true,
-          id: true,
-        },
-      },
-    },
+  const data = await FindSliderContent(id);
+  res.status(200).send({
+    data,
   });
-  res.status(200).send(content);
 };
-export const updateSliderContent = async (req: Request, res: Response) => {
+export const OnUpdateSliderContent = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const content = await prismadb.sliderContent.update({
-    where: {
-      id,
-    },
-    data: {
-      image: req.body.image,
-      text: req.body.text,
-      title: req.body.title,
-      slider: {
-        connect: {
-          id: req.body.sliderId,
-        },
-      },
-    },
+  const data = req.body;
+  await UpdateSliderContent(id, data);
+  res.status(200).send({
+    message: "Slide Updated Successfully",
   });
-  res.status(201).send(`Slider content Updated Successfully`);
 };
-export const deleteSliderContent = async (req: Request, res: Response) => {
+export const OnDeleteSliderContent = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const content = await prismadb.sliderContent.delete({
-    where: {
-      id,
-    },
+  await DeleteSliderContent(id);
+  res.status(200).send({
+    message: "Slide Deleted Successfully",
   });
-  res.status(201).send(`Slider content Deleted`);
 };

@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/zustand/user-store";
 import { useNoticationModel } from "@/zustand/notification-store";
 import { useCart } from "@/zustand/cart-store";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -13,45 +12,56 @@ import {
   FormItem,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/Heading";
+import Heading from "@/components/Shared/Heading";
 
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroupItem, RadioGroup } from "@/components/ui/radio-group";
-import { PlaceOrder } from "./place-order";
 import OrderDetails from "./OrderDetails";
 import { OrderFormValues, OrderSchema } from "@/Schemas";
+import { Client } from "@/axiosClient";
+import { AddressStore } from "@/zustand/address-store";
+import { useErrorModel } from "@/zustand/error-store";
+import { Button } from "@/components/ui/button";
 
 const OrderForm = () => {
-  const router = useRouter();
   const { user } = useUser();
-  const { onOpen } = useNoticationModel();
-  const { subtotal, discountValue, cartTotalAmount, removeAll } = useCart();
+  const { address } = AddressStore();
+  const { Display } = useNoticationModel();
+  const { Display: open } = useErrorModel();
+  const { subtotal, cartTotalAmount, ClearCart } = useCart();
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(OrderSchema),
   });
-
   const onSubmit = async (data: OrderFormValues) => {
+    const orderItems = useCart?.getState()?.items?.map((item) => {
+      return {
+        productId: item.id,
+        quantity: item.quantity,
+      };
+    });
     try {
-      const res = await PlaceOrder(
-        cartTotalAmount,
-        data,
-        discountValue,
-        subtotal,
-        user?.id
-      );
-
-      removeAll();
-      router.push(`/order/${res?.data?.id}`);
-      onOpen(
+      const res = await Client.post("/order", {
+        userId: user?.id,
+        OrderTotal: cartTotalAmount + +address?.zone?.fees,
+        orderItems,
+        Subtotal: cartTotalAmount,
+        DeliveryFee: +address.zone.fees,
+        paymentMethod: "CASH",
+        phone: data.phone,
+        comment: data.comment,
+        addressId: address?.id,
+      });
+      ClearCart();
+      Display(
         "Your Order Placed Successfully",
-        `Thank you for choosing MAISON LILA`
+        `Thank you for choosing MAISON LILA`,
+        `/order/${res?.data?.id}`
       );
     } catch (error: any) {
       if (error.response.data.errorCode) {
-        onOpen(`${error.response.data.errorCode}`, "Opps!");
+        // onOpen(`${error.response.data.errorCode}`, "Opps!");
       } else {
-        onOpen("Opps!", "Something Please Try Again");
+        open("Opps!", "Something Please Try Again");
       }
     } finally {
       form.reset();
@@ -59,8 +69,8 @@ const OrderForm = () => {
   };
 
   return (
-    <section className="space-y-6">
-      <Heading title="Checkout" />
+    <section className="space-y-4 pb-10">
+      <Heading title="Checkout" size="text-3xl" />
       <Form {...form}>
         <form
           className="gap-x-2 gap-y-6  w-full grid grid-cols-4"

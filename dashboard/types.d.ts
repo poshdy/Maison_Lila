@@ -17,7 +17,7 @@ export type BannerColumn = {
   text: string;
   title: string;
   image: string;
-  place: "TOP" | "BOTTOM";
+  location: "TOP" | "BOTTOM";
   createdAt: string;
   published: boolean;
 };
@@ -69,30 +69,37 @@ export type SalesColumn = {
 };
 export type OrderColumn = {
   id: string;
-  user: {
-    name: string;
-    email: string;
-  };
-  orderSummary: {
+  userId: string;
+  addressId: string;
+  phoneNumber: string;
+  comment: string | null;
+  createdAt: string;
+  updatedAt: string;
+  orderStatus: string;
+  orderSummaryId: string;
+  OrderItems: OrderItems[];
+  OrderSummary: {
     id: string;
     paymentMethod: string;
-    Subtotal: string;
-    DeliveryFee: string;
-    Discount: string;
+    Subtotal: number;
+    DeliveryFee: number;
+    Discount: number;
     OrderTotal: number;
   };
-  orderStatus: string;
-  zone: ZoneColumn;
-  OrderItems: {
-    quantity: string;
-    product: ProductColmun;
-  }[];
-  streetName: string;
-  apartmentNo: string;
-  BuildingNo: string;
-  Floor: string;
-  createdAt: string;
+  user: {
+    email: string;
+    id: string;
+    name: string;
+  };
+  Address: {
+    BuildingNo: string;
+    apartmentNo: string;
+    Floor: string;
+    streetName: string;
+    zone: ZoneColumn;
+  };
 };
+
 export type CustomizedOrderColumn = {
   id: string;
   name: string;
@@ -123,53 +130,50 @@ export type ReviewColumn = {
 };
 
 export type CategoryColumn = {
+  _count: {
+    products: number;
+  };
   id: string;
   name: string;
   imageUrl: string;
   createdAt: string;
-  subCategory: {
+  subCategory?: { id: string; name: string };
+  Category: {
     id: string;
     name: string;
-    parentId: string;
   }[];
 
-  createdAt: string;
-};
-export type SubCatColumn = {
-  id: string;
-  name: string;
-  parent: {
-    name: string;
-    id: string;
-  };
   createdAt: string;
 };
 
 export type CouponColumn = {
   id: string;
-  name: string;
-  amount: number;
-  decription: string;
-  expiration: string;
-  valid: boolean;
-  Minimum: number;
-  countUsed: number;
+  couponCode: string;
+  couponData: {
+    limit: number;
+    expiration: string;
+    valid: boolean;
+    countUsed: number;
+  };
+  discountAmount: number;
+  minimumAmount: number;
   createdAt: string;
-  maxUsage: number;
 };
 export type ProductColmun = {
   id: string;
   name: string;
-  price: string;
-  stock: number;
-  createdAt: string;
-  UpdatedBy: {
-    adminName: string;
+  price: number;
+  productInventory: {
+    stock: number;
+    soldOut: boolean;
   };
-  SoldOut: boolean;
-  bestSeller: boolean;
-  newArrival: boolean;
-  salePrice: string;
+  productAttribute: {
+    bestSeller: boolean;
+    newArrival: boolean;
+    recommended: boolean;
+  };
+  createdAt: string;
+  salePrice: number;
   image: {
     url: string;
     id: string;
@@ -177,10 +181,6 @@ export type ProductColmun = {
   }[];
   category: {
     name: string;
-  };
-  SubCategory: {
-    name: string;
-    id: string;
   };
 };
 
@@ -190,44 +190,36 @@ export interface ContextI {
 }
 
 export type OrderDeatils = {
+  id: string;
+  userId: string;
+  addressId: string;
+  phoneNumber: string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+  orderStatus: string;
+  orderSummaryId: string;
+  OrderItems: OrderItems[];
+  OrderSummary: {
+    id: string;
+    paymentMethod: string;
+    Subtotal: number;
+    DeliveryFee: number | number;
+    Discount: number;
+    OrderTotal: number;
+  };
   user: {
     email: string;
     id: string;
     name: string;
   };
-  OrderItems: {
-    quantity: number;
-    Product: {
-      name: string;
-      price: string;
-      image: {
-        url: string;
-      }[];
-    };
-  }[];
-  orderSummary: {
-    id: string;
-    paymentMethod: string;
-    Subtotal: string;
-    DeliveryFee: string;
-    Discount: string;
-    OrderTotal: number;
-  };
-
   Address: {
-    id: string;
-    streetName: string;
     BuildingNo: string;
-    Floor: string;
-    zone: ZoneColumn;
     apartmentNo: string;
-    city: string;
+    Floor: string;
+    streetName: string;
+    zone: ZoneColumn;
   };
-  orderStatus: string;
-  comment: null | string;
-  paymentMethod: string;
-  orderTotal: string;
-  createdAt: string;
 };
 
 export type OrderItems = {

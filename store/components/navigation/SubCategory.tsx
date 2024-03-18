@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Category, Subcategory } from "@/types";
+import { Category } from "@/types";
 import {
   Accordion,
   AccordionContent,
@@ -22,14 +16,14 @@ const SubCategory = ({ subCategory }: Props) => {
     <>
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value={subCategory.name}>
-          <AccordionTrigger className="text-xl">
+          <AccordionTrigger className="text-xl font-bold">
             {subCategory?.name}
           </AccordionTrigger>
-          <AccordionContent className="flex items-center flex-col justify-center gap-1">
-            {subCategory?.subCategory?.map((s) => (
+          <AccordionContent className="">
+            {subCategory?.Category?.map((s) => (
               <Link
-                className="text-base "
-                href={`/shop?subCat=${subCategory?.name}`}
+                className="text-lg"
+                href={`/shop?subCat=${s?.name}`}
                 key={s?.id}
               >
                 {s?.name}

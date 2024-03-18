@@ -1,23 +1,19 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import {
-  Login,
-  createUser,
-  getUser,
-  getUserAddress,
-  Token,
-  LogOut,
+  OnCreateUser,
+  OnLoginUser,
+  OnRefreshToken,
+  OnLogOut,
 } from "../controller/AuthController.js";
-import { validateToken } from "../middlewares/permissions.js";
-import { PathId } from "../middlewares/path.js";
 import { tryCatch } from "../utils/tryCatch.js";
 
 const router = express.Router();
 
-router.post("/sign-up", tryCatch(createUser));
-router.post("/login", tryCatch(Login));
-router.post("/logOut", tryCatch(LogOut));
-router.get("/token", tryCatch(Token));
-router.get("/user/:id", PathId, validateToken, tryCatch(getUser));
-router.get("/user/address/:id", PathId, tryCatch(getUserAddress));
+router.post("/sign-up", tryCatch(OnCreateUser));
+router.post("/login", tryCatch(OnLoginUser));
+router.get("/token", tryCatch(OnRefreshToken));
+router.post("/logOut", tryCatch(OnLogOut));
+// router.get("/user/:id", PathId, validateToken, tryCatch(getUser));
+// router.get("/user/address/:id", PathId, tryCatch(getUserAddress));
 
 export default router;

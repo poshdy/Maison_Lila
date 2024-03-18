@@ -8,7 +8,6 @@ import OrderAddress from "@/components/PageComponents/order-details/OrderAddress
 import ProductTable from "@/components/PageComponents/order-details/ProductTable";
 import OrderStatus from "@/components/PageComponents/order-details/OrderStatus";
 
-
 const OrderDetails = async ({ params }: { params: { orderId: string } }) => {
   const orderDetails: OrderDeatils = await getDataById(
     "/order",
@@ -17,9 +16,8 @@ const OrderDetails = async ({ params }: { params: { orderId: string } }) => {
   return (
     <section className="space-y-5">
       <div className="flex items-center justify-between ">
-
-      <Heading title="Order Details" description="view order details" />
-      <OrderStatus status={orderDetails?.orderStatus}/>
+        <Heading title="Order Details" description="view order details" />
+        <OrderStatus status={orderDetails?.orderStatus} />
       </div>
       <section className="flex gap-4">
         <OrderSummary summary={orderDetails} />

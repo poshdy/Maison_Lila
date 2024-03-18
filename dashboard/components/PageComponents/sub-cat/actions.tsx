@@ -11,11 +11,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AlertModal } from "@/components/models/alert-model";
-import { SubCatColumn } from "@/types";
+import { CategoryColumn } from "@/types";
 import { onConfirm, onCopy } from "@/actions/shared";
 
 interface CellActionProps {
-  data: SubCatColumn;
+  data: CategoryColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

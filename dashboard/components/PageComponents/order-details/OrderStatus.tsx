@@ -28,7 +28,7 @@ type Props = {
   status: string | null;
 };
 
-const OrderStatus = ({status}: Props) => {
+const OrderStatus = ({ status }: Props) => {
   const params = useParams();
   const { refresh } = useRouter();
   const form = useForm<StatusFormValues>({
@@ -37,7 +37,7 @@ const OrderStatus = ({status}: Props) => {
   let isLoading = form.formState.isLoading;
   const onSubmit = async (data: StatusFormValues) => {
     try {
-      await Update(`/order`, params.orderId, data);
+      await Update(`/order`, params.orderId, { status: data.status });
       refresh();
       toast.success("status updated successfully");
     } catch (error: any) {

@@ -19,10 +19,10 @@ export type Zone = {
   fees: number;
 };
 export type Address = {
-  id: string ;
-  userId: string 
+  id: string;
+  userId: string;
   zone: Zone;
-  streetNumber: string;
+  streetName: string;
   Floor: string;
   BuildingNo: string;
   apartmenNo: string;
@@ -32,9 +32,14 @@ export type Address = {
 export type Category = {
   id: string;
   name: string;
-  imageUrl: string;
+  parentId: string | null;
+  imageUrl?: string;
   products: any;
-  subCategory: SubCategory[];
+  Category: Category[];
+  subCategory: {
+    id: string;
+    name: string;
+  };
 };
 
 export type Subcategory = {
@@ -50,7 +55,7 @@ export type Product = {
   SoldOut: boolean;
   discountValue: string;
   description: string;
-  salePrice: string;
+  salePrice: number;
   category: {
     name: string;
     id: string;
@@ -62,21 +67,12 @@ export type Product = {
 };
 export type CartItems = {
   id: string;
+  category: string;
   name: string | undefined;
   image: string | undefined;
   quantity: number;
   price: number | undefined;
 };
-
-export interface ContextI {
-  logIn: (data: { email: string; password: string }) => Promise<any>;
-  createAccount: (data: {
-    email: string;
-    name: string;
-    password: string;
-  }) => Promise<any>;
-  logOut: () => Promise<void>;
-}
 
 export type OrderDeatils = {
   user: {

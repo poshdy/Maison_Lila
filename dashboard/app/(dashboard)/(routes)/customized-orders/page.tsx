@@ -4,13 +4,14 @@ import { CustomizedOrderColumn } from "@/types";
 import React from "react";
 
 import CustomOrderClient from "@/components/PageComponents/customized-order/client";
+import Wrapper from "@/components/ui/wrapper";
 
 const OrdersPage = async ({
   searchParams,
 }: {
   searchParams: { page: string };
 }) => {
-  const order = await getData("/special-order");
+  const order = await getData("/custom-order");
 
   const formattedOrders: CustomizedOrderColumn[] | null = order?.map(
     (item: CustomizedOrderColumn) => ({
@@ -24,11 +25,9 @@ const OrdersPage = async ({
     })
   );
   return (
-    <section>
-      <div className="space-y-10">
-        {formattedOrders && <CustomOrderClient data={formattedOrders} />}
-      </div>
-    </section>
+    <Wrapper>
+      {formattedOrders && <CustomOrderClient data={formattedOrders} />}
+    </Wrapper>
   );
 };
 

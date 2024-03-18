@@ -14,7 +14,7 @@ import {
 import { AlertModal } from "@/components/models/alert-model";
 import { ProductColmun } from "@/types";
 import { onConfirm, onCopy } from "@/actions/shared";
-import { ProductAttributes, Restock } from "@/actions/product";
+import { Restock } from "@/actions/product";
 
 interface CellActionProps {
   data: ProductColmun;
@@ -50,30 +50,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => router.push(`/products/${data.id}`)}>
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={async () =>
-              await ProductAttributes(data.id, "bestSeller", router)
-            }
-          >
-            <Edit className="mr-2 h-4 w-4" /> bestSeller
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={async () =>
-              await ProductAttributes(data.id, "newArriaval", router)
-            }
-          >
-            <Edit className="mr-2 h-4 w-4" /> new Arrival
-          </DropdownMenuItem>
+
           <DropdownMenuItem
             onClick={async () => await Restock(data.id, router)}
           >
             <Edit className="mr-2 h-4 w-4" /> Restock
           </DropdownMenuItem>
-          {/* <DropdownMenuItem
-            onClick={async () => await onOpen}
-          >
-            <Edit className="mr-2 h-4 w-4" /> add SubCategory
-          </DropdownMenuItem> */}
 
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete

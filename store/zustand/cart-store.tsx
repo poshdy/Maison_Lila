@@ -1,20 +1,18 @@
-import { CartItems } from "@/types";
+import { CartItems, Product } from "@/types";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface CartStore {
   items: CartItems[];
+  subtotal: number;
+  cartTotalAmount: number;
   addItem: (item: CartItems) => void;
   removeItem: (id: string) => void;
   increaseQuntity: (itemId: string) => void;
   decreaseQuantity: (itemId: string) => void;
-  discountValue: number;
-  applyCoupon: (discount: number) => void;
-  subtotal: number;
-  cartTotalAmount: number;
   calculateTotalPrice: () => void;
-  removeAll: () => void;
+  ClearCart: () => void;
 }
 
 export const useCart = create<CartStore>()(
@@ -22,67 +20,57 @@ export const useCart = create<CartStore>()(
     persist(
       (set, get) => ({
         items: [],
-        discountValue: 0,
         subtotal: 0,
         cartTotalAmount: 0,
-        calculateTotalPrice: () => {
-          const totalValue = get()?.items?.map((item) => {
-              return Number(item.price) * item.quantity;
-            })
-            .reduce((total, item) => Number(item) + Number(total), 0);
-          set({ subtotal: totalValue });
-          if (get().discountValue > 0) {
-            set({ cartTotalAmount: totalValue - get().discountValue });
-          } else {
-            set({ cartTotalAmount: totalValue });
-          }
-        },
-        applyCoupon(discount) {
-          set({ discountValue: discount });
-        },
         addItem(item) {
           const currentItems = get()?.items;
-          const existed = currentItems?.find((Item) => Item?.id === item?.id);
-
+          const existed = currentItems?.find((Item) => Item?.id === item.id);
           if (existed) {
             return toast(`${existed?.name} is already in the cart`);
           }
-          const tempPro = { ...item, quantity: 1 };
-          set({ items: [...get()?.items, tempPro] });
+          const itemAdded = { ...item, quantity: item?.quantity };
+          set({
+            items: currentItems ? [...currentItems, itemAdded] : [itemAdded],
+          });
           toast.success("Item added to cart.");
         },
-        removeItem(id) {
-          set((state) => ({
-            items: state?.items?.filter((data) => data.id !== id),
-          }));
-          toast.success(`item removed from your cart`);
-        },
-        increaseQuntity: (itemId) =>
-          set((state) => ({
-            items: state.items.map((item) =>
-              item.id === itemId
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-            ),
-          })),
-        decreaseQuantity(itemId) {
-          const item = get().items?.find((Item) => itemId == Item?.id);
-          if (Number(item?.quantity) <= 1) {
-            get().removeItem(String(item?.id));
-          } else {
-            set((state) => ({
-              items: state.items.map((item) =>
-                item.id === itemId
-                  ? { ...item, quantity: item.quantity - 1 }
-                  : item
-              ),
-            }));
+        calculateTotalPrice() {
+          const items = get()?.items;
+          if (items) {
+            const itemTotal = items.map((item) => item?.price * item.quantity);
+            const cartTotalPrice = itemTotal.reduce(
+              (total, item) => total + item,
+              0
+            );
+            set({ cartTotalAmount: cartTotalPrice });
           }
         },
-        removeAll: () => {
-          set({ items: [], discountValue: 0 });
-
-          toast.success("cart cleared");
+        increaseQuntity(itemId) {
+          const currentItem = get().items.map((item) =>
+            item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+          );
+          set({ items: currentItem });
+        },
+        decreaseQuantity(itemId) {
+          const currentItem = get().items.find((item) => item.id === itemId);
+          if (currentItem.quantity <= 1) {
+            get().removeItem(itemId);
+          } else {
+            const decQuantity = get().items.map((item) =>
+              item.id === itemId
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+            );
+            set({ items: decQuantity });
+          }
+        },
+        removeItem(id) {
+          const removedItem = get().items.filter((item) => item.id !== id);
+          set({ items: removedItem });
+          toast(`item removed from your cart`);
+        },
+        ClearCart() {
+          set({ items: null, cartTotalAmount: 0 });
         },
       }),
 

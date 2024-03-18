@@ -46,7 +46,7 @@ export const InsertINtoSales = async (orderItems: any) => {
         });
       }
 
-      await tx.product.update({
+      await tx.productInventory.update({
         where: {
           id: o.productId,
         },
@@ -56,14 +56,6 @@ export const InsertINtoSales = async (orderItems: any) => {
           },
         },
       });
-      // await tx.product.update({
-      //   where: {
-      //     id: o.productId,
-      //   },
-      //   data: {
-      //     stock: { decrement: +o.quantity },
-      //   },
-      // });
     });
 
     // You can also update the product stock or perform other actions here

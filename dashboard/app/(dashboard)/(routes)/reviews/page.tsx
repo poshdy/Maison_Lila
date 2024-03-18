@@ -6,6 +6,7 @@ import ReviweClient from "@/components/PageComponents/review/client";
 
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/Heading";
+import Wrapper from "@/components/ui/wrapper";
 
 const Reviews = async () => {
   const UnPublished = await getData("/review/unpublished");
@@ -35,7 +36,7 @@ const Reviews = async () => {
   );
 
   return (
-    <section>
+    <Wrapper>
       <div className="space-y-4">
         <Heading title="Users Reviews" description="products reviews" />
         <Separator />
@@ -47,7 +48,7 @@ const Reviews = async () => {
         <Separator />
         {formattedPublished && <ReviweClient data={formattedPublished} />}
       </div>
-    </section>
+    </Wrapper>
   );
 };
 

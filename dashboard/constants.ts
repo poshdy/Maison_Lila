@@ -22,7 +22,6 @@ export const SIDE_BAR_ITEMS = [
   { path: "/categories", name: "Categories", Icon: Network },
   { path: "/sliders", name: "Sliders", Icon: SlidersHorizontal },
   { path: "/banners", name: "Banners", Icon: Image },
-  { path: "/bottom-image", name: "Our-Story", Icon: Image },
   { path: "/coupons", name: "Coupons", Icon: BadgePercent },
   { path: "/anouncements", name: "anouncements", Icon: Newspaper },
   { path: "/zones", name: "Zones", Icon: MapPinnedIcon },
@@ -31,9 +30,9 @@ export const SIDE_BAR_ITEMS = [
   // { path: "/settings", name: "Settings", Icon: Settings },
 ];
 
-export const BASE_URL = "https://api.maisonlila.shop";
-// http://localhost:8000/v1
-
+export const BASE_URL = "http://localhost:8000/v1";
+//
+// https://api.maisonlila.shop
 export const POSITIONS = ["TOP", "BOTTOM"];
 
-export const ORDER_STATUS = ["PENDING", "CONFIRMED", "DEVLIVERD"];
+export const ORDER_STATUS = ["PENDING", "CONFIRMED", "DELIVERED"];

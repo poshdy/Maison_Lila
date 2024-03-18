@@ -6,7 +6,7 @@ import CustomOrderDetails from "./CustomOrderDetails";
 
 const OrderDetails = async ({ params }: { params: { customId: string } }) => {
   const orderDetails: CustomizedOrderColumn = await getDataById(
-    "/special-order",
+    "/custom-order",
     params.customId
   );
   return (

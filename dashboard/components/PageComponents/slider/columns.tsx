@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./actions";
 import { SliderColumn } from "@/types";
-import { Badge } from "@/components/ui/badge";
+import { Check, X } from "lucide-react";
 
 export const columns: ColumnDef<SliderColumn>[] = [
   {
@@ -11,40 +11,11 @@ export const columns: ColumnDef<SliderColumn>[] = [
     header: "name",
   },
   {
-    accessorKey: "content",
-    header: "Images",
-    cell: ({ row }) => {
-      const urls = row.original?.content?.map((sl) => sl.image);
-      return (
-        <div className="flex gap-1 items-center">
-          {urls.map((sli, i) => (
-            <Image
-              key={i}
-              className="rounded-full"
-              alt="image"
-              width={30}
-              height={30}
-              src={sli}
-            />
-          ))}
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "published",
     header: "published",
     cell: ({ row }) => {
-      const value = String(row.original.published);
-      return (
-        <Badge
-          className={
-            row.original.published == false ? "bg-fuchsia-600" : "bg-pink-600"
-          }
-        >
-          {value}
-        </Badge>
-      );
+      const value = row.original.published;
+      return <h3>{value ? <Check /> : <X />}</h3>;
     },
   },
   {

@@ -32,12 +32,10 @@ const Login = () => {
   let isLoading = form.formState.isSubmitting;
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/manager/login`,
-        data,
-        { withCredentials: true }
-      );
-      setAdmin(response.data);
+      const response = await axios.post(`${BASE_URL}/manager/login`, data, {
+        withCredentials: true,
+      });
+      setAdmin(response.data.data);
       router.push("/");
     } catch (error: any) {
       console.log(error.message);

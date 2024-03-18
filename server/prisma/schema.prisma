@@ -13,101 +13,15 @@ enum ROLE {
   MANAGER
 }
 
-model User {
-  id             String      @id @default(uuid())
-  email          String      @unique
-  hashedPassword String
-  name           String
-  role           ROLE        @default(USER)
-  order          Order[]
-  couponUsed     BlackList[]
-  address        Address[]
-  Review         Review[]
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+enum PaymentMethod {
+  CASH
+  ONLINEPAYMENT
 }
 
-model Zone {
-  id        String    @id @default(uuid())
-  name      String
-  fees      Decimal
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Address   Address[]
-}
-
-model Address {
-  id          String  @id @default(uuid())
-  streetName  String
-  BuildingNo  String
-  Floor       String
-  apartmentNo String
-  zoneId      String  @default("")
-  zone        Zone    @relation(fields: [zoneId], references: [id], onDelete: SetDefault)
-  city        String  @default("Cairo")
-  Order       Order[]
-  User        User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
-  userId      String?
-}
-
-model Category {
-  id          String        @id @default(uuid())
-  name        String
-  imageUrl    String
-  products    Product[]
-  subCategory SubCategory[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-}
-
-model SubCategory {
-  id        String    @id @default(uuid())
-  name      String
-  parentId  String
-  parent    Category  @relation(fields: [parentId], references: [id], onDelete: Cascade)
-  products  Product[]
-  createdAt DateTime  @default(now())
-}
-
-model Product {
-  id            String   @id @default(uuid())
-  name          String
-  price         Decimal
-  discountValue Decimal? @default(0)
-  salePrice     Decimal? @default(0)
-
-  stock       Int       @default(10)
-  description String
-  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  categoryId  String?
-
-  SubCategory   SubCategory? @relation(fields: [subCategoryId], references: [id], onDelete: SetNull)
-  subCategoryId String?
-
-  featured   Boolean? @default(false)
-  bestSeller Boolean? @default(false)
-  SoldOut    Boolean? @default(false)
-  newArrival Boolean? @default(false)
-
-  UpdatedBy  UpdatedBy[]
-  orderItems OrderItems[]
-  image      Images[]
-  Review     Review[]
-  Sales      Sales[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([id, name])
-}
-
-model UpdatedBy {
-  id        String   @id @default(uuid())
-  productId String
-  adminName String
-  product   Product  @relation(fields: [productId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERED
 }
 
 enum Rating {
@@ -118,14 +32,105 @@ enum Rating {
   FIVE
 }
 
-model BottomImage {
-  id        String   @id @default(uuid())
-  published Boolean  @default(false)
-  text      String
-  title     String
-  image     String
+enum LOCATION {
+  TOP
+  BOTTOM
+}
+
+enum ACTION {
+  home
+  shop
+  customized_order
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  hashedPassword String
+  name           String
+  role           ROLE         @default(USER)
+  order          Order[]
+  address        Address[]
+  Review         Review[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  userCoupon     userCoupon[]
+}
+
+model Zone {
+  id        String    @id @default(uuid())
+  name      String
+  fees      Decimal
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  Address   Address[]
+}
+
+model Address {
+  id          String  @id @default(uuid())
+  userId      String
+  zoneId      String?
+  streetName  String
+  BuildingNo  String
+  Floor       String
+  apartmentNo String
+  city        String  @default("Cairo")
+  Order       Order[]
+  zone        Zone?   @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([id, userId])
+}
+
+model Category {
+  id          String     @id @default(uuid())
+  name        String
+  imageUrl    String?
+  products    Product[]
+  parentId    String?
+  subCategory Category?  @relation("ParentToChildCategory", fields: [parentId], references: [id], onDelete: SetNull)
+  Category    Category[] @relation("ParentToChildCategory")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  price       Decimal
+  salePrice   Decimal? @default(0)
+  description String
+
+  productInventory productInventory?
+  productAttribute productAttribute?
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  orderItems OrderItems[]
+  image      Images[]
+  Review     Review[]
+  Sales      Sales[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model productInventory {
+  id        String  @id @default(uuid())
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  stock     Int     @default(10)
+  soldOut   Boolean @default(false)
+}
+
+model productAttribute {
+  prod_atr_id String  @id @default(uuid())
+  productId   String  @unique
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  bestSeller  Boolean @default(false)
+  newArrival  Boolean @default(false)
+  recommended Boolean @default(false)
 }
 
 model Review {
@@ -142,19 +147,19 @@ model Review {
 }
 
 model Order {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   userId         String
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  phoneNumber    String
-  Address        Address?     @relation(fields: [addressId], references: [id], onDelete: SetNull, onUpdate: SetNull)
   addressId      String?
+  phoneNumber    String
   comment        String?
-  orderSummaryId String
-  orderSummary   OrderSummary @relation(fields: [orderSummaryId], references: [id])
-  orderStatus    OrderStatus  @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  orderStatus    OrderStatus   @default(PENDING)
   OrderItems     OrderItems[]
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Address        Address?      @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  OrderSummary   OrderSummary? @relation(fields: [orderSummaryId], references: [id], onDelete: Cascade)
+  orderSummaryId String?
 }
 
 model OrderSummary {
@@ -162,31 +167,19 @@ model OrderSummary {
   order         Order[]
   paymentMethod PaymentMethod @default(CASH)
   Subtotal      Decimal
-  DeliveryFee   Decimal?
+  DeliveryFee   Int?
   Discount      Decimal       @default(0)
   OrderTotal    Decimal
-}
-
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  DELIVERD
-}
-
-enum PaymentMethod {
-  CASH
-  ONLINEPAYMENT
 }
 
 model OrderItems {
   id        String   @id @default(uuid())
   orderId   String
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  Product   Product? @relation(fields: [productId], references: [id])
   productId String?
   quantity  Int
+  Product   Product? @relation(fields: [productId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Sales {
@@ -198,35 +191,41 @@ model Sales {
   Revenue      Decimal
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-
-  @@index([productId])
 }
 
-model Coupons {
-  id         String      @id @default(uuid())
-  name       String      @unique
-  decription String
-  expiration DateTime
-  amount     Decimal
-  Minimum    Int         @default(150)
-  countUsed  Int?        @default(0)
-  maxUsage   Int         @default(20)
-  valid      Boolean     @default(true)
-  BlackList  BlackList[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+model Coupon {
+  id             String       @id @default(uuid())
+  couponCode     String       @unique
+  discountAmount Int          @default(20)
+  minimumAmount  Int          @default(100)
+  couponData     couponData?
+  userCoupon     userCoupon[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
-model BlackList {
+model couponData {
   id         String   @id @default(uuid())
-  userId     String
-  couponCode String
-  createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id])
-  coupon     Coupons  @relation(fields: [couponCode], references: [name])
+  couponId   String   @unique
+  coupon     Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  expiration DateTime
+  limit      Int      @default(100)
+  valid      Boolean  @default(true)
+  countUsed  Int      @default(0)
 }
 
-model SpecialOrder {
+model userCoupon {
+  id        String   @id @default(uuid())
+  couponId  String
+  coupon    Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  uses      Int      @default(0)
+  canRedeem Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model CustomizedOrder {
   id        String   @id @default(uuid())
   name      String
   email     String
@@ -239,7 +238,6 @@ model SpecialOrder {
 
 model Slider {
   id        String          @id @default(uuid())
-  place     PLACE           @default(TOP)
   name      String
   published Boolean         @default(false)
   content   SliderContent[]
@@ -258,17 +256,13 @@ model SliderContent {
   image     String
 }
 
-enum PLACE {
-  TOP
-  BOTTOM
-}
-
 model Banner {
   id        String   @id @default(uuid())
   title     String
   text      String
   image     String
-  place     PLACE    @default(TOP)
+  location  LOCATION @default(TOP)
+  action    ACTION   @default(home)
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -285,10 +279,10 @@ model Anouncement {
 model Images {
   id        String   @id @default(uuid())
   url       String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   Product   Product? @relation(fields: [productId], references: [id])
   productId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ContactInfo {

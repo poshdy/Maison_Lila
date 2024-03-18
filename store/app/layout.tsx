@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Abhaya_Libre } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navigation/Nav-bar";
-import Footer from "@/components/footer/Footer";
 import { Toaster } from "react-hot-toast";
 import ClientProvider from "@/Providers/QueryProvider";
-import MobileBottomNav from "@/components/navigation/mob-bottom-menu";
+import MobileBottomNav from "@/components/navigation/mobile/mob-bottom-menu";
 import { ModalProvider } from "@/Providers/model-provider";
 import { getData } from "@/fetchers";
 import Anouncement from "@/components/Anouncement";
@@ -29,21 +28,20 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const anoun = await getData("anoun/published");
+  const anoun = await getData("anoun?published=true");
   return (
     <html lang="en">
       <ClientProvider>
         <body
-          className={`${font.className} min-h-screen relative flex flex-col  text-[#3C2E3D] overflow-x-hidden  bg-[#fffcf8]`}
+          className={`${font.className} min-h-screen relative flex flex-col text-lila overflow-x-hidden bg-[#fffcf8]`}
         >
-          <main className="flex-1 pb-10 space-y-3">
-            {anoun && <Anouncement anoun={anoun} />}
+          <main className="flex-1 pb-10">
+            {anoun && <Anouncement anoun={anoun[0]} />}
             <Navbar />
             {children}
             <Toaster />
             <ModalProvider />
           </main>
-          <Footer />
           <MobileBottomNav />
         </body>
       </ClientProvider>

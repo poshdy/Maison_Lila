@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { AnounColumn } from "@/types";
 
 type Props = {
-  data: AnounColumn[]
+  data: AnounColumn[];
 };
 
 const AnouncementClient = ({ data }: Props) => {

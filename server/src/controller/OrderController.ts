@@ -2,163 +2,79 @@ import { Request, Response } from "express";
 import { prismadb } from "../lib/prismadb.js";
 
 import { InsertINtoSales } from "../services/salesServices.js";
-import { CreateOrder } from "../services/orderService.js";
-import {
-  IncrementCount,
-  IsUsedBefore,
-  addCouponToBlackList,
-} from "../services/couponService.js";
+// import { CreateOrder } from "../services/orderService.js";
+// import {
+//   IncrementCount,
+//   IsUsedBefore,
+//   addCouponToBlackList,
+// } from "../services/coupon/index.js";
 import { EmailEvent } from "../pub/mails.js";
-
-export const PlaceOrder = async (req: Request, res: Response) => {
-  const { orderItems } = req.body;
-  const order = await CreateOrder(req, orderItems);
-  EmailEvent.emit("orderPlaced", order?.user?.name, order.OrderItems);
-  await InsertINtoSales(orderItems);
-  res.status(200).send({
-    id: order.id,
+import { ExtractId } from "../helpers/ExtractId.js";
+import {
+  GetOrder,
+  GetOrders,
+  UpdateOrderStatus,
+  CreateOrder,
+} from "../services/order/index.js";
+export const OnCreateOrder = async (req: Request, res: Response) => {
+  const data = req.body;
+  const order = await CreateOrder(data);
+  res.status(201).send({
+    // id: order.id,
     message: "order placed Successfully",
   });
 };
-
-export const getOrders = async (req: Request, res: Response) => {
-  const { page } = req.query;
-  const limit = 10;
-  const start = (Number(page) * 1 - 1) * limit;
-  const orders = await prismadb.order.findMany({
-    select: {
-      id: true,
-      user: { select: { name: true, email: true } },
-      OrderItems: {
-        select: { Product: { select: { name: true } }, quantity: true },
-      },
-      Address: {
-        include: {
-          zone: true,
-        },
-      },
-      orderStatus: true,
-      comment: true,
-      createdAt: true,
-      orderSummary: true,
-    },
-    skip: Number(start),
-    take: Number(limit),
-  });
-
-  res.status(200).send(orders);
-};
-
-export const applyCoupon = async (req: Request, res: Response) => {
-  const { totalOrder, coupon, userId } = req.body;
-  const isValid = await prismadb.coupons.findUnique({
-    where: {
-      name: coupon,
-      AND: {
-        valid: true,
-      },
-    },
-  });
-
-  if (!isValid) {
-    return res.status(400).send("this coupon is not valid");
-  }
-  const used = await IsUsedBefore(coupon, userId);
-  if (used) {
-    return res.status(400).send("Sorry You Used this Coupon Before");
-  }
-  if (totalOrder < isValid.Minimum) {
-    return res.send(
-      `Please Add ${totalOrder - isValid.Minimum} to use this coupon`
-    );
-  }
-
-  const addToUsed = await addCouponToBlackList(coupon, userId);
-  await IncrementCount(coupon);
-
-  res.status(200).send({
-    discountValue: isValid.amount,
+export const OnGetOrders = async (req: Request, res: Response) => {
+  const data = await GetOrders();
+  res.status(201).send({
+    data: data,
   });
 };
-
-export const getOrder = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const order = await prismadb.order.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      user: {
-        select: {
-          email: true,
-          id: true,
-          name: true,
-        },
-      },
-      OrderItems: {
-        select: {
-          quantity: true,
-          Product: {
-            select: {
-              name: true,
-              price: true,
-              image: {
-                select: {
-                  url: true,
-                },
-              },
-            },
-          },
-        },
-      },
-      id: true,
-      Address: {
-        include: {
-          zone: true,
-        },
-      },
-      orderStatus: true,
-      comment: true,
-      orderSummary: true,
-      createdAt: true,
-    },
+export const OnGetOrder = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const data = await GetOrder(id);
+  res.status(201).send({
+    data: data,
   });
-
-  res.status(200).send(order);
 };
-
-export const updateOrderStatus = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export const OnUpdateOrder = async (req: Request, res: Response) => {
   const { status } = req.body;
-  const Status = await prismadb.order.update({
-    where: {
-      id,
-    },
-    data: {
-      orderStatus: status,
-    },
+  const id = await ExtractId(req);
+  await UpdateOrderStatus(id, status);
+  res.status(201).send({
+    message: "Order Updated Successfully",
   });
-
-  res.status(200).send(`order status updated to ${status}`);
 };
 
-export const getOrderCount = async (req: Request, res: Response) => {
-  const Delivered = await prismadb.order.count({
-    where: {
-      orderStatus: "DELIVERD",
-    },
-  });
+// // export const applyCoupon = async (req: Request, res: Response) => {
+// //   const { totalOrder, coupon, userId } = req.body;
+// //   const isValid = await prismadb.coupons.findUnique({
+// //     where: {
+// //       name: coupon,
+// //       AND: {
+// //         valid: true,
+// //       },
+// //     },
+// //   });
 
-  const Proccessing = await prismadb.order.count({
-    where: {
-      orderStatus: "CONFIRMED",
-    },
-  });
-  const Pending = await prismadb.order.count({
-    where: {
-      orderStatus: "PENDING",
-    },
-  });
+// //   if (!isValid) {
+// //     return res.status(400).send("this coupon is not valid");
+// //   }
+// //   const used = await IsUsedBefore(coupon, userId);
+// //   if (used) {
+// //     return res.status(400).send("Sorry You Used this Coupon Before");
+// //   }
+// //   if (totalOrder < isValid.Minimum) {
+// //     return res.send(
+// //       `Please Add ${totalOrder - isValid.Minimum} to use this coupon`
+// //     );
+// //   }
 
-  res.status(200).json({ Delivered, Proccessing, Pending });
-};
+// //   const addToUsed = await addCouponToBlackList(coupon, userId);
+// //   await IncrementCount(coupon);
+
+// //   res.status(200).send({
+// //     discountValue: isValid.amount,
+// //   });
+// // };
+

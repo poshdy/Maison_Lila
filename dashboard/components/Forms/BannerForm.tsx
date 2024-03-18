@@ -21,6 +21,13 @@ import { BannerColumn } from "@/types";
 import { BannerFormValues, BannerSchema } from "@/Schemas";
 import { Create, Update, onDelete } from "@/actions/shared";
 import FormHeader from "@/components/ui/FormHeader";
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+} from "../ui/select";
 
 interface BannerFormProps {
   initialData: BannerColumn | null;
@@ -42,6 +49,7 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
       text: "",
       image: "",
       title: "",
+      location: "TOP",
     },
   });
   let isLoading = form.formState.isSubmitting;
@@ -99,43 +107,70 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <div className="">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="Title"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="text"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>text</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-20"
-                      disabled={isLoading}
-                      placeholder="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input disabled={isLoading} placeholder="Title" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="text"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>text</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-20"
+                    disabled={isLoading}
+                    placeholder="text"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Position</FormLabel>
+                <FormControl>
+                  <Select
+                    disabled={isLoading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select Banner Position"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="TOP">TOP</SelectItem>
+                      <SelectItem value="BOTTOM">BOTTOM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button
             variant={"lila"}
             disabled={isLoading}

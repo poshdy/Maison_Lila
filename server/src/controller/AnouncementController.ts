@@ -1,46 +1,41 @@
 import { Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
+
 import {
   CreateAnoun,
   DeleteAnoun,
-  PublishAnoun,
+  FindAnouncements,
+  FindOneAnouncement,
   UpdateAnoun,
-} from "../services/anouncementService.js";
+} from "../services/anouncement/index.js";
 
-export const addAnouncement = async (req: Request, res: Response) => {
-  const anoun = await CreateAnoun(req);
-  res.status(201).send("Anouncement created Successfully");
+export const OnCreateAnouncement = async (req: Request, res: Response) => {
+  const data = req.body;
+  await CreateAnoun(data);
+  res.status(201).send({ message: "Anouncement Created Successfully" });
 };
-export const getAnouncements = async (req: Request, res: Response) => {
-  const anouncement = await prismadb.anouncement.findMany();
-  res.status(200).send(anouncement);
-};
-export const getPublishedAnoun = async (req: Request, res: Response) => {
-  const anouncement = await prismadb.anouncement.findFirst({
-    where: {
-      published: true,
-    },
+
+export const OnGetAnouncement = async (req: Request, res: Response) => {
+  const data = await FindAnouncements(req);
+  res.status(200).send({
+    data,
   });
-  res.status(200).send(anouncement);
 };
-export const getAnouncement = async (req: Request, res: Response) => {
+
+export const OnGetOneAnouncement = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const anouncement = await prismadb.anouncement.findUnique({
-    where: {
-      id,
-    },
+  const data = await FindOneAnouncement(id);
+  res.status(200).send({
+    data,
   });
-  res.status(200).send(anouncement);
 };
-export const updateAnouncement = async (req: Request, res: Response) => {
-  const anoun = UpdateAnoun(req);
+export const OnUpdateAnouncement = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = req.body;
+  await UpdateAnoun(id, data);
   res.status(201).send(`Anouncement Updated Successfully`);
 };
-export const deleteAnouncement = async (req: Request, res: Response) => {
-  const anoun = await DeleteAnoun(req);
+export const OnDeleteAnouncement = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await DeleteAnoun(id);
   res.status(200).send("Anoun deleted Successfully");
-};
-export const PublishAnouncement = async (req: Request, res: Response) => {
-  const anoun = PublishAnoun(req);
-  res.status(200).send("Anouncement Published Successfully");
 };

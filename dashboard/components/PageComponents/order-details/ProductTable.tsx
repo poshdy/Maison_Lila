@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import { formattedPrice } from "@/actions/shared";
 
 type Props = {
   Product: OrderItems[];
@@ -30,7 +31,7 @@ const ProductTable = ({ Product }: Props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {Product.map((item: OrderItems, i: number) => (
+        {Product?.map((item: OrderItems, i: number) => (
           <TableRow key={i}>
             <TableCell className="font-medium">
               <Image
@@ -45,7 +46,9 @@ const ProductTable = ({ Product }: Props) => {
             <TableCell>{item?.quantity}</TableCell>
             <TableCell>{item?.Product.price}</TableCell>
             <TableCell>
-              {Number(item?.Product?.price) * Number(item?.quantity)} EGP
+              {formattedPrice(
+                Number(item?.Product?.price) * Number(item?.quantity)
+              )}
             </TableCell>
           </TableRow>
         ))}

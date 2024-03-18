@@ -1,4 +1,4 @@
-import ProductSlider from "@/components/pageComponents/shop/ProductSlider";
+import ProductSample from "@/components/pageComponents/shop/ProductSample";
 import { getDataById } from "@/fetchers";
 import React from "react";
 
@@ -8,10 +8,10 @@ type Props = {
 
 const YouMayAlsoLike = async ({ id }: Props) => {
   const products = await getDataById("category", id);
-
+console.log(products)
   return (
     <section>
-      <ProductSlider data={products?.products} title="You May Also Like" />
+      <ProductSample data={products?.products} title="You May Also Like" />
     </section>
   );
 };

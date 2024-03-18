@@ -1,10 +1,10 @@
-import ShopPage from "@/components/Skeletons/ShopPage";
+import ShopSkeleton from "@/components/Skeletons/ShopSkeleton";
 import React from "react";
 
 type Props = {};
 
 const loading = (props: Props) => {
-  return <ShopPage />;
+  return <ShopSkeleton />;
 };
 
 export default loading;

@@ -98,4 +98,3 @@ export const formattedPrice = (price: number) => {
 
   return p;
 };
-

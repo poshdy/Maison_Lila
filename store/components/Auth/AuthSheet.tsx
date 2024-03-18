@@ -36,7 +36,7 @@ const AuthSheet = (props: Props) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <User2 className="cursor-pointer" />
+        <User2 className="cursor-pointer w-6 h-6 text-white" />
       </SheetTrigger>
       <SheetContent className="h-full w-[90%] space-y-4 flex flex-col justify-between">
         <section className="space-y-3">

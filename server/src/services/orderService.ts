@@ -1,86 +1,86 @@
-import { Request } from "express";
-import { prismadb } from "../lib/prismadb.js";
-import { OrderItem } from "./productServies.js";
+// import { Request } from "express";
+// import { prismadb } from "../lib/prismadb.js";
+// // import { OrderItem } from "./product/index.js";
 
-export const CreateOrder = async (req: Request, orderItems: OrderItem) => {
-  const {
-    userId,
-    OrderTotal,
-    Subtotal,
-    Discount,
-    paymentMethod,
-    addressId,
-    DeliveryFee,
-    phone,
-    comment,
-  } = req.body;
+// export const CreateOrder = async (req: Request, orderItems: any) => {
+//   const {
+//     userId,
+//     OrderTotal,
+//     Subtotal,
+//     Discount,
+//     paymentMethod,
+//     addressId,
+//     DeliveryFee,
+//     phone,
+//     comment,
+//   } = req.body;
 
-  const placeOrder = await prismadb.order.create({
-    data: {
-      user: {
-        connect: { id: userId },
-      },
-      orderStatus: "PENDING",
-      phoneNumber: phone,
-      Address: {
-        connect: { id: addressId },
-      },
-      comment,
-      OrderItems: {
-        createMany: {
-          data: orderItems,
-        },
-      },
-      orderSummary: {
-        create: {
-          paymentMethod,
-          Subtotal,
-          DeliveryFee,
-          Discount,
-          OrderTotal,
-        },
-      },
-    },
-    select: {
-      Address: {
-        include: {
-          zone: true,
-        },
-      },
-      comment: true,
-      id: true,
-      orderSummary: {
-        select: {
-          DeliveryFee: true,
-          OrderTotal: true,
-          paymentMethod: true,
-          Subtotal: true,
-          Discount: true,
-        },
-      },
-      OrderItems: {
-        select: {
-          Product: {
-            select: {
-              name: true,
-              price: true,
-            },
-          },
-          quantity: true,
-        },
-      },
-      user: {
-        select: {
-          name: true,
-          id: true,
-          email: true,
-        },
-      },
-      createdAt: true,
-    },
-  });
-  return placeOrder;
-};
+//   const placeOrder = await prismadb.order.create({
+//     data: {
+//       user: {
+//         connect: { id: userId },
+//       },
+//       orderStatus: "PENDING",
+//       phoneNumber: phone,
+//       Address: {
+//         connect: { id: addressId },
+//       },
+//       comment,
+//       OrderItems: {
+//         createMany: {
+//           data: orderItems,
+//         },
+//       },
+//       orderSummary: {
+//         create: {
+//           paymentMethod,
+//           Subtotal,
+//           DeliveryFee,
+//           Discount,
+//           OrderTotal,
+//         },
+//       },
+//     },
+//     select: {
+//       Address: {
+//         include: {
+//           zone: true,
+//         },
+//       },
+//       comment: true,
+//       id: true,
+//       orderSummary: {
+//         select: {
+//           DeliveryFee: true,
+//           OrderTotal: true,
+//           paymentMethod: true,
+//           Subtotal: true,
+//           Discount: true,
+//         },
+//       },
+//       OrderItems: {
+//         select: {
+//           Product: {
+//             select: {
+//               name: true,
+//               price: true,
+//             },
+//           },
+//           quantity: true,
+//         },
+//       },
+//       user: {
+//         select: {
+//           name: true,
+//           id: true,
+//           email: true,
+//         },
+//       },
+//       createdAt: true,
+//     },
+//   });
+//   return placeOrder;
+// };
 
 // export const AuthenticatePayment = async () => {
 //   try {

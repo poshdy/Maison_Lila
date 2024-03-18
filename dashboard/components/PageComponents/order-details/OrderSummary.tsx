@@ -1,6 +1,7 @@
-import { DATE } from "@/actions/shared";
+import { DATE, formattedPrice } from "@/actions/shared";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Heading from "@/components/ui/heading";
 import { OrderDeatils } from "@/types";
 import React from "react";
 
@@ -9,42 +10,58 @@ type Props = {
 };
 
 const OrderSummary = ({ summary }: Props) => {
-  let header = "font-semibold flex item-center justify-between";
-  let className;
-  if (summary.orderStatus == "PENDING") {
-    className = "bg-gray-500 text-white";
-  } else if (summary.orderStatus == "CONFIRMED") {
-    className = " bg-purple-500/80 text-white";
-  } else {
-    className = "bg-green-400/80";
-  }
+  const { Address, OrderSummary, createdAt } = summary;
+  let container = "flex item-center justify-between";
+
   return (
     <Card className="w-[50%]">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <h2>Order Summary</h2>
-          <Badge className={className}>#{summary?.orderStatus}</Badge>
+          <Heading title="Order Summary" className="text-2xl" />
+          <Badge className=""># {summary?.orderStatus}</Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-2 flex flex-col justify-between">
-        <h4 className={header}>
-          Created At <Badge>{DATE(summary?.createdAt)}</Badge>
-        </h4>
-        <h4 className={header}>
-          Subtotal <Badge>{summary?.orderSummary?.Subtotal} EGP</Badge>
-        </h4>
-        <h4 className={header}>
-          Discount value <Badge>{summary?.orderSummary?.Discount} EGP</Badge>
-        </h4>
-        <h4 className={header}>
-          Shipping Price <Badge>{summary?.Address?.zone.fees} EGP</Badge>
-        </h4>
-        <h4 className={header}>
-          Payment Method <Badge>{summary?.orderSummary?.paymentMethod}</Badge>
-        </h4>
-        <h4 className={header}>
-          Order Total <Badge>{summary?.orderSummary.OrderTotal} EGP</Badge>
-        </h4>
+        <div className={container}>
+          <h2>Payment</h2>
+          <span className="font-bold">
+            {OrderSummary.paymentMethod == "CASH"
+              ? "Cash on Delivery"
+              : "Online Payment"}
+          </span>
+        </div>
+        <div className={container}>
+          <h2>Placed At</h2>
+          <span className="font-bold">{DATE(createdAt)}</span>
+        </div>
+        <div className={container}>
+          <h2>Sub-Total</h2>
+          <span className="font-bold">
+            {formattedPrice(+OrderSummary.OrderTotal)}
+          </span>
+        </div>
+        <div className={container}>
+          <h2>Shipping Price</h2>
+          <span className="font-bold">
+            {formattedPrice(+Address?.zone?.fees)}
+          </span>
+        </div>
+        <div className={container}>
+          <h2>Discount</h2>
+          <span className="font-bold">
+            {formattedPrice(+OrderSummary?.Discount)}
+          </span>
+        </div>
+        <div className={container}>
+          <h2>Order Total</h2>
+          <span className="font-bold">
+            {formattedPrice(
+              +OrderSummary.OrderTotal +
+                +Address.zone.fees -
+                +OrderSummary?.Discount
+            )}
+          </span>
+        </div>
       </CardContent>
     </Card>
   );

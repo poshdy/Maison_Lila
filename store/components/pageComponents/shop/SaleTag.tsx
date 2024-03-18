@@ -1,4 +1,5 @@
-import { formattedPrice } from "@/lib/utils";
+import Currency from "@/components/Shared/Currency";
+
 import { Product } from "@/types";
 import React from "react";
 
@@ -9,10 +10,11 @@ type Props = {
 const SaleTag = ({ product }: Props) => {
   return (
     <div className="flex items-end gap-1">
-      <h3 className="font-semibold text-base">
-        {formattedPrice(+product?.salePrice)}
-      </h3>
-      <del>{formattedPrice(+product?.price)}</del>
+      <Currency price={+product.salePrice} />
+
+      <del className="text-lg">
+        <Currency size="text-sm" price={+product.price} />
+      </del>
     </div>
   );
 };

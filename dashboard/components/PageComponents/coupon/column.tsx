@@ -5,7 +5,7 @@ import { CouponColumn } from "@/types";
 
 export const columns: ColumnDef<CouponColumn>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "couponCode",
     header: "name",
   },
 

@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
+import Heading from "@/components/ui/heading";
 import { OrderDeatils } from "@/types";
 import React from "react";
 
@@ -8,21 +9,28 @@ type Props = {
 };
 
 const CustomerDetails = ({ details }: Props) => {
-  let header = "font-semibold flex item-center justify-between";
+  const { user, phoneNumber } = details;
+  let container = " flex item-center justify-between";
   return (
     <Card className="w-[50%]">
-      <CardHeader>Customer Details</CardHeader>
-      <CardContent className="flex flex-col space-y-3 justify-between">
-        <h4 className={header}>
-          Name <Badge>{details?.user?.name}</Badge>
-        </h4>
-        <h4 className={header}>
-          Email <Badge>{details?.user?.email}</Badge>
-        </h4>
-
-        <h4 className={header}>
-          Phone <Badge>01016908226</Badge>
-        </h4>
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <Heading title="Customer Details" className="text-2xl" />
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-2 flex flex-col justify-between">
+        <div className={container}>
+          <h2>Name</h2>
+          <span className="font-bold">{user.name}</span>
+        </div>
+        <div className={container}>
+          <h2>Email</h2>
+          <span className="font-bold">{user.email}</span>
+        </div>
+        <div className={container}>
+          <h2>Phone Number</h2>
+          <span className="font-bold">{phoneNumber}</span>
+        </div>
       </CardContent>
     </Card>
   );

@@ -1,63 +1,44 @@
 import { Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
-import { ZoneSchema } from "../validation/Schemas.js";
+import {
+  CreateZone,
+  DeleteZone,
+  FindZone,
+  FindZones,
+  UpdateZone,
+} from "../services/zone/index.js";
 
-export const addZone = async (req: Request, res: Response) => {
-  const { error, value } = ZoneSchema.validate(req.body);
-  if (error) {
-    throw error;
-  }
-  const zone = await prismadb.zone.create({
-    data: {
-      name: value.name,
-      fees: value.fees,
-    },
-  });
+export const OnCreateZone = async (req: Request, res: Response) => {
+  const data = req.body;
+  await CreateZone(data);
   res.status(201).send({
-    message: `New Zone with name: ${req.body.name} Created Successfully`,
-    zone,
+    message: `Zone Created Successfully`,
   });
 };
-export const getZones = async (req: Request, res: Response) => {
-  const zone = await prismadb.zone.findMany();
-  res.status(200).send(zone);
-};
-export const getZone = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const zone = await prismadb.zone.findUnique({
-    where: {
-      id,
-    },
-  });
-  res.status(200).send(zone);
-};
-export const updateZone = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { error, value } = ZoneSchema.validate(req.body);
-  if (error) {
-    throw error;
-  }
-  const zone = await prismadb.zone.update({
-    where: {
-      id,
-    },
-    data: value,
-  });
-  res.status(201).send({
-    message: `Zone with name: ${req.body.name} Updated Successfully`,
-    zone,
-  });
-};
-export const deleteZone = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const zone = await prismadb.zone.delete({
-    where: {
-      id,
-    },
-  });
+export const OnGetZones = async (req: Request, res: Response) => {
+  const data = await FindZones();
   res.status(200).send({
-    message: `Zone with id: ${id} Deleted Successfully`,
-    zone,
+    data,
+  });
+};
+export const OnGetZone = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = await FindZone(id);
+  res.status(200).send({
+    data: data,
+  });
+};
+export const OnUpdateZone = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = req.body;
+  await UpdateZone(id, data);
+  res.status(201).send({
+    message: `Zone Updated Successfully`,
+  });
+};
+export const OnDeleteZone = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await DeleteZone(id);
+  res.status(200).send({
+    message: `Zone  Deleted Successfully`,
   });
 };

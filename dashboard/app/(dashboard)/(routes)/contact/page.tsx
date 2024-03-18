@@ -2,6 +2,7 @@ import { getData } from "@/fetchers";
 import { ContactColumn } from "@/types";
 import React from "react";
 import ContactClient from "@/components/PageComponents/contact/client";
+import Wrapper from "@/components/ui/wrapper";
 
 type Props = {};
 
@@ -18,11 +19,9 @@ const Contact = async (props: Props) => {
     })
   );
   return (
-    <section>
-      <div className="space-y-10">
-        {formattedContact && <ContactClient data={formattedContact} />}
-      </div>
-    </section>
+    <Wrapper>
+      {formattedContact && <ContactClient data={formattedContact} />}
+    </Wrapper>
   );
 };
 

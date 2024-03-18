@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./action";
 import { BannerColumn } from "@/types";
-import { Badge } from "@/components/ui/badge";
+import { Check, X } from "lucide-react";
 
 export const columns: ColumnDef<BannerColumn>[] = [
   {
@@ -24,27 +24,16 @@ export const columns: ColumnDef<BannerColumn>[] = [
     },
   },
   {
-    accessorKey: "place",
-    header: "Position",
-    cell: ({ row }) => {
-      return <h4 className="font-bold">{row.original.place}</h4>;
-    },
+    accessorKey: "location",
+    header: "Location",
   },
   {
     accessorKey: "published",
     header: "Published",
     cell: ({ row }) => {
-      const value = String(row.original.published);
+      const value = row.original.published;
 
-      return (
-        <Badge
-          className={`${
-            row.original.published == true ? "bg-fuchsia-600" : "bg-pink-600"
-          }`}
-        >
-          {value}
-        </Badge>
-      );
+      return <h3>{value ? <Check /> : <X />}</h3>;
     },
   },
 

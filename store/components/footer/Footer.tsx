@@ -6,7 +6,10 @@ import MediaLinks from "./MediaLinks";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#3C2E3D] text-white pb-20  flex flex-col items-center space-y-4 ">
+    <footer
+      id="contact"
+      className="w-full bg-lila text-white pb-20  flex flex-col items-center space-y-4 "
+    >
       <div className="relative w-20 md:w-28 aspect-square">
         <Image
           fill
