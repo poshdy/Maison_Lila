@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  OnApplyCoupon,
   OnCreateOrder,
   OnGetOrder,
   OnGetOrders,
@@ -14,7 +15,7 @@ import { PathId } from "../middlewares/path.js";
 
 router.post("/", tryCatch(OnCreateOrder));
 router.get("/", tryCatch(OnGetOrders));
-// router.post("/apply-coupon", Expiration, checkCount, tryCatch(applyCoupon));
+router.post("/apply-coupon", tryCatch(OnApplyCoupon));
 router.get("/:id", PathId, tryCatch(OnGetOrder));
 router.patch("/:id", PathId, tryCatch(OnUpdateOrder));
 

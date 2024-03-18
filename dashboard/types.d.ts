@@ -130,8 +130,9 @@ export type ReviewColumn = {
 };
 
 export type ZoneOrderCount = {
-  orderCount: number;
-  zoneName: string;
+  ordersPlaced: number;
+  zone: string;
+  revenue: number;
 };
 
 export type CategoryColumn = {
@@ -246,4 +247,10 @@ export type ContactColumn = {
   instagram: string;
   phone: string;
   tiktok: string;
+};
+export type CouponStats = {
+  user: { email: string };
+  coupon: { couponCode: string };
+  createdAt: string;
+  uses: number;
 };

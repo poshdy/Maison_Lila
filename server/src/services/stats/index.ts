@@ -3,6 +3,7 @@ import {
   UsersCount,
   ProductsCount,
   Zones,
+  CouponStats,
 } from "../../model/stats/index.js";
 
 export const GetUsersCount = async () => {
@@ -16,4 +17,7 @@ export const GetProductsCount = async () => {
 };
 export const GetMostOrderedZones = async () => {
   return await Zones();
+};
+export const GetCouponStats = async () => {
+  return await CouponStats();
 };

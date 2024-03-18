@@ -8,6 +8,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import { formattedPrice } from "@/actions/shared";
 
 type Props = {
   orderCount: ZoneOrderCount[];
@@ -24,10 +25,11 @@ const ZoneOrderTable = ({ orderCount }: Props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orderCount?.map((item: ZoneOrderCount) => (
-          <TableRow key={item?.zoneName}>
-            <TableCell className="font-medium">{item?.zoneName}</TableCell>
-            <TableCell>{item?.orderCount}</TableCell>
+        {orderCount?.map((item: ZoneOrderCount, i: number) => (
+          <TableRow key={i}>
+            <TableCell className="font-medium">{item?.zone}</TableCell>
+            <TableCell>{item?.ordersPlaced}</TableCell>
+            <TableCell>{formattedPrice(item?.revenue)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -3,6 +3,7 @@ import {
   Delete,
   Find,
   FindById,
+  Increment,
   IsNameExist,
   Update,
 } from "../../model/coupon/index.js";
@@ -29,16 +30,13 @@ export const UpdateCoupon = async (id: string, data) => {
 export const DeleteCoupon = async (id: string) => {
   return await Delete(id);
 };
-// export const IncrementCount = async (couponName: string) => {
-//   return await prismadb.coupons.update({
-//     where: {
-//       name: couponName,
-//     },
-//     data: {
-//       countUsed: { increment: 1 },
-//     },
-//   });
-// };
+export const IsExisted = async (couponCode: string) => {
+  return await IsNameExist(couponCode);
+};
+
+export const IncrementCount = async (couponId: string) => {
+  return await Increment(couponId);
+};
 
 // export const checkCount = async (
 //   req: Request,
@@ -95,29 +93,3 @@ export const DeleteCoupon = async (id: string) => {
 //   }
 // };
 
-// export const IsUsedBefore = async (couponName: string, userId: string) => {
-//   return await prismadb.blackList.findFirst({
-//     where: {
-//       user: { id: userId },
-//       coupon: { name: couponName },
-//     },
-//   });
-// };
-
-// export const addCouponToBlackList = async (
-//   couponName: string,
-//   userId: string
-// ) => {
-//   return await prismadb.blackList.create({
-//     data: {
-//       user: {
-//         connect: { id: userId },
-//       },
-//       coupon: { connect: { name: couponName } },
-//     },
-//   });
-// };
-
-export const IsExisted = async (couponCode: string) => {
-  return await IsNameExist(couponCode);
-};

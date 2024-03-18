@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { GetUsersCount, GetMostOrderedZones } from "../services/stats/index.js";
+import {
+  GetUsersCount,
+  GetMostOrderedZones,
+  GetCouponStats,
+} from "../services/stats/index.js";
 import { OrdersCount, ProductsCount } from "../model/stats/index.js";
 
 export const OnGetUsersCount = async (req: Request, res: Response) => {
@@ -32,5 +36,11 @@ export const OnGetOrderZones = async (req: Request, res: Response) => {
   const ordersByZone = await GetMostOrderedZones();
   res.status(200).send({
     data: ordersByZone,
+  });
+};
+export const OnGetCouponStats = async (req: Request, res: Response) => {
+  const data = await GetCouponStats();
+  res.status(200).send({
+    data,
   });
 };

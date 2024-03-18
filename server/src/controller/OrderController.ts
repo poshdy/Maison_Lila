@@ -1,20 +1,13 @@
 import { Request, Response } from "express";
-import { prismadb } from "../lib/prismadb.js";
-
-import { InsertINtoSales } from "../services/salesServices.js";
-// import { CreateOrder } from "../services/orderService.js";
-// import {
-//   IncrementCount,
-//   IsUsedBefore,
-//   addCouponToBlackList,
-// } from "../services/coupon/index.js";
-import { EmailEvent } from "../pub/mails.js";
+// import { InsertINtoSales } from "../services/salesServices.js";
+// import { EmailEvent } from "../pub/mails.js";
 import { ExtractId } from "../helpers/ExtractId.js";
 import {
   GetOrder,
   GetOrders,
   UpdateOrderStatus,
   CreateOrder,
+  ApplyCoupon,
 } from "../services/order/index.js";
 export const OnCreateOrder = async (req: Request, res: Response) => {
   const data = req.body;
@@ -46,35 +39,11 @@ export const OnUpdateOrder = async (req: Request, res: Response) => {
   });
 };
 
-// // export const applyCoupon = async (req: Request, res: Response) => {
-// //   const { totalOrder, coupon, userId } = req.body;
-// //   const isValid = await prismadb.coupons.findUnique({
-// //     where: {
-// //       name: coupon,
-// //       AND: {
-// //         valid: true,
-// //       },
-// //     },
-// //   });
+export const OnApplyCoupon = async (req: Request, res: Response) => {
+  const { couponCode, orderTotal, userId } = req.body;
 
-// //   if (!isValid) {
-// //     return res.status(400).send("this coupon is not valid");
-// //   }
-// //   const used = await IsUsedBefore(coupon, userId);
-// //   if (used) {
-// //     return res.status(400).send("Sorry You Used this Coupon Before");
-// //   }
-// //   if (totalOrder < isValid.Minimum) {
-// //     return res.send(
-// //       `Please Add ${totalOrder - isValid.Minimum} to use this coupon`
-// //     );
-// //   }
-
-// //   const addToUsed = await addCouponToBlackList(coupon, userId);
-// //   await IncrementCount(coupon);
-
-// //   res.status(200).send({
-// //     discountValue: isValid.amount,
-// //   });
-// // };
-
+  const discount = await ApplyCoupon(couponCode, orderTotal, userId);
+  res.status(200).send({
+    discount,
+  });
+};

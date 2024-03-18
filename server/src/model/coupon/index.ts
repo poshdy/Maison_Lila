@@ -1,5 +1,4 @@
 import { prismadb } from "../../lib/prismadb.js";
-import { AppError } from "../../utils/AppError.js";
 
 export const Create = async (data) => {
   const { couponCode, discountAmount, minimumAmount, expiration, limit } = data;
@@ -105,6 +104,44 @@ export const IsNameExist = async (couponCode) => {
   return await prismadb.coupon.findUnique({
     where: {
       couponCode,
+    },
+  });
+};
+
+export const IsValid = async (couponCode) => {
+  return await prismadb.coupon.findUnique({
+    where: {
+      couponCode,
+      couponData: {
+        valid: true,
+      },
+    },
+  });
+};
+
+export const CanUseIt = async (userId: string, couponCode) => {
+  return await prismadb.userCoupon.findFirst({
+    where: {
+      user: { id: userId },
+      coupon: { couponCode },
+    },
+  });
+};
+export const UsedCoupons = async (userId: string, couponCode) => {
+  return await prismadb.userCoupon.create({
+    data: {
+      user: { connect: { id: userId } },
+      coupon: { connect: { couponCode } },
+    },
+  });
+};
+export const Increment = async (couponId) => {
+  return await prismadb.couponData.update({
+    where: {
+      couponId,
+    },
+    data: {
+      countUsed: { increment: 1 },
     },
   });
 };

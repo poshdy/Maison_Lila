@@ -8,7 +8,6 @@ import ZoneOrderTable from "@/components/PageComponents/zone/order-zone-table";
 const ZonePage = async () => {
   const data = await getData("/zone");
   const orderCount: ZoneOrderCount[] = await getData("/stats/zones");
-  console.log(orderCount);
   const formattedZone: ZoneColumn[] | null = data?.map((item: ZoneColumn) => ({
     id: item?.id,
     name: item?.name,

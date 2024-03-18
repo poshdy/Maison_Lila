@@ -88,12 +88,15 @@ export const Zones = async () => {
       },
     },
   });
-  const zones = await prismadb.zone.findMany();
+  const zones = await prismadb.zone.findMany({
+    include: {
+      Address: true,
+    },
+  });
   const zoneFees = {};
   zones.forEach((zone) => {
     zoneFees[zone.name] = zone.fees;
   });
-  // const ordersByZone = {};
   const zoneOrdersAndRevenue = zones.map((zone) => {
     const ordersPlacedInZone = orders.filter(
       (order) => order.Address.zone.id === zone.id
@@ -106,12 +109,23 @@ export const Zones = async () => {
     };
   });
   return zoneOrdersAndRevenue;
-  // orders.forEach((order) => {
-  //   const zoneName = order.Address.zone.name;
-  //   ordersByZone[zoneName] = (ordersByZone[zoneName] || 0) + 1;
-  // });
-  // const ordersCountArray = Object.keys(ordersByZone).map((zoneName) => ({
-  //   zoneName,
-  //   orderCount: ordersByZone[zoneName],
-  // }));
+};
+
+export const CouponStats = async () => {
+  return await prismadb.userCoupon.findMany({
+    select: {
+      createdAt: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+      coupon: {
+        select: {
+          couponCode: true,
+        },
+      },
+      uses: true,
+    },
+  });
 };
