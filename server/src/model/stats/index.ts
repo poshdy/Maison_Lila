@@ -88,34 +88,30 @@ export const Zones = async () => {
       },
     },
   });
-  const Zones = await prismadb.zone.findMany({
-    include: {
-      Address: {
-        include: {
-          Order: true,
-        },
-      },
-    },
+  const zones = await prismadb.zone.findMany();
+  const zoneFees = {};
+  zones.forEach((zone) => {
+    zoneFees[zone.name] = zone.fees;
   });
-
-  const ordersByZone = {};
-
-  orders.forEach((order) => {
-    const zoneName = order.Address.zone.name;
-    ordersByZone[zoneName] = (ordersByZone[zoneName] || 0) + 1;
+  // const ordersByZone = {};
+  const zoneOrdersAndRevenue = zones.map((zone) => {
+    const ordersPlacedInZone = orders.filter(
+      (order) => order.Address.zone.id === zone.id
+    ).length;
+    const revenue = ordersPlacedInZone * zoneFees[zone.name];
+    return {
+      zone: zone.name,
+      ordersPlaced: ordersPlacedInZone,
+      revenue: revenue,
+    };
   });
-  const ordersCountArray = Object.keys(ordersByZone).map((zoneName) => ({
-    zoneName,
-    orderCount: ordersByZone[zoneName],
-  }));
-
-  return ordersCountArray;
-
-  // const mess = Zones.map((z) => z.Address.map((aa) => aa.Order.length));
-  // const zones = orders.reduce((total, order) => {
-  //   const zonebyorder = order.Address.zone.id;
-  //   const zoneId = zonebyorder;
-  //   total[zoneId] = (total[zoneId] || 0) + 1;
-  //   return total;
-  // }, {});
+  return zoneOrdersAndRevenue;
+  // orders.forEach((order) => {
+  //   const zoneName = order.Address.zone.name;
+  //   ordersByZone[zoneName] = (ordersByZone[zoneName] || 0) + 1;
+  // });
+  // const ordersCountArray = Object.keys(ordersByZone).map((zoneName) => ({
+  //   zoneName,
+  //   orderCount: ordersByZone[zoneName],
+  // }));
 };
