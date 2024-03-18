@@ -129,6 +129,11 @@ export type ReviewColumn = {
   createdAt: string;
 };
 
+export type ZoneOrderCount = {
+  orderCount: number;
+  zoneName: string;
+};
+
 export type CategoryColumn = {
   _count: {
     products: number;
