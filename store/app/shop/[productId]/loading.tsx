@@ -1,9 +1,7 @@
 import ProductSkeleton from "@/components/Skeletons/ProductSkeleton";
 import React from "react";
 
-type Props = {};
-
-const loading = (props: Props) => {
+const loading = () => {
   return <ProductSkeleton />;
 };
 

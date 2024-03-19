@@ -14,7 +14,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <section className="w-full h-[80vh] flex items-center gap-4 justify-center flex-col">
+    <section className="w-full h-[80vh] flex items-center gap-3 justify-center flex-col">
       <h2 className="text-2xl font-bold">Oops Something went wrong!</h2>
       <Button variant={"action"} onClick={() => reset()}>
         Please Try again
