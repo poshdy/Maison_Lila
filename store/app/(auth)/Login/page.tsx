@@ -13,7 +13,7 @@ const LoginPage = (props: Props) => {
       <Heading size="text-3xl" title="Login to your account" />
       <LoginForm />
       <span className="text-gray-400">
-        New to Maison Lilaa
+        New to Maison Lila
         <Link className="font-bold ml-1" href={"Register"}>
           Create Account
         </Link>

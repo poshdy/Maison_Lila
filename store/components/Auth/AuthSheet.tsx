@@ -23,13 +23,13 @@ type Props = {};
 const AuthSheet = (props: Props) => {
   const router = useRouter();
   const { user, LogOut } = useUser();
-  const { removeAll } = useCart();
+  const { ClearCart } = useCart();
 
   const logOut = async () => {
     await axios.post(`${BASE_URL}/auth/logOut`, null, {
       withCredentials: true,
     });
-    removeAll();
+    ClearCart();
     LogOut();
     router.push("/");
   };

@@ -13,7 +13,7 @@ const RegisterPage = (props: Props) => {
       <Heading size="text-3xl" title="Create Account" />
       <RegisterForm />
       <span className="text-gray-400">
-        Already Have an Account??
+        Already Have an Account?
         <Link className="font-bold ml-1" href={"Login"}>
           Login
         </Link>
