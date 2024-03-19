@@ -14,14 +14,6 @@ router.post("/", Roles(["MANAGER", "ADMIN"]), tryCatch(OnCreateAnouncement));
 
 router.get("/", tryCatch(OnGetAnouncement));
 
-// router.get("/:id", PathId, tryCatch(getAnouncement));
-
-// router.patch(
-//   "/publish/:id",
-//   Roles(["MANAGER", "ADMIN"]),
-//   PathId,
-//   tryCatch(PublishAnouncement)
-// );
 router.patch(
   "/:id",
   Roles(["MANAGER", "ADMIN"]),

@@ -199,3 +199,14 @@ export const Search = async (name: Query) => {
     },
   });
 };
+
+export const Stock = async () => {
+  return await prismadb.productInventory.updateMany({
+    data: {
+      soldOut: true,
+    },
+    where: {
+      stock: { lte: 1 },
+    },
+  });
+};

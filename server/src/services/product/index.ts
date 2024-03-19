@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Response, NextFunction, Request } from "express";
 import {
   Create,
   Decrement,
@@ -6,6 +6,7 @@ import {
   Find,
   FindById,
   Restock,
+  Stock,
   Update,
 } from "../../model/product/index.js";
 import { AppError } from "../../utils/AppError.js";
@@ -47,6 +48,16 @@ export const DecrementProductStock = async (
 ) => {
   return await Decrement(quantity, productId);
 };
+
+export const ProductStock = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const data = await Stock();
+  next();
+  return data;
+};
 // export const checkOrderQuntity = async (
 //   req: Request,
 //   res: Response,
@@ -85,24 +96,6 @@ export const DecrementProductStock = async (
 //   } catch (error) {
 //     return next(error);
 //   }
-// };
-
-// export const checkStock = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const products = await prismadb.productInventory.updateMany({
-//     data: {
-//       soldOut: {
-//         set: true,
-//       },
-//     },
-//     where: {
-//       stock: { lte: 5 },
-//     },
-//   });
-//   next();
 // };
 
 // export const RestockAllProducts = async (req: Request) => {
