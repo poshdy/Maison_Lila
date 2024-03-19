@@ -9,7 +9,6 @@ import {
   Update,
 } from "../../model/product/index.js";
 import { AppError } from "../../utils/AppError.js";
-import { GetProductByName } from "../../model/stats/index.js";
 
 export const CreateProduct = async (data) => {
   try {
@@ -40,10 +39,6 @@ export const DeleteProduct = async (id: string) => {
 
 export const RestockAll = async (stock: number) => {
   return await Restock(stock);
-};
-
-export const SearchProducts = async (query) => {
-  return await GetProductByName(query);
 };
 
 export const DecrementProductStock = async (

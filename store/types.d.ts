@@ -65,6 +65,22 @@ export type Product = {
     url: string;
   }[];
 };
+export type Search = {
+  length: number;
+  products: {
+    name: string;
+    price: number;
+    id: string;
+    category: {
+      name: string;
+      id: string;
+    };
+    image: {
+      id: string;
+      url: string;
+    }[];
+  }[];
+};
 export type CartItems = {
   id: string;
   category: string;

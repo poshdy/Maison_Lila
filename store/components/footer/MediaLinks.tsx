@@ -1,5 +1,5 @@
 import { getData } from "@/fetchers";
-import { Facebook, FacebookIcon, Instagram } from "lucide-react";
+import { FacebookIcon, InstagramIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -15,11 +15,11 @@ const MediaLinks = async () => {
   console.log(links);
   return (
     <div className="flex flex-col items-center gap-1 font-semibold">
-      <Link href={links[0].facebook}>
-        <Facebook />
+      <Link className={"text-sm"} href={links[0].facebook}>
+        <FacebookIcon size={20} />
       </Link>
       <Link href={links[0].instagram}>
-        <Instagram />
+        <InstagramIcon size={20} />
       </Link>
       <h3>{links[0].phone}</h3>
     </div>

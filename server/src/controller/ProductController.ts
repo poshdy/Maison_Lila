@@ -5,10 +5,10 @@ import {
   GetProduct,
   GetProducts,
   RestockAll,
-  SearchProducts,
   UpdateProduct,
 } from "../services/product/index.js";
 import { ExtractId } from "../helpers/ExtractId.js";
+import { Search } from "../model/product/index.js";
 
 export const OnCreateProduct = async (req: Request, res: Response) => {
   const data = req.body;
@@ -50,10 +50,11 @@ export const OnDeleteProduct = async (req: Request, res: Response) => {
 };
 
 export const OnSearchProducts = async (req: Request, res: Response) => {
-  const { query } = req.query;
-  const products = await SearchProducts(query);
-
+  const { name } = req.query;
+  const products = await Search(name);
+  const length = products.length;
   res.status(200).send({
+    length,
     products,
   });
 };

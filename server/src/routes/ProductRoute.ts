@@ -7,6 +7,7 @@ import {
   OnCreateProduct,
   OnProductsRestock,
   OnSearchProducts,
+
   // productsStock,
 } from "../controller/ProductController.js";
 import { tryCatch } from "../utils/tryCatch.js";
@@ -16,6 +17,7 @@ import { prismadb } from "../lib/prismadb.js";
 // import { checkStock } from "../services/product/index.js";
 
 const router = express.Router();
+router.get("/search", tryCatch(OnSearchProducts));
 router.post("/", Roles(["MANAGER"]), tryCatch(OnCreateProduct));
 router.patch(
   "/:id",
@@ -27,7 +29,6 @@ router.get("/", tryCatch(OnGetProducts));
 router.get("/:id", PathId, tryCatch(OnGetProduct));
 
 router.delete("/:id", Roles(["MANAGER"]), PathId, tryCatch(OnDeleteProduct));
-router.get("/search", tryCatch(OnSearchProducts));
 router.patch(
   "/restock",
   Roles(["MANAGER", "ADMIN"]),

@@ -1,3 +1,4 @@
+import { Query } from "../../../types.js";
 import { prismadb } from "../../lib/prismadb.js";
 
 export const Create = async (data) => {
@@ -172,6 +173,29 @@ export const Decrement = async (quantity: number, productId: string) => {
     },
     data: {
       stock: { decrement: quantity },
+    },
+  });
+};
+
+export const Search = async (name: Query) => {
+  return await prismadb.product.findMany({
+    where: {
+      OR: [
+        { name: { contains: name as string } },
+        { category: { name: { contains: name as string } } },
+      ],
+    },
+    select: {
+      name: true,
+      image: true,
+      price: true,
+      id: true,
+      category: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
     },
   });
 };

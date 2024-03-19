@@ -21,3 +21,9 @@ export const getDataById = async (url: string, id: string) => {
   }
 };
 
+export const Search = async (formData: FormData) => {
+  "use server";
+  const name = formData.get("name");
+  const data = await getData(`product/search?name=${name}`);
+  return data;
+};

@@ -38,27 +38,6 @@ export const OrdersCount = async () => {
   };
 };
 
-export const GetProductByName = async (query) => {
-  console.log(query);
-  return await prismadb.product.findMany({
-    where: {
-      OR: [
-        { name: { contains: query as string } },
-        { category: { name: { contains: query as string } } },
-      ],
-    },
-    include: {
-      image: true,
-      category: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-};
-
 export const ProductsCount = async () => {
   const total = await prismadb.product.count();
   const inStock = await prismadb.productInventory.count({

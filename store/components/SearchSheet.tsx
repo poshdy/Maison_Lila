@@ -1,15 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import z from "zod";
-import ProductCard from "./pageComponents/shop/ProductCard";
 import { Input } from "./ui/input";
-import { Client } from "@/axiosClient";
-import { Form, FormControl, FormField, FormItem } from "./ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Product } from "@/types";
+import { Search } from "@/types";
 import {
   Sheet,
   SheetContent,
@@ -17,57 +11,89 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { SearchSchema } from "@/Schemas";
-import CartItem from "./pageComponents/cart/CartItem";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import { BASE_URL } from "@/constants";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "./ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SearchSchema, SearchValues } from "@/Schemas";
+import ProductSearch from "./pageComponents/shop/product-search";
+import Heading from "./Shared/Heading";
 type Props = {
   color: string;
 };
 const SearchSheet = ({ color }: Props) => {
-  const [search, setSearch] = useState<Product[]>([]);
-  const [query, setQuery] = useState("");
-  const onSubmit = async () => {
+  const form = useForm<SearchValues>({
+    resolver: zodResolver(SearchSchema),
+  });
+  const [products, setProducts] = useState<Search>();
+  const onSubmit = async (data: SearchValues) => {
     try {
-      const res = await Client.get(`/product/search?query=${query}`);
-      console.log(res);
-      setSearch(res.data.data);
+      const res = await axios.get(
+        `${BASE_URL}/product/search?name=${data.name}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setProducts(res.data);
     } catch (error: any) {
       console.log(error.message);
-      setQuery("");
     } finally {
-      setQuery("");
     }
   };
+
   return (
     <Sheet>
       <SheetTrigger>
-        <Search className={cn("cursor-pointer w-6 h-6", color)} />
+        <SearchIcon className={cn("cursor-pointer w-6 h-6", color)} />
       </SheetTrigger>
-      <SheetContent className="h-screen w-full space-y-2  ">
+      <SheetContent className="h-screen w-full space-y-5  ">
         <SheetHeader>
           <SheetTitle>Search Products</SheetTitle>
         </SheetHeader>
-
-        <form>
-          <Input
-            placeholder="try 'Cookies' "
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
+        <Form {...form}>
+          <form
+            className="w-full grid grid-cols-4 items-center gap-x-2"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <FormField
+              name="name"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormControl>
+                    <Input
+                      className="w-full"
+                      type="name"
+                      placeholder="try 'Cookies'"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button className="rounded-xl py-2" variant="action" type="submit">
+              <SearchIcon />
+            </Button>
+          </form>
+        </Form>
+        {products && (
+          <Heading
+            title={`Result ${products?.length} Product`}
+            size="text-base text-gray-400 text-left"
           />
-        </form>
-        <section className="overflow-y-scroll grid grid-cols-4">
-          {search?.map((item) => (
-            <div key={item.id} className="col-span-2">
-              <ProductCard product={item} />
-            </div>
-          ))}
-        </section>
-        <Button
-          className="fixed bottom-1 left-0 w-full"
-          onClick={() => onSubmit()}
-        >
-          Search
-        </Button>
+        )}
+        {products?.products?.map((prod) => (
+          <ProductSearch key={prod?.id} product={prod} />
+        ))}
       </SheetContent>
     </Sheet>
   );
@@ -93,4 +119,13 @@ export default SearchSheet;
   </Button>
 </form>
 </Form> */
+}
+{
+  /* <section className="overflow-y-scroll grid grid-cols-4">
+{search?.map((item) => (
+  <div key={item.id} className="col-span-2">
+    <ProductCard product={item} />
+  </div>
+))}
+</section> */
 }

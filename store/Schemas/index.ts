@@ -20,7 +20,7 @@ export const AddressSchema = z.object({
 });
 
 export const SearchSchema = z.object({
-  query: z.string(),
+  name: z.string(),
 });
 export const OrderSchema = z.object({
   phone: z.string().length(11),
@@ -45,6 +45,7 @@ export const LoginSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof LoginSchema>;
+export type SearchValues = z.infer<typeof SearchSchema>;
 export type SignUpFormValues = z.infer<typeof SignUpSchema>;
 export type ReviewFormValues = z.infer<typeof ReviewSchema>;
 export type OrderFormValues = z.infer<typeof OrderSchema>;
