@@ -51,12 +51,11 @@ export const OnDeleteProduct = async (req: Request, res: Response) => {
 
 export const OnSearchProducts = async (req: Request, res: Response) => {
   const { query } = req.query;
-  await SearchProducts(query);
+  const products = await SearchProducts(query);
 
-  // if (product.length == 0) {
-  //   throw new AppError("we dont have this product", "not found products", 404);
-  // }
-  // res.status(200).send(product);
+  res.status(200).send({
+    products,
+  });
 };
 
 export const OnProductsRestock = async (req: Request, res: Response) => {
