@@ -23,7 +23,7 @@ const Filters = ({ categories }: Props) => {
   const search = useSearchParams();
 
   return (
-    <div className="flex w-full items-center gap-x-4 overflow-x-scroll">
+    <div className="flex w-full items-center gap-x-4 p-2 overflow-x-scroll">
       {filters.map((item) => (
         <Button
           key={item.path}
@@ -35,20 +35,21 @@ const Filters = ({ categories }: Props) => {
           {item.name}
         </Button>
       ))}
-      <Select>
+      <Select onValueChange={(e) => router.push(`shop?category=${e}`)}>
         <SelectTrigger className="w-[100px] rounded-full">
           <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>
-          <SelectGroup>
-            {categories.map((category) => (
-              <SelectItem key={category?.id} value={category?.name}>
-                <Link href={`product?category=${category.name}`}>
-                  {category.name}
-                </Link>
-              </SelectItem>
-            ))}
-          </SelectGroup>
+          {categories.map((category) => (
+            <SelectItem key={category?.id} value={category?.name}>
+              <Button
+                className="bg-transparent hover:bg-transparent p-0 text-main"
+                onClick={() => router.push(`shop?category=${category?.name}`)}
+              >
+                {category?.name}
+              </Button>
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

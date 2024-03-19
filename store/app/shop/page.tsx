@@ -13,19 +13,22 @@ const Shop = async ({
     bestSeller: string;
     newArrival: string;
     recommended: string;
+    category: string;
   };
 }) => {
   let query;
   if (searchParams.bestSeller) {
     query = `product?bestSeller=true`;
   }
-  // if (searchParams.newArrival) {
-  //   query = `product?newArrival=true`;
-  // else if (searchParams.recommended) {
-  //   query = `product?recommended=true`;
-  // } else {
-  //   query = "product";
-  // }
+  if (searchParams.newArrival) {
+    query = `product?newArrival=true`;
+  }
+  if (searchParams.recommended) {
+    query = `product?recommended=true`;
+  }
+  if (searchParams.category) {
+    query = `product?category=${searchParams?.category}`;
+  }
 
   const products: Product[] | null = await getData(query || "product");
   const categories: Category[] | null = await getData("category");
@@ -34,18 +37,24 @@ const Shop = async ({
     <Wrapper>
       <Heading size="text-3xl" title="Shop" />
       <Filters categories={categories} />
-      <section className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-5 justify-items-center">
-        {products.length <= 0 ? (
-          <Empty
-            title="No Products Found For This Category "
-            action="Return To Shop Page"
+      {products?.length <= 0 ? (
+        <Empty
+          title="No Products Found For This Category "
+          action="Return To Shop Page"
+        />
+      ) : (
+        <section>
+          <Heading
+            size="text-base text-left text-gray-400 "
+            title={`Result ${products.length} Product`}
           />
-        ) : (
-          products?.map((product) => (
-            <ProductCard key={product?.id} product={product} />
-          ))
-        )}
-      </section>
+          <section className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-5 justify-items-center py-10">
+            {products?.map((product) => (
+              <ProductCard key={product?.id} product={product} />
+            ))}
+          </section>
+        </section>
+      )}
     </Wrapper>
   );
 };
