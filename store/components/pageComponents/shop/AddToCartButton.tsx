@@ -13,7 +13,7 @@ const AddToCartButton = ({ quantity, product }: Props) => {
     name: product.name,
     category: product.category.name,
     quantity: quantity <= 0 ? 1 : quantity,
-    price: product.salePrice ? product.salePrice : product.price,
+    price: product?.salePrice > 0 ? product?.salePrice : product?.price,
     image: product?.image?.at(0)?.url,
   };
   const { addItem } = useCart();

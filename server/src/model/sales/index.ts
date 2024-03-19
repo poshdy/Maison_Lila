@@ -1,5 +1,13 @@
-import { Product } from "@prisma/client";
+import { OrderItems } from "@prisma/client";
 import { prismadb } from "../../lib/prismadb.js";
+import { CalculateOrderPrice } from "../../services/sales/index.js";
+
+type saleData = {
+  productId: string;
+  quantitySold: number;
+  orderPrice: number;
+  soldAtPrice: any;
+};
 
 export const DailySales = async () => {
   const order = await prismadb.order.findMany({
@@ -21,73 +29,59 @@ export const DailySales = async () => {
   return dailySales;
 };
 
-export const ProductSales = async () => {
-  const products = await GetProducts();
-
-
+export const InsertSale = async (orderItems: OrderItems[]) => {
+  orderItems.map(async (item) => {
+    return await prismadb.$transaction(async (tx) => {
+      const product = await tx.product.findUnique({
+        where: { id: item.productId },
+      });
+      const soldAtPrice =
+        +product?.salePrice > 0 ? product.salePrice : product.price;
+      const orderPrice = await CalculateOrderPrice(+soldAtPrice, item.quantity);
+      const data = {
+        productId: product.id,
+        quantitySold: item?.quantity,
+        orderPrice,
+        soldAtPrice,
+      };
+      await IsProductExist(tx, data);
+    });
+  });
 };
 
+async function IsProductExist(tx, data: saleData) {
+  const { productId, orderPrice, quantitySold, soldAtPrice } = data;
+  return await tx.sales.upsert({
+    update: {
+      quantitySold: { increment: quantitySold },
+      Revenue: { increment: Number(orderPrice) },
+      price: soldAtPrice,
+    },
+    create: {
+      productId,
+      quantitySold,
+      Revenue: orderPrice,
+      price: soldAtPrice,
+    },
+    where: {
+      productId: data.productId,
+    },
+  });
+}
 
-
-// async function CalculateProductRevenue(products) {
-//   products.forEach(async (prod) => {
-//     const totalQuantity = prod.orderItems.reduce((total, item) => {
-//       return total + item.quantity;
-//     }, 0);
-
-//     const totalRevenue = totalQuantity * Number(prod.price);
-//     return {
-//       totalQuantity,
-//       totalRevenue,
-//     };
-//   });
-// }
-
-export default async function GetProducts() {
-  return await prismadb.product.findMany({
+export const GetSales = async () => {
+  return await prismadb.sales.findMany({
     select: {
-      name: true,
-      id: true,
       price: true,
-      orderItems: {
+      Revenue: true,
+      createdAt: true,
+      quantitySold: true,
+      product: {
         select: {
-          quantity: true,
-          productId: true,
+          name: true,
+          image: true,
         },
       },
     },
   });
-}
-export const TotalQuantitySold = async (productId) => {
-  const product = await prismadb.orderItems.findMany({
-    where: {
-      productId,
-    },
-  });
-  product.reduce((total: number, item) => {
-    console.log("Total", total);
-    console.log("Total", item.quantity);
-    return total + item.quantity;
-  }, 0);
 };
-// const messi = products.forEach((prod) => {
-//   const totalQuanSold = prod.orderItems.reduce((acc: any, order) => {
-//     acc + order.quantity;
-//   }, 0);
-//   const totalRevenueGenerated = prod.orderItems.reduce(
-//     async (acc: any, order) => {
-//       const p = await GetProduct(order.productId);
-//       acc + p.price;
-//     },
-//     0
-//   );
-
-//   // console.log(`Product: ${prod.name}`);
-//   // console.log(`Total Quantity Sold: ${totalQuanSold}`);
-//   // console.log(`Total Revenue: $${totalRevenueGenerated}`);
-//   // return {
-//   //   prod,
-//   //   totalQuanSold,
-//   //   totalRevenueGenerated,
-//   // };
-// });

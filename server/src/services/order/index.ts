@@ -1,10 +1,16 @@
 import { IsValid, CanUseIt, UsedCoupons } from "../../model/coupon/index.js";
 import { Create, Find, FindById, Update } from "../../model/order/index.js";
 import { Coupon } from "../../pub/coupon.js";
+import { Product } from "../../pub/product.js";
+import { Sales } from "../../pub/sales.js";
 import { AppError } from "../../utils/AppError.js";
 
 export const CreateOrder = async (data) => {
-  return await Create(data);
+  const { orderItems } = data;
+  const order = await Create(data);
+  Sales.emit("insert", orderItems);
+  Product.emit("decrement", orderItems);
+  return order;
 };
 export const GetOrders = async () => {
   return await Find();
@@ -44,5 +50,6 @@ export const ApplyCoupon = async (
 
   await UsedCoupons(userId, couponCode);
   Coupon.emit("increment", coupon.id);
+
   return coupon.discountAmount;
 };

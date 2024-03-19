@@ -1,29 +1,17 @@
-import GetProducts, {
-  DailySales,
-  ProductSales,
-} from "../../model/sales/index.js";
+import { DailySales, GetSales, InsertSale } from "../../model/sales/index.js";
 
 export const GetDailySales = async () => {
   return await DailySales();
 };
 
 export const GetProductSales = async () => {
-  const products = await GetProducts();
-  products.forEach((prod) => {
-    const totalQuantity = CalculateProductQuantity(prod);
-    console.log(totalQuantity);
-    // const totalRevenue = CalculateProductRevenue(prod, totalQuantity);
-    // console.log(totalQuantity);
-
-    return totalQuantity;
-  });
+  return await GetSales();
 };
 
-const CalculateProductQuantity = (prod) => {
-  return prod.orderItems.reduce((total: any, item) => {
-    total + Number(item.quantity);
-  }, 0);
+export const InsertIntoSales = async (orderItems) => {
+  return await InsertSale(orderItems);
 };
-const CalculateProductRevenue = (prod, quantity) => {
-  return Number(prod.price) * quantity;
+
+export const CalculateOrderPrice = async (price: number, quantity: number) => {
+  return Number(price) * Number(quantity);
 };

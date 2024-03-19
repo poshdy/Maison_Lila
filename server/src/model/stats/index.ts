@@ -127,5 +127,8 @@ export const CouponStats = async () => {
       },
       uses: true,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 };

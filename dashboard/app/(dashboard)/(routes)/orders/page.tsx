@@ -12,6 +12,7 @@ const OrdersPage = async ({
   searchParams: { page: string };
 }) => {
   const orders = await getData("/order");
+
   const formattedOrders: OrderColumn[] | null = orders?.map(
     (item: OrderColumn) => ({
       id: item?.id,

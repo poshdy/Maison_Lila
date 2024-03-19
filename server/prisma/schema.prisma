@@ -186,7 +186,6 @@ model Sales {
   productId    String   @id
   product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   price        Decimal
-  soldAt       Decimal
   quantitySold Int
   Revenue      Decimal
   createdAt    DateTime @default(now())

@@ -66,6 +66,7 @@ export const Find = async (query) => {
     },
     orderBy: {
       price,
+      createdAt: "asc",
     },
   });
 };
@@ -160,6 +161,17 @@ export const Restock = async (stock: number) => {
   return await prismadb.productInventory.updateMany({
     data: {
       stock,
+    },
+  });
+};
+
+export const Decrement = async (quantity: number, productId: string) => {
+  return await prismadb.productInventory.update({
+    where: {
+      productId,
+    },
+    data: {
+      stock: { decrement: quantity },
     },
   });
 };

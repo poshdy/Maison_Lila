@@ -10,6 +10,7 @@ type Props = {
 };
 
 const ProductController = ({ product }: Props) => {
+
   const [quantity, setQuantity] = useState<number>(1);
   return (
     <section className="w-full flex flex-col items-center gap-y-4">
@@ -19,9 +20,9 @@ const ProductController = ({ product }: Props) => {
           <Text size="text-sm" text="total price" />
           <Currency
             price={
-              product.salePrice
-                ? product.salePrice * quantity
-                : product.price * quantity
+              product?.salePrice > 0
+                ? product?.salePrice * quantity
+                : product?.price * quantity
             }
           />
         </div>

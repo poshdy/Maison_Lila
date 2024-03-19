@@ -1,6 +1,7 @@
 import { Request } from "express";
 import {
   Create,
+  Decrement,
   Delete,
   Find,
   FindById,
@@ -43,6 +44,13 @@ export const RestockAll = async (stock: number) => {
 
 export const SearchProducts = async (query) => {
   return await GetProductByName(query);
+};
+
+export const DecrementProductStock = async (
+  quantity: number,
+  productId: string
+) => {
+  return await Decrement(quantity, productId);
 };
 // export const checkOrderQuntity = async (
 //   req: Request,

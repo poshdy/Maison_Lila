@@ -16,6 +16,7 @@ const CartSummary = ({ zone, action, title }: Props) => {
   useEffect(() => {
     calculateTotalPrice();
   }, [items, calculateTotalPrice]);
+  console.log(items)
 
   return (
     <section className="flex flex-col space-y-4 w-full items-center p-4 justify-between bg-gray-200 z-30 fixed bottom-0 left-0">
