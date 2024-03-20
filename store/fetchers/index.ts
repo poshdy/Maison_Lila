@@ -1,8 +1,4 @@
-import { LoginFormValues, SignUpFormValues } from "@/Schemas";
 import { Server } from "@/axiosServer";
-import { BASE_URL } from "@/constants";
-
-import axios from "axios";
 
 export const getData = async (url: string) => {
   try {

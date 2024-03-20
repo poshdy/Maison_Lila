@@ -7,6 +7,7 @@ export const NAVITEMS = [
 
 export const BASE_URL = "https://api.maisonlila.shop";
 
+
 export const filters = [
   { name: "All", path: "shop" },
   { name: "bestSeller", path: "shop?bestSeller=true" },
