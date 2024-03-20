@@ -23,7 +23,7 @@ const MoblieView = ({ data }: Props) => {
             key={slide.id}
             className="space-y-4 flex flex-col items-center"
           >
-            <Heading size="text-4xl font-bold uppercase" title={slide.title} />
+            <Heading size="text-4xl font-bold uppercase" title={slide?.title} />
             <div className="relative w-full h-[60vh]">
               <Image
                 fill
@@ -33,7 +33,7 @@ const MoblieView = ({ data }: Props) => {
                 src={slide?.image}
               />
             </div>
-            <Text text={slide.text} size="text-sm text-center" />
+            <Text text={slide?.text} size="text-sm text-center" />
             <NavigationButton title="Shop Now" action="shop" />
           </CarouselItem>
         ))}

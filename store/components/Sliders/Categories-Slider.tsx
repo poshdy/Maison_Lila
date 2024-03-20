@@ -17,16 +17,16 @@ type Props = {
 };
 
 const CategoriesSlider = ({ categories }: Props) => {
-  const filterd = categories.filter((cat) => cat.parentId == null);
+  const filterd = categories?.filter((cat) => cat?.parentId == null);
 
   const router = useRouter();
   return (
     <Carousel className="w-[85%] mx-auto">
       <CarouselContent>
-        {filterd.map((category) => (
+        {filterd?.map((category) => (
           <CarouselItem
             className="basis-1/4 md:basis-1/4 text-center md:flex md:flex-col md:items-center"
-            key={category.id}
+            key={category?.id}
           >
             <div
               onClick={() => router.push(`/shop?category=${category?.name}`)}
@@ -51,11 +51,3 @@ const CategoriesSlider = ({ categories }: Props) => {
 };
 
 export default CategoriesSlider;
-// {/* {categories?.map((category) => (
-//   <CarouselItem
-//     key={category?.id}
-//
-//   >
-
-//     </CarouselItem>
-//     {/* ))} */}

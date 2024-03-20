@@ -20,13 +20,13 @@ const DesktopView = ({ data }: Props) => {
     <Carousel className="hidden md:flex">
       <CarouselContent className="mt-10">
         {data?.content?.map((slide) => (
-          <CarouselItem key={slide.id} className="grid grid-cols-6 gap-5 ">
+          <CarouselItem key={slide?.id} className="grid grid-cols-6 gap-5 ">
             <div className="col-span-3  space-y-3">
               <Heading
                 size="text-7xl text-left uppercase"
-                title={slide.title}
+                title={slide?.title}
               />
-              <Text text={slide.text} size="text-lg" />
+              <Text text={slide?.text} size="text-lg" />
               <NavigationButton title="Shop Now" action="shop" />
             </div>
             <div className="col-span-3">
