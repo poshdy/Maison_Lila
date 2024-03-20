@@ -145,3 +145,45 @@ export const Increment = async (couponId) => {
     },
   });
 };
+
+export const IsExpired = async () => {
+  let currentDate = new Date();
+  return await prismadb.couponData.updateMany({
+    where: {
+      expiration: {
+        lte: currentDate,
+      },
+    },
+    data: {
+      valid: {
+        set: false,
+      },
+    },
+  });
+};
+
+export const FindCouponByName = async (couponCode: string) => {
+  return await prismadb.coupon.findUnique({
+    where: {
+      couponCode,
+    },
+    include: {
+      couponData: true,
+    },
+  });
+};
+
+export const UnVaildCoupon = async (couponCode) => {
+  return await prismadb.coupon.update({
+    where: {
+      couponCode,
+    },
+    data: {
+      couponData: {
+        update: {
+          valid: false,
+        },
+      },
+    },
+  });
+};

@@ -58,8 +58,11 @@ const OrderForm = () => {
         `/order/${res?.data?.id}`
       );
     } catch (error: any) {
-      if (error.response.data.errorCode) {
-        // onOpen(`${error.response.data.errorCode}`, "Opps!");
+      if (
+        error.response.data.errorCode ==
+        "Sorry Cinnamon rolls is currently out of stock"
+      ) {
+        open("Opps!",`${error.response.data.errorCode}` );
       } else {
         open("Opps!", "Something Please Try Again");
       }

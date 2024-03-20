@@ -67,7 +67,7 @@ export const Find = async (query) => {
     },
     orderBy: {
       price,
-      createdAt: "asc",
+      createdAt: "desc",
     },
   });
 };

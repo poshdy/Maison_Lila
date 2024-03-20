@@ -1,14 +1,12 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+
 import {
   Select,
   SelectItem,
   SelectTrigger,
-  SelectGroup,
   SelectValue,
   SelectContent,
-  SelectLabel,
 } from "@/components/ui/select";
 import { Category } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -23,11 +21,11 @@ const Filters = ({ categories }: Props) => {
   const search = useSearchParams();
 
   return (
-    <div className="flex w-full items-center gap-x-4 p-2 overflow-x-scroll">
+    <div className="w-full items-start gap-3 p-1 grid grid-cols-3">
       {filters.map((item) => (
         <Button
           key={item.path}
-          className={`text-sm border-[2px] rounded-full bg-transparent hover:bg-lila/20   p-2  text-main  ${
+          className={`text-sm border-[2px] rounded-full bg-transparent hover:bg-lila/20 p-5  text-main  ${
             search.has(item.name) ? " bg-lila text-white" : "border-gray-200"
           }`}
           onClick={() => router.push(item.path)}

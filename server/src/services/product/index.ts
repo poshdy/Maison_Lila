@@ -58,45 +58,6 @@ export const ProductStock = async (
   next();
   return data;
 };
-// export const checkOrderQuntity = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const { orderItems } = req.body;
-
-//   try {
-//     await prismadb.$transaction(async (tx) => {
-//       for (const orderItem of orderItems) {
-//         const { productId, quantity } = orderItem;
-//         console.log(quantity, productId);
-//         const product = await tx.product.findUnique({
-//           where: {
-//             id: productId,
-//           },
-//         });
-
-//         if (product?.SoldOut === true) {
-//           throw new AppError(
-//             `Sorry ${product.name} is currently out of stock`,
-//             `Sorry ${product.name} is currently out of stock`,
-//             400
-//           );
-//         }
-//         if (Number(product?.stock) < quantity) {
-//           throw new AppError(
-//             `Sorry we only have ${product?.stock} from ${product?.name}`,
-//             `Sorry we only have ${product?.stock} from ${product?.name}`,
-//             400
-//           );
-//         }
-//       }
-//       next();
-//     });
-//   } catch (error) {
-//     return next(error);
-//   }
-// };
 
 // export const RestockAllProducts = async (req: Request) => {
 //   const { id } = req.params;

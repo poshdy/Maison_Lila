@@ -10,7 +10,6 @@ type Props = {
 };
 
 const ProductController = ({ product }: Props) => {
-
   const [quantity, setQuantity] = useState<number>(1);
   return (
     <section className="w-full flex flex-col items-center gap-y-4">

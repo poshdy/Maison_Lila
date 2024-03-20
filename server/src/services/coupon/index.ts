@@ -1,13 +1,18 @@
+import { Request, Response, NextFunction } from "express";
 import {
   Create,
   Delete,
   Find,
   FindById,
+  FindCouponByName,
   Increment,
+  IsExpired,
   IsNameExist,
+  UnVaildCoupon,
   Update,
 } from "../../model/coupon/index.js";
 import { AppError } from "../../utils/AppError.js";
+import { prismadb } from "../../lib/prismadb.js";
 
 export const CreateCoupon = async (data) => {
   const exist = await IsExisted(data.couponCode);
@@ -38,58 +43,32 @@ export const IncrementCount = async (couponId: string) => {
   return await Increment(couponId);
 };
 
-// export const checkCount = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const coupon = await prismadb.coupons.findUnique({
-//     where: {
-//       name: req.body.coupon,
-//     },
-//   });
+export const CheckCouponExpiration = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { couponCode } = req.body;
+  const coupon = await FindCouponByName(couponCode);
+  if (coupon?.couponData.valid === false) {
+    return res.status(200).send("this coupon has expired");
+  }
+  if (coupon.couponData.countUsed == coupon.couponData.limit) {
+    await UnVaildCoupon(couponCode);
+    return res.status(400).send(`${coupon?.couponCode} has expired`);
+  }
 
-//   if (coupon?.countUsed == coupon?.maxUsage) {
-//     await prismadb.coupons.update({
-//       where: {
-//         name: req.body.coupon,
-//       },
-//       data: {
-//         valid: { set: false },
-//       },
-//     });
-//     return res.status(400).send(`${coupon?.name} has expired`);
-//   }
-//   if (coupon?.valid === false) {
-//     return res.status(200).send("this coupon has expired");
-//   }
-//   console.log(`${coupon.name}:used ${coupon.countUsed}`);
+  // console.log(`${coupon.name}:used ${coupon.countUsed}`);
 
-//   next();
-// };
+  next();
+};
 
-// export const Expiration = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     let currentDate = new Date();
-//     const coupons = await prismadb.coupons.updateMany({
-//       where: {
-//         expiration: {
-//           lte: currentDate,
-//         },
-//       },
-//       data: {
-//         valid: {
-//           set: false,
-//         },
-//       },
-//     });
-//     next();
-//   } catch (error) {
-//     console.log("");
-//   }
-// };
-
+export const Expiration = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const coupon = await IsExpired();
+  next();
+  return coupon;
+};

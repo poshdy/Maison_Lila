@@ -49,18 +49,3 @@ console.log(product)
 };
 
 export default ProductPage;
-{
-  {
-    /* <h3 className="text-gray-600">{product?.category?.name}</h3>
-<p className="text-gray-500 md:text-center">
-  {product?.description}
-</p>
-<h2 className="hidden md:flex font-semibold text-2xl">
-  {formattedPrice(product?.price)}
-</h2>
-
-</div> */
-  }
-}
-{
-}

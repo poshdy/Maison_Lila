@@ -21,7 +21,7 @@ export const OnCreateUser = async (req: Request, res: Response) => {
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
-      accessTokn: token,
+      accessToken: token,
     },
   });
 };

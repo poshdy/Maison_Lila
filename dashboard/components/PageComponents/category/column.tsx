@@ -27,7 +27,11 @@ export const columns: ColumnDef<CategoryColumn>[] = [
       const value = row.original.Category.map((cat) => cat.name);
       return (
         <div>
-          {value.length > 0 ? value.map((cat) => <Badge>{cat}</Badge>) : <X />}
+          {value.length > 0 ? (
+            value.map((cat, i) => <Badge key={i}>{cat}</Badge>)
+          ) : (
+            <X />
+          )}
         </div>
       );
     },

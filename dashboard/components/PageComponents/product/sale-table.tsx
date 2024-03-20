@@ -21,14 +21,14 @@ const SaleTable = ({ heads, products }: Props) => {
     <Table>
       <TableHeader>
         <TableRow>
-          {heads.map((head) => (
-            <TableHead>{head}</TableHead>
+          {heads.map((head, i) => (
+            <TableHead key={i}>{head}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
         {products?.map((item: ProductColmun) => (
-          <TableRow key={item.id}>
+          <TableRow key={item?.id}>
             <TableCell className="font-medium">
               <Image
                 width={30}

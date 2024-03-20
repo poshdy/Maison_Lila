@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useUser } from "./zustand/user-store";
 import { jwtDecode } from "jwt-decode";
-import dayjs, { unix } from "dayjs";
+import dayjs from "dayjs";
 import { BASE_URL } from "./constants";
 
 let token = useUser.getState().user?.accessToken;
+console.log(useUser.getState().user)
 export const Client = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -22,6 +23,7 @@ Client.interceptors.request.use(async (req) => {
   const res = await axios.get(`${BASE_URL}/manager/token`, {
     withCredentials: true,
   });
+  console.log(res.data)
   useUser.getState().updateAccessToken(res.data.accessToken);
 
   req.headers.Authorization = `Bearer ${res.data.accessToken}`;

@@ -5,6 +5,8 @@ import dayjs, { unix } from "dayjs";
 import { BASE_URL } from "./constants";
 
 let token = AdminStore.getState().accessToken;
+console.log(token);
+console.log(AdminStore.getState().accessToken);
 export const Client = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -22,7 +24,7 @@ Client.interceptors.request.use(async (req) => {
   const res = await axios.get(`${BASE_URL}/manager/token`, {
     withCredentials: true,
   });
-   AdminStore.getState().updateAccessToken(res.data.accessToken);
+  AdminStore.getState().updateAccessToken(res.data.accessToken);
   req.headers.Authorization = `Bearer ${res.data.accessToken}`;
   return req;
 });

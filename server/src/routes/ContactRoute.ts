@@ -12,7 +12,6 @@ import { Roles } from "../middlewares/permissions.js";
 const router = express.Router();
 
 router.get("/", tryCatch(OnGetContact));
-// router.get("/:id", tryCatch(getContactById));
 router.post("/", Roles(["MANAGER", "ADMIN"]), tryCatch(OnCreateContact));
 router.patch("/:id", Roles(["MANAGER", "ADMIN"]), tryCatch(OnUpdateContact));
 router.delete("/:id", Roles(["MANAGER", "ADMIN"]), tryCatch(OnDeleteContact));

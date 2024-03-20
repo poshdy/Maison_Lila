@@ -17,6 +17,7 @@ export const Roles = (roles: string[]) => {
               "your token has expired please"
             );
         }
+        console.log(data)
         if (roles.includes(data.role)) {
           console.log(data?.role)
           next();

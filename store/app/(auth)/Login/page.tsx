@@ -4,9 +4,7 @@ import AlertMessage from "@/components/models/alert";
 import Link from "next/link";
 import React from "react";
 
-type Props = {};
-
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   return (
     <section className="w-[90%] flex flex-col items-center mt-2 mx-auto space-y-8">
       <AlertMessage />

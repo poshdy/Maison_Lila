@@ -1,5 +1,12 @@
+import { NextFunction, Request, Response } from "express";
 import { IsValid, CanUseIt, UsedCoupons } from "../../model/coupon/index.js";
-import { Create, Find, FindById, Update } from "../../model/order/index.js";
+import {
+  Create,
+  Find,
+  FindById,
+  OrderQuantity,
+  Update,
+} from "../../model/order/index.js";
 import { Coupon } from "../../pub/coupon.js";
 import { Product } from "../../pub/product.js";
 import { Sales } from "../../pub/sales.js";
@@ -52,4 +59,19 @@ export const ApplyCoupon = async (
   Coupon.emit("increment", coupon.id);
 
   return coupon.discountAmount;
+};
+
+export const checkOrderQuntity = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { orderItems } = req.body;
+    const order = await OrderQuantity(orderItems);
+    next();
+    return order;
+  } catch (error) {
+    return next(error);
+  }
 };

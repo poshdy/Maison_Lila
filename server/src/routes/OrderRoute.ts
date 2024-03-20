@@ -10,12 +10,17 @@ import {
 const router = express.Router();
 import { tryCatch } from "../utils/tryCatch.js";
 import { PathId } from "../middlewares/path.js";
-// import { Expiration, checkCount } from "../services/coupon/index.js";
-// import { checkStock } from "../services/product/index.js";
+import { Expiration, CheckCouponExpiration } from "../services/coupon/index.js";
+import { checkOrderQuntity } from "../services/order/index.js";
 
-router.post("/", tryCatch(OnCreateOrder));
+router.post("/", checkOrderQuntity, tryCatch(OnCreateOrder));
 router.get("/", tryCatch(OnGetOrders));
-router.post("/apply-coupon", tryCatch(OnApplyCoupon));
+router.post(
+  "/apply-coupon",
+  Expiration,
+  CheckCouponExpiration,
+  tryCatch(OnApplyCoupon)
+);
 router.get("/:id", PathId, tryCatch(OnGetOrder));
 router.patch("/:id", PathId, tryCatch(OnUpdateOrder));
 

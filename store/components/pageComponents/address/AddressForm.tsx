@@ -33,6 +33,7 @@ const AddressForm = ({ zone }: Props) => {
   const { push } = useRouter();
   const { setAddress } = AddressStore();
   const { user } = useUser();
+  console.log(user.accessToken);
   const form = useForm<AddressFormValue>({
     resolver: zodResolver(AddressSchema),
   });
@@ -46,6 +47,7 @@ const AddressForm = ({ zone }: Props) => {
         Floor: data.Floor,
         userId: user?.id,
       });
+      console.log(res.data);
       setAddress({
         zone: {
           id: res?.data?.zone?.id,
@@ -57,7 +59,7 @@ const AddressForm = ({ zone }: Props) => {
         city: "Cairo",
         Floor: data.Floor,
         streetName: data.streetName,
-        userId: res.data.User.id,
+        userId: res?.data?.user?.id,
         id: res?.data?.id,
       });
       push("/order/review");

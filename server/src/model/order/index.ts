@@ -1,4 +1,6 @@
+import { OrderItems } from "@prisma/client";
 import { prismadb } from "../../lib/prismadb.js";
+import { AppError } from "../../utils/AppError.js";
 
 export const Create = async (data) => {
   const {
@@ -71,6 +73,7 @@ export const Find = async () => {
         },
       },
     },
+    orderBy: { createdAt: "desc" },
   });
 };
 export const FindById = async (id: string) => {
@@ -123,5 +126,37 @@ export const Update = async (id: string, status) => {
         set: status,
       },
     },
+  });
+};
+
+export const OrderQuantity = async (orderItems: OrderItems[]) => {
+  await prismadb.$transaction(async (tx) => {
+    for (const orderItem of orderItems) {
+      const { productId, quantity } = orderItem;
+      console.log(quantity, productId);
+      const product = await tx.product.findUnique({
+        where: {
+          id: productId,
+        },
+        include: {
+          productInventory: true,
+        },
+      });
+
+      if (product?.productInventory.soldOut === true) {
+        throw new AppError(
+          `Sorry ${product.name} is currently out of stock`,
+          `Sorry ${product.name} is currently out of stock`,
+          400
+        );
+      }
+      if (Number(product?.productInventory.stock) < quantity) {
+        throw new AppError(
+          `Sorry we only have ${product?.productInventory.stock} from ${product?.name}`,
+          `Sorry we only have ${product?.productInventory.stock} from ${product?.name}`,
+          400
+        );
+      }
+    }
   });
 };
