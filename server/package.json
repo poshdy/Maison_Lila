@@ -7,6 +7,7 @@
   "scripts": {
     "build": "rimraf dist && npx tsc",
     "dev": "npx prisma generate && tsx watch src/server.ts",
+    "prestart": "npx prisma migrate deploy",
     "start": "npm run build && node dist/server.js"
   },
   "keywords": [],

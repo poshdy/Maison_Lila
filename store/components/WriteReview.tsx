@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import React from "react";
 import { Client } from "@/axiosClient";
 import { useUser } from "@/zustand/user-store";
@@ -16,7 +16,7 @@ import { useNoticationModel } from "@/zustand/notification-store";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReviewFormValues, ReviewSchema } from "@/Schemas";
-
+import { useErrorModel } from "@/zustand/error-store";
 
 type Props = {
   productId: string;
@@ -24,7 +24,8 @@ type Props = {
 
 const WriteReview = ({ productId }: Props) => {
   const { user } = useUser();
-  const { onOpen } = useNoticationModel();
+  const { Display } = useNoticationModel();
+  const { Display: open } = useErrorModel();
   const form = useForm<ReviewFormValues>({
     resolver: zodResolver(ReviewSchema),
   });
@@ -37,10 +38,10 @@ const WriteReview = ({ productId }: Props) => {
         userId: user?.id,
         productId: productId,
       });
-      onOpen("Thank you for your feedback", "THANK YOU!");
+      Display("Thank you for your feedback", "THANK YOU!", "Go SHOPPING");
       form.reset();
     } catch (error) {
-      onOpen("Something went wrong", "Opps!");
+      open("Something went wrong", "Opps!");
     }
   };
   return (
@@ -109,7 +110,9 @@ const WriteReview = ({ productId }: Props) => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">Post</Button>
+          <Button type="submit" className="w-full">
+            Post
+          </Button>
         </form>
       </Form>
     </section>
@@ -117,5 +120,3 @@ const WriteReview = ({ productId }: Props) => {
 };
 
 export default WriteReview;
-
-
