@@ -33,7 +33,7 @@ COPY --from=developement ./app/dist ./dist
 RUN npx prisma generate
 
 
-CMD [ "node" ,"dist/server.js" ]
+CMD [ "npm" ,"start" ]
 
 
 
