@@ -135,13 +135,7 @@ export type OrderDeatils = {
   createdAt: string;
 };
 
-export type BottomImage = {
-  id: string;
-  text: string;
-  image: string;
-  title: string;
-  published: boolean;
-};
+
 
 export type banner = {
   id: string;

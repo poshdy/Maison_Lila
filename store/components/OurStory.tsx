@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import { BottomImage } from "@/types";
+import { banner } from "@/types";
 
 type Props = {
-  bottomImage: BottomImage | null;
+  bottomImage: banner | null;
 };
 const OurStory = async ({ bottomImage }: Props) => {
   return (
