@@ -6,8 +6,6 @@ import YouMayAlsoLike from "@/components/pageComponents/shop/YouMayAlsoLike";
 import Wrapper from "@/components/Shared/Wrapper";
 import Heading from "@/components/Shared/Heading";
 import Text from "@/components/Shared/Text";
-import { Button } from "@/components/ui/button";
-import Currency from "@/components/Shared/Currency";
 import ProductController from "@/components/pageComponents/shop/ProductController";
 
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
@@ -15,7 +13,7 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
     "product",
     params.productId
   );
-console.log(product)
+  console.log(product);
   return (
     <Wrapper>
       <section className="mb-12 space-y-10">

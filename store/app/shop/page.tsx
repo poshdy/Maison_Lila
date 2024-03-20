@@ -14,6 +14,7 @@ const Shop = async ({
     newArrival: string;
     recommended: string;
     category: string;
+    page: string;
   };
 }) => {
   let query;
@@ -29,8 +30,11 @@ const Shop = async ({
   if (searchParams.category) {
     query = `product?category=${searchParams?.category}`;
   }
+  if (searchParams.page) {
+    query = `product?page=${searchParams?.page}`;
+  }
 
-  const products: Product[] | null = await getData(query || "product");
+  const products: Product[] | null = await getData(query || "product?page=1");
   const categories: Category[] | null = await getData("category");
 
   return (

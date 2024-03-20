@@ -6,7 +6,6 @@ import Heading from "./Shared/Heading";
 
 const Categories = async () => {
   const categories: Category[] | null = await getData("category");
-  console.log(categories)
   return (
     <section className="space-y-2 md:space-y-4">
       <Heading size="text-3xl md:text-4xl" title="Category" />

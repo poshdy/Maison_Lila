@@ -31,6 +31,9 @@ export default async function RootLayout({
   const anoun = await getData("anoun?published=true");
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/logo.png" type="png" />
+      </head>
       <ClientProvider>
         <body
           className={`${font.className} min-h-screen relative flex flex-col text-lila overflow-x-hidden bg-[#fffcf8]`}

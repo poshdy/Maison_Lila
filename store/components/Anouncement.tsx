@@ -11,7 +11,7 @@ const Anouncement = (anoun: any) => {
         autoFill
         speed={70}
       >
-        <h1>{anoun.anoun.text}</h1>
+        <h1>{anoun?.anoun?.text}</h1>
       </Marquee>
     </section>
   );
