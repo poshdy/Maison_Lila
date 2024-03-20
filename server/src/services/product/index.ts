@@ -26,9 +26,6 @@ export const UpdateProduct = async (id: string, data) => {
   }
 };
 export const GetProducts = async (req: Request) => {
-  const { category, price, bestSeller, newArrival, page } = req.query;
-  const limit = 10;
-  const start = (Number(page) * 1 - 1) * limit;
   return await Find(req.query);
 };
 export const GetProduct = async (id: string) => {

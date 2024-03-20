@@ -13,7 +13,7 @@ const Productspage = async ({
 }: {
   searchParams: { page: string };
 }) => {
-  const products = await getData("product");
+  const products = await getData(`product?page=${searchParams.page}`);
   const onSaleProducts = products?.filter(
     (product: ProductColmun) => product.salePrice > 0
   );
@@ -35,7 +35,7 @@ const Productspage = async ({
   return (
     <Wrapper>
       {formattedProducts && (
-        <ProductClient page={searchParams?.page} data={formattedProducts} />
+        <ProductClient  page={searchParams?.page} data={formattedProducts} />
       )}
       <Separator />
       <div className="space-y-4">

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 export const SIDE_BAR_ITEMS = [
   { path: "/", name: "Overview", Icon: Store },
-  { path: "/products", name: "Products", Icon: Croissant },
+  { path: "/products?page=1", name: "Products", Icon: Croissant },
   { path: "/orders", name: "Orders", Icon: ShoppingBasket },
   { path: "/customized-orders", name: "Cutstom Orders", Icon: ShoppingBasket },
   { path: "/sales", name: "Sales", Icon: BadgeDollarSign },

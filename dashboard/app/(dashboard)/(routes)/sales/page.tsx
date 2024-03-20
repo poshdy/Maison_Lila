@@ -1,7 +1,7 @@
 import { Heading } from "@/components/Heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
-import { DATE } from "@/actions/shared";
+import { DATE, formattedPrice } from "@/actions/shared";
 import { SalesColumn } from "@/types";
 import { columns } from "@/components/PageComponents/sales/columns";
 import { getData } from "@/fetchers";
@@ -13,9 +13,9 @@ const SalesPage = async () => {
     (item: SalesColumn) => ({
       productName: item?.product?.name,
       productImage: item?.product?.image,
-      price: item?.price,
+      price: formattedPrice(+item?.price),
       quantitySold: item?.quantitySold,
-      Revenue: item?.Revenue,
+      Revenue: formattedPrice(+item?.Revenue),
       createdAt: DATE(item?.createdAt),
     })
   );

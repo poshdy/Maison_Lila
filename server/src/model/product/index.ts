@@ -45,7 +45,9 @@ export const FindById = async (id: string) => {
 };
 
 export const Find = async (query) => {
-  const { price, category, bestSeller, newArrival, recommended } = query;
+  const { price, category, bestSeller, newArrival, recommended, page } = query;
+  const limit = 10;
+  const start = (Number(page) * 1 - 1) * limit;
   const bestseller = bestSeller && Boolean(bestSeller);
   const newarrival = newArrival && Boolean(newArrival);
   const Recommended = newArrival && Boolean(recommended);
@@ -69,6 +71,8 @@ export const Find = async (query) => {
       price,
       createdAt: "desc",
     },
+    skip: start,
+    take: limit,
   });
 };
 
