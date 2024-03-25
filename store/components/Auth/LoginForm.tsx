@@ -94,13 +94,8 @@ const LoginForm = (props: Props) => {
           )}
         />
 
-        <Button
-          variant={"action"}
-          className="w-full"
-          disabled={isLoading}
-          type="submit"
-        >
-          Login
+        <Button variant={"action"} className="w-full" type="submit">
+          {isLoading ? "Loading" : "Login"}
         </Button>
       </form>
     </Form>

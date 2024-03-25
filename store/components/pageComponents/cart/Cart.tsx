@@ -9,6 +9,7 @@ import { useUser } from "@/zustand/user-store";
 
 const Cart = () => {
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, [mounted]);

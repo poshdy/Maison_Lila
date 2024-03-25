@@ -114,7 +114,7 @@ const RegisterForm = () => {
           disabled={isLoading}
           type="submit"
         >
-          Create Account
+          {isLoading ? "Loading" : "Create Account"}
         </Button>
       </form>
     </Form>

@@ -17,6 +17,7 @@ import { useCart } from "@/zustand/cart-store";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { BASE_URL } from "@/constants";
+import { AddressStore } from "@/zustand/address-store";
 
 type Props = {};
 
@@ -24,12 +25,14 @@ const AuthSheet = (props: Props) => {
   const router = useRouter();
   const { user, LogOut } = useUser();
   const { ClearCart } = useCart();
+  const { clearAddress } = AddressStore();
 
   const logOut = async () => {
     await axios.post(`${BASE_URL}/auth/logOut`, null, {
       withCredentials: true,
     });
     ClearCart();
+    clearAddress();
     LogOut();
     router.push("/");
   };
