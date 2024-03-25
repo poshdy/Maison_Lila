@@ -13,7 +13,7 @@ const Productspage = async ({
 }: {
   searchParams: { page: string };
 }) => {
-  const products = await getData(`product?page=${searchParams.page}`);
+  const products = await getData(`product?page=${searchParams.page || "1"}`);
   const onSaleProducts = products?.filter(
     (product: ProductColmun) => product.salePrice > 0
   );

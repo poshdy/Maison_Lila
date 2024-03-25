@@ -16,10 +16,31 @@ export const ProductAttributes = async (
     console.log(error.message);
   }
 };
-export const Restock = async (id: string, router: AppRouterInstance) => {
+
+export const MarkAsSoldOut = async (id: string, router: AppRouterInstance) => {
   try {
-    const res = await Client.patch(`/product/restock/${id}`, { restock: 10 });
+    const res = await Client.patch(`/product/${id}/sold-out`, {
+      soldOut: true,
+    });
+    toast.success(`Product Marked As Sold-out`);
+    router.refresh();
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+export const RestockProduct = async (id: string, router: AppRouterInstance) => {
+  try {
+    const res = await Client.patch(`/product/${id}/restock`, { stock: 10 });
     toast.success(`Product Restocked`);
+    router.refresh();
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+export const RestockAll = async (id: string, router: AppRouterInstance) => {
+  try {
+    const res = await Client.patch(`/product/restock-all`, { stock: 10 });
+    toast.success(`All Products Restocked`);
     router.refresh();
   } catch (error: any) {
     console.log(error.message);

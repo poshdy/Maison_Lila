@@ -71,7 +71,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       } else {
         await Create("/product", data);
       }
-      router.push(`/products?page=1`);
+      router.push(`/products`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error: any) {

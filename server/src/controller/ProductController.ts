@@ -8,7 +8,7 @@ import {
   UpdateProduct,
 } from "../services/product/index.js";
 import { ExtractId } from "../helpers/ExtractId.js";
-import { Search } from "../model/product/index.js";
+import { Search, SoldOut, RestockProduct } from "../model/product/index.js";
 
 export const OnCreateProduct = async (req: Request, res: Response) => {
   const data = req.body;
@@ -41,6 +41,14 @@ export const OnUpdateProduct = async (req: Request, res: Response) => {
     message: "Product Updated Successfully",
   });
 };
+export const OnMarkSoldOut = async (req: Request, res: Response) => {
+  const id = await ExtractId(req);
+  const { soldOut } = req.body;
+  await SoldOut(id, soldOut);
+  res.status(200).send({
+    message: "Product Marked As Sold Out",
+  });
+};
 export const OnDeleteProduct = async (req: Request, res: Response) => {
   const id = await ExtractId(req);
   await DeleteProduct(id);
@@ -59,7 +67,7 @@ export const OnSearchProducts = async (req: Request, res: Response) => {
   });
 };
 
-export const OnProductsRestock = async (req: Request, res: Response) => {
+export const OnRestockProducts = async (req: Request, res: Response) => {
   const { stock } = req.body;
   await RestockAll(stock);
   res.status(200).send({
@@ -67,36 +75,11 @@ export const OnProductsRestock = async (req: Request, res: Response) => {
   });
 };
 
-// export const RestockProduct = async (req: Request, res: Response) => {
-//   const data = await RestockAllProducts(req);
-//   res.status(200).send("our products has has been restocked");
-// };
-
-// // export const BestSeller = async (req: Request, res: Response) => {
-// //   const update = await toggleBestSeller(req);
-
-// //   res.status(200).send(update);
-// // };
-
-// export const TopProducts = async (req: Request, res: Response) => {
-//   const product = await topProducts();
-//   console.log(product);
-//   res.status(200).json(product);
-// };
-
-// export const deleteProducts = async (req: Request, res: Response) => {
-//   const { id } = req.params;
-//   const product = await prismadb.product.delete({
-//     where: {
-//       id,
-//     },
-//   });
-//   if (!product) {
-//     throw new AppError(
-//       "product with this id is not found",
-//       "product not found",
-//       404
-//     );
-//   }
-//   res.status(200).send(product);
-// };
+export const OnRestockProduct = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { stock } = req.body;
+  await RestockProduct(id, stock);
+  res.status(200).send({
+    message: "Product Restocked",
+  });
+};

@@ -11,10 +11,10 @@ export const OnManagerLogin = async (req: Request, res: Response) => {
   const { manager, token, refreshtoken } = await ManagerLogin(data);
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    secure: true,
-    path: "/",
-    domain: ".maisonlila.shop",
-    sameSite: "none",
+    // secure: true,
+    // path: "/",
+    // domain: ".maisonlila.shop",
+    // sameSite: "none",
     maxAge: 259200000,
   });
   res.status(201).send({

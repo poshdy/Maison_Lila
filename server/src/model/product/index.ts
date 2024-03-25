@@ -155,7 +155,7 @@ const UpdateImage = async (id: string, tx, image) => {
     data: {
       image: {
         createMany: {
-          data: [...image.map((image: { url: string }) => image)],
+          data: [...image?.map((image: { url: string }) => image)],
         },
       },
     },
@@ -166,6 +166,7 @@ export const Restock = async (stock: number) => {
   return await prismadb.productInventory.updateMany({
     data: {
       stock,
+      soldOut: false,
     },
   });
 };
@@ -211,6 +212,24 @@ export const Stock = async () => {
     },
     where: {
       stock: { lte: 1 },
+    },
+  });
+};
+
+export const SoldOut = async (id: string, soldOut) => {
+  const data = Boolean(soldOut);
+  return await prismadb.productInventory.update({
+    where: { productId: id },
+    data: { soldOut: data },
+  });
+};
+
+export const RestockProduct = async (id: string, stock) => {
+  return await prismadb.productInventory.update({
+    where: { productId: id },
+    data: {
+      stock,
+      soldOut: false,
     },
   });
 };

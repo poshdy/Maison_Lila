@@ -14,7 +14,7 @@ import {
 import { AlertModal } from "@/components/models/alert-model";
 import { ProductColmun } from "@/types";
 import { onConfirm, onCopy } from "@/actions/shared";
-import { Restock } from "@/actions/product";
+import { MarkAsSoldOut, RestockAll, RestockProduct } from "@/actions/product";
 
 interface CellActionProps {
   data: ProductColmun;
@@ -52,11 +52,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={async () => await Restock(data.id, router)}
+            onClick={async () => await RestockProduct(data.id, router)}
           >
             <Edit className="mr-2 h-4 w-4" /> Restock
           </DropdownMenuItem>
 
+          <DropdownMenuItem onClick={() => MarkAsSoldOut(data?.id, router)}>
+            <Trash className="mr-2 h-4 w-4" /> Mark as sold-out
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
