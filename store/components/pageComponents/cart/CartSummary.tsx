@@ -4,7 +4,7 @@ import Heading from "@/components/Shared/Heading";
 import { useCart } from "@/zustand/cart-store";
 import React, { useEffect } from "react";
 import { Zone } from "@/types";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type Props = {
   zone?: Zone;
@@ -25,7 +25,7 @@ const CartSummary = ({ zone, action, title }: Props) => {
         <Heading title="Cart Total" size="text-lg font-bold" />
         <Currency price={cartTotalAmount} />
       </div>
-      {pathName.includes("cart") ? null : (
+      {pathName.includes("/cart") ? null : (
         <div className="flex items-center justify-between w-full">
           <Heading title="Delivery Fees" size="text-lg font-bold" />
           {zone && <Currency price={zone?.fees} />}

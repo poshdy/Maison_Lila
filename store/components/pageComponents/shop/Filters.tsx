@@ -26,7 +26,7 @@ const Filters = ({ categories }: Props) => {
         <Button
           key={item.path}
           className={`text-sm border-[2px] rounded-full bg-transparent hover:bg-lila/20 p-5  text-main  ${
-            search.has(item.name) ? " bg-lila text-white" : "border-gray-200"
+            search.has(item?.name) ? " bg-lila text-white" : "border-gray-200"
           }`}
           onClick={() => router.push(item.path)}
         >

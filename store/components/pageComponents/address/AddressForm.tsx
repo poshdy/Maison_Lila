@@ -48,19 +48,20 @@ const AddressForm = ({ zone }: Props) => {
         Floor: data.Floor,
         userId: user?.id,
       });
+      console.log(res.data);
       setAddress({
         zone: {
-          id: res?.data?.zone?.id,
-          fees: res?.data?.zone?.fees,
-          name: res?.data?.zone?.name,
+          id: res?.data?.address?.zone?.id,
+          fees: res?.data?.address?.zone?.fees,
+          name: res?.data?.address?.zone?.name,
         },
         apartmenNo: data.apartmentNo,
         BuildingNo: data.BuildingNo,
         city: "Cairo",
         Floor: data.Floor,
         streetName: data.streetName,
-        userId: res?.data?.user?.id,
-        id: res?.data?.id,
+        userId: user?.id,
+        id: res?.data?.address?.id,
       });
       push("/order/review");
       form.reset();

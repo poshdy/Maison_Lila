@@ -28,6 +28,7 @@ const Productspage = async ({
       category: item?.category?.name,
       stock: item?.productInventory?.stock,
       price: formattedPrice(+item?.price),
+      soldOut: item?.productInventory?.soldOut,
       image: item?.image,
       createdAt: DATE(item?.createdAt),
     })
@@ -35,7 +36,7 @@ const Productspage = async ({
   return (
     <Wrapper>
       {formattedProducts && (
-        <ProductClient  page={searchParams?.page} data={formattedProducts} />
+        <ProductClient page={searchParams?.page} data={formattedProducts} />
       )}
       <Separator />
       <div className="space-y-4">

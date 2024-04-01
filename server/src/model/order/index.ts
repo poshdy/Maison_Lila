@@ -37,6 +37,22 @@ export const Create = async (data) => {
         },
       },
     },
+    select: {
+      id: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      OrderSummary: { select: { OrderTotal: true } },
+      OrderItems: {
+        include: {
+          Product: true,
+        },
+      },
+    },
   });
 };
 export const Find = async () => {

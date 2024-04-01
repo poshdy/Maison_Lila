@@ -12,8 +12,9 @@ const UserShippingInfoPage = async ({
 }) => {
   const zone: Zone[] | null = await getData("zone");
   const address: Address[] | null = await getData(
-    `user/${params.userId}/addresses`
-  );
+    `user/${params?.userId}/addresses`
+  )
+  console.log(address)
   return (
     <Wrapper>
       <Heading title="Shipping info" size="text-3xl" />

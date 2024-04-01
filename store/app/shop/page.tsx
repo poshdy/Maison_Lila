@@ -5,6 +5,7 @@ import Wrapper from "@/components/Shared/Wrapper";
 import { getData } from "@/fetchers";
 import { Category, Product } from "@/types";
 import Filters from "@/components/pageComponents/shop/Filters";
+import Paging from "@/components/pageComponents/shop/Paging";
 
 const Shop = async ({
   searchParams,
@@ -19,16 +20,18 @@ const Shop = async ({
 }) => {
   let query;
   if (searchParams.bestSeller) {
-    query = `product?bestSeller=true`;
+    query = `product?page=${searchParams?.page || "1"}&bestSeller=true`;
   }
   if (searchParams.newArrival) {
-    query = `product?newArrival=true`;
+    query = `product?page=${searchParams?.page || "1"}&newArrival=true`;
   }
   if (searchParams.recommended) {
-    query = `product?recommended=true`;
+    query = `product?page=${searchParams?.page || "1"}&recommended=true`;
   }
   if (searchParams.category) {
-    query = `product?category=${searchParams?.category}`;
+    query = `product?page=${searchParams?.page || "1"}&category=${
+      searchParams?.category
+    }`;
   }
   if (searchParams.page) {
     query = `product?page=${searchParams?.page}`;
@@ -42,10 +45,7 @@ const Shop = async ({
       <Heading size="text-3xl" title="Shop" />
       <Filters categories={categories} />
       {products?.length <= 0 ? (
-        <Empty
-          title="No Products Found For This Category "
-          action="Return To Shop Page"
-        />
+        <Empty title="No Products Found" action="Return To Shop Page" />
       ) : (
         <section>
           <Heading
@@ -59,6 +59,7 @@ const Shop = async ({
           </section>
         </section>
       )}
+      <Paging page={searchParams?.page} />
     </Wrapper>
   );
 };

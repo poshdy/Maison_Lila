@@ -29,6 +29,7 @@ const OrderForm = () => {
   const { Display } = useNoticationModel();
   const { Display: open } = useErrorModel();
   const { subtotal, cartTotalAmount, ClearCart } = useCart();
+  console.log(address)
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(OrderSchema),
   });

@@ -11,12 +11,14 @@ import { Coupon } from "../../pub/coupon.js";
 import { Product } from "../../pub/product.js";
 import { Sales } from "../../pub/sales.js";
 import { AppError } from "../../utils/AppError.js";
+import { EmailEvent } from "../../pub/mails.js";
 
 export const CreateOrder = async (data) => {
   const { orderItems } = data;
   const order = await Create(data);
   Sales.emit("insert", orderItems);
   Product.emit("decrement", orderItems);
+  EmailEvent.emit("orderPlaced", order?.user, order);
   return order;
 };
 export const GetOrders = async () => {

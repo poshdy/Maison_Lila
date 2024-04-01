@@ -34,9 +34,10 @@ const RegisterForm = () => {
       const res = await axios.post(`${BASE_URL}/auth/sign-up`, data, {
         withCredentials: true,
       });
-      SetUser(res.data.data);
+      SetUser(res?.data?.data);
+      console.log(res?.data?.data);
       success.Display(
-        `Welcome ${data?.name}`,
+        `Welcome ${res?.data?.data?.name}`,
         "Your Account Is created Successfully, Thank you for choosing Mison Lila",
         "shop"
       );

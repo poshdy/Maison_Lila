@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./actions";
 import { ProductColmun } from "@/types";
-import { formattedPrice } from "@/actions/shared";
 import { Badge } from "@/components/ui/badge";
 export const columns: ColumnDef<ProductColmun>[] = [
   {
@@ -23,6 +22,14 @@ export const columns: ColumnDef<ProductColmun>[] = [
   {
     accessorKey: "name",
     header: "Name",
+  },
+  {
+    accessorKey: "soldOut",
+    header: "sold-out",
+    cell: ({ row }) => {
+      const isSoldOut = row?.getValue("soldOut");
+      return <h2>{isSoldOut ? "Sold-out" : "In Stock"}</h2>;
+    },
   },
 
   {

@@ -9,7 +9,7 @@ export const BASE_URL = "http://localhost:8000/v1";
 
 export const filters = [
   { name: "All", path: "shop" },
-  { name: "bestSeller", path: "shop?bestSeller=true" },
-  { name: "newArrival", path: "shop?newArrival=true" },
-  { name: "recommended", path: "shop?recommended=true" },
+  { name: "Best-Seller", path: "shop?page=1&bestSeller=true" },
+  { name: "New-Arrival", path: "shop?page=1&newArrival=true" },
+  { name: "Recommended", path: "shop?page=1&recommended=true" },
 ];

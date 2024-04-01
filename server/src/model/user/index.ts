@@ -20,6 +20,11 @@ export const FindUserAddress = async (id: string) => {
     },
     include: {
       zone: true,
+      User:{
+        select:{
+          id:true
+        }
+      }
     },
   });
 };

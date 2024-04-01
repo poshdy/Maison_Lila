@@ -22,7 +22,7 @@ export const AddressStore = create<AddressStore>()(
       }),
 
       {
-        name: "user-storage",
+        name: "address",
       }
     )
   )

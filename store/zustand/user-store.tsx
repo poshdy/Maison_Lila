@@ -34,12 +34,12 @@ export const useUser = create<UserStore>()(
         },
 
         LogOut() {
-          set({ user: null });
+          set({ user: null});
         },
       }),
 
       {
-        name: "user-storage",
+        name: "user",
       }
     )
   )

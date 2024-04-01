@@ -35,7 +35,7 @@ const LoginForm = (props: Props) => {
       const res = await axios.post(`${BASE_URL}/auth/login`, data, {
         withCredentials: true,
       });
-      SetUser(res.data.data);
+      SetUser(res?.data?.data);
       success.Display(
         `Welcome Back ${res?.data?.name}`,
         "Logged In Successfully",

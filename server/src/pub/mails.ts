@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 import Mailgen, { Content } from "mailgen";
 import nodemailer from "nodemailer";
 
-export const orderEv = new EventEmitter();
+// export const orderEv = new EventEmitter();
 export const EmailEvent = new EventEmitter();
 export const Transporter = nodemailer.createTransport({
   service: "gmail",
@@ -19,50 +19,52 @@ const MailSchema: Mailgen = new Mailgen({
   theme: "default",
   product: {
     name: "Maison Lila",
-    link: "maisonlila.shop" ,
+    link: "maisonlila.shop",
   },
 });
 
-EmailEvent.on("orderPlaced", async (name: string, order) => {
+EmailEvent.on("orderPlaced", async (user, order) => {
   try {
-    const OrderEmailClient: Content = {
+    const ClientMail: Content = {
       body: {
-        name,
-        intro: "Your order has been processed successfully.",
+        name: user?.name,
+        intro: "Thank You for Your Maison Lila Order",
+        title:
+          "Thank you for choosing Maison Lila for your bakery needs! 🍰 Your order is being prepared with care and will soon be on its way to delight your taste buds. We appreciate your support and look forward to serving you again soon!",
         table: {
-          data: order.map((item: any) => {
+          data: order.OrderItems?.map((item: any) => {
             console.log(item);
             return {
               quantity: item?.quantity,
               item: item?.Product?.name,
               price: item?.Product?.price,
+              Total: order?.OrderSummary?.OrderTotal,
             };
           }),
         },
-
-        dictionary: order?.orderSummary?.OrderTotal,
         action: {
           instructions:
-            "You can check the status of your order and more in your dashboard:",
+            "You can check the status of your order and more in your dashboard",
           button: {
             color: "#3869D4",
             text: "Go to Dashboard",
-            link: "www.google.com",
+            link: `https://maisonlila.shop`,
           },
         },
         outro: "We thank you for your purchase.",
       },
     };
-    const OrderEmailAdmin: Content = {
+    const AdminMail: Content = {
       body: {
         name: "Admin",
-        intro: "Hey Admin you received a new order ",
+        intro: "Hey Admin you received a new order",
         table: {
-          data: order?.map((item: any) => {
+          data: order.OrderItems?.map((item: any) => {
             return {
               item: item?.Product?.name,
               quantity: item?.quantity,
               price: item?.Product?.price,
+              Total: order?.OrderSummary?.OrderTotal,
             };
           }),
         },
@@ -71,126 +73,35 @@ EmailEvent.on("orderPlaced", async (name: string, order) => {
           button: {
             color: "#3869D4",
             text: "Go to Dashboard",
-            link: "www.google.com",
+            link: "https://admin.maisonlila.shop",
           },
         },
-        outro: "We thank you for your purchase.",
       },
     };
 
-    const emailBody = MailSchema.generate(OrderEmailAdmin);
-    const email = MailSchema.generate(OrderEmailClient);
+    const adminMail = MailSchema.generate(AdminMail);
+    const clientMail = MailSchema.generate(ClientMail);
 
-    let message = {
+    let ClientMessage = {
       from: process.env.USER,
-      to: "developerroshdy@gmail.com",
+      to: user?.email,
       subject: "Order Confirmed",
-      html: email,
+      html: clientMail,
     };
 
     let AdminMessage = {
       from: process.env.USER,
       to: "maisonlilaorders@gmail.com",
       subject: "you have a new order",
-      html: emailBody,
+      html: adminMail,
     };
     await Transporter.sendMail(AdminMessage);
-    await Transporter.sendMail(message);
+    await Transporter.sendMail(ClientMessage);
   } catch (error) {
     console.log(error);
   }
 });
 
-EmailEvent.on("Customized-order", async (order: any) => {
-  try {
-    const CustomizedClient: Content = {
-      body: {
-        name: order.name,
-        intro:
-          "we received your Order we will get in touch as soon as possible",
-
-        action: {
-          instructions: "Thank You",
-          button: {
-            color: "#3869D4",
-            text: "Shop Now!",
-            link: "www.google.com",
-          },
-        },
-        outro: "thank you for choosing MAISON LILA",
-      },
-    };
-    const CustomizedAdmin: Content = {
-      body: {
-        name: "Hello Admin",
-        intro: "A Client Placed a new Customzied order so go check it out",
-
-        action: {
-          instructions: "Dashboard",
-          button: {
-            color: "#3869D4",
-            text: "Dashboard",
-            link: "www.google.com",
-          },
-        },
-      },
-    };
-
-    const client = MailSchema.generate(CustomizedClient);
-    const admin = MailSchema.generate(CustomizedAdmin);
-    let message = {
-      from: process.env.USER,
-      to: order.email,
-      subject: "Order Confirmed",
-      html: client,
-    };
-
-    let AdminMessage = {
-      from: process.env.USER,
-      to: "maisonlilaorders@gmail.com",
-      subject: "you have a new customized order",
-      html: admin,
-    };
-    await Transporter.sendMail(AdminMessage);
-    await Transporter.sendMail(message);
-  } catch (error) {
-    console.log(error);
-  }
-});
-EmailEvent.on("user-creation", async (user: any) => {
-  try {
-    const WelcomeMessage: Content = {
-      body: {
-        name: user.name,
-        title: "Welcome to MAISON LILA",
-        intro:
-          "You have activated your customer account. Next time you shop with us, log in for faster checkout",
-
-        action: {
-          instructions: "Thank You for Choosing us",
-          button: {
-            color: "#3869D4",
-            text: "Shop Now!",
-            link: "www.google.com",
-          },
-        },
-        outro: "thank you for choosing MAISON LILA",
-      },
-    };
-
-    const client = MailSchema.generate(WelcomeMessage);
-    let message = {
-      from: process.env.USER,
-      to: user.email,
-      subject: "Order Confirmed",
-      html: client,
-    };
-
-    await Transporter.sendMail(message);
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 EmailEvent.on("Server-Error", async (name: string, Emessage: string) => {
   try {

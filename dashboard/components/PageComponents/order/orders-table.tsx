@@ -45,7 +45,7 @@ const OrdersTable = ({ orders }: Props) => {
               </TableCell>
               <TableCell>{item?.orderStatus}</TableCell>
               <TableCell>
-                <Link href={item.id}>Details</Link>
+                <Link href={`/orders/${item.id}`}>Details</Link>
               </TableCell>
               <TableCell>{DATE(item?.createdAt)}</TableCell>
             </TableRow>

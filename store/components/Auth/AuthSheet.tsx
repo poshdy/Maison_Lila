@@ -32,8 +32,8 @@ const AuthSheet = (props: Props) => {
       withCredentials: true,
     });
     ClearCart();
-    clearAddress();
     LogOut();
+    clearAddress();
     router.push("/");
   };
   return (
