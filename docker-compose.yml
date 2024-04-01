@@ -62,7 +62,7 @@ services:
       - mynetwork
 
   store:
-    image: posh3120/store:v5.0
+    image: posh3120/store:v5.1
     deploy:
       restart_policy:
         condition: any
