@@ -16,7 +16,7 @@ const Paging = ({ page }: Props) => {
       </Link>
       <Link
         className="font-bold bg-lila text-center  h-10 w-20 rounded-full p-2 text-white"
-        href={`shop?page=${Number(page) + 1}`}
+        href={`shop?page=${Number(page)  + 1}`}
       >
         Next
       </Link>

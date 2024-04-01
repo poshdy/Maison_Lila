@@ -5,11 +5,11 @@ export const NAVITEMS = [
   { name: "Contact", path: "#contact" },
 ];
 
-export const BASE_URL = "http://localhost:8000/v1";
+export const BASE_URL = "https://api.maisonlila.shop";
 
 export const filters = [
-  { name: "All", path: "shop" },
-  { name: "Best-Seller", path: "shop?page=1&bestSeller=true" },
-  { name: "New-Arrival", path: "shop?page=1&newArrival=true" },
-  { name: "Recommended", path: "shop?page=1&recommended=true" },
+  { name: "All", path: "shop?page=1" },
+  { name: "Best-Seller", path: "shop?bestSeller=true" },
+  { name: "New-Arrival", path: "shop?newArrival=true" },
+  { name: "Recommended", path: "shop?recommended=true" },
 ];

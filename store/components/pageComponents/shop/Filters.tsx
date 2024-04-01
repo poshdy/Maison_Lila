@@ -33,7 +33,7 @@ const Filters = ({ categories }: Props) => {
           {item.name}
         </Button>
       ))}
-      <Select onValueChange={(e) => router.push(`shop?category=${e}`)}>
+      <Select onValueChange={(e) => router.push(`/shop?category=${e}`)}>
         <SelectTrigger className="w-[100px] rounded-full">
           <SelectValue placeholder="Category" />
         </SelectTrigger>
@@ -42,7 +42,6 @@ const Filters = ({ categories }: Props) => {
             <SelectItem key={category?.id} value={category?.name}>
               <Button
                 className="bg-transparent hover:bg-transparent p-0 text-main"
-                onClick={() => router.push(`shop?category=${category?.name}`)}
               >
                 {category?.name}
               </Button>

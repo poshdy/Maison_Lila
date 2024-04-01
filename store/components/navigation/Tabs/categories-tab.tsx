@@ -19,7 +19,7 @@ const CategoriesTab = ({ categories }: Props) => {
           {category?.Category?.length < 1 ? (
             <Link
               className="text-xl font-bold"
-              href={`/shop?category=${category.name}`}
+              href={`/shop?category=${category?.name}`}
               key={category?.id}
             >
               {category?.name}

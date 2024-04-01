@@ -12,7 +12,6 @@ type Links = {
 };
 const MediaLinks = async () => {
   const links: Links = await getData("contact");
-  console.log(links);
   return (
     <div className="flex flex-col items-center gap-1 font-semibold">
       <Link className={"text-sm"} href={links[0].facebook}>

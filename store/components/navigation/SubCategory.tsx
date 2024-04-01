@@ -23,7 +23,7 @@ const SubCategory = ({ subCategory }: Props) => {
             {subCategory?.Category?.map((s) => (
               <Link
                 className="text-lg"
-                href={`/shop?subCat=${s?.name}`}
+                href={`/shop?category=${s?.name}`}
                 key={s?.id}
               >
                 {s?.name}
