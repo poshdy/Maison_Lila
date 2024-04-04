@@ -32,7 +32,7 @@ export default async function RootLayout({
         <body
           className={`${font.className} min-h-screen relative flex flex-col text-lila overflow-x-hidden bg-[#fffcf8]`}
         >
-          <main className="flex-1 pb-10">
+          <main className="flex-1 pb-28">
             {anoun && <Anouncement anoun={anoun[0]} />}
             <Navbar />
             {children}

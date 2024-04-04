@@ -19,14 +19,14 @@ const SubCategory = ({ subCategory }: Props) => {
           <AccordionTrigger className="text-xl font-bold">
             {subCategory?.name}
           </AccordionTrigger>
-          <AccordionContent className="">
-            {subCategory?.Category?.map((s) => (
+          <AccordionContent className="flex flex-col items-start">
+            {subCategory?.Category?.map((subCategory) => (
               <Link
                 className="text-lg"
-                href={`/shop?category=${s?.name}`}
-                key={s?.id}
+                href={`/shop?category=${subCategory?.name}`}
+                key={subCategory?.id}
               >
-                {s?.name}
+                {subCategory?.name}
               </Link>
             ))}
           </AccordionContent>

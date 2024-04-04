@@ -4,9 +4,10 @@ import Heading from "@/components/Shared/Heading";
 import { useCart } from "@/zustand/cart-store";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
-import CartSummary from "./CartSummary";
 import { useUser } from "@/zustand/user-store";
-
+import Wrapper from "@/components/Shared/Wrapper";
+import { Separator } from "@/components/ui/separator";
+import CartSummary from "./CartSummary";
 const Cart = () => {
   const [mounted, setMounted] = useState(false);
 
@@ -20,7 +21,11 @@ const Cart = () => {
     return null;
   }
   return (
-    <>
+    <Wrapper>
+      <Heading
+        title="Shopping Cart"
+        size="md:text-3xl md:text-left text-2xl text-center"
+      />
       {items?.length <= 0 ? (
         <Empty
           title="Your Cart Is Empty"
@@ -28,18 +33,18 @@ const Cart = () => {
           action="GO SHOPPING"
         />
       ) : (
-        <section className="space-y-2 w-[90%] mx-auto relative">
-          <Heading size="text-2xl text-left" title="Shopping Cart" />
+        <section className="flex flex-col space-y-3 gap-x-6 md:flex-row md:justify-between">
           {items?.map((item) => (
-            <CartItem product={item} key={item?.id} />
+            <div className="space-y-6 w-full md:w-[60%]">
+              <Separator />
+              <CartItem product={item} key={item?.id} />
+              <Separator />
+            </div>
           ))}
-          <CartSummary
-            title="Checkout"
-            action={`order/shipping-info/${user?.id}`}
-          />
+          <CartSummary action="" title="Cart Summary" />
         </section>
       )}
-    </>
+    </Wrapper>
   );
 };
 

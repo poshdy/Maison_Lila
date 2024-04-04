@@ -32,6 +32,8 @@ const DesktopView = ({ data }: Props) => {
             <div className="col-span-3">
               <div className="relative w-[90%] flex h-[80vh]">
                 <Image
+                  onScroll={(e) => e.currentTarget.scroll({ left: 10 })}
+                  onLoad={(e) => (e.currentTarget.style.background = "#000")}
                   fill
                   className="object-cover rounded-t-full"
                   sizes="100vh,100vh"

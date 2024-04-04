@@ -49,7 +49,7 @@ const AuthSheet = (props: Props) => {
           {user ? (
             <div className="w-full flex flex-col items-center gap-3">
               <Link href={`account`}>Orders</Link>
-              <Button onClick={logOut}>Log out</Button>
+              <Button className="action" onClick={logOut}>Log out</Button>
             </div>
           ) : (
             <AuthTabs />

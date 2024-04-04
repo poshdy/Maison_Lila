@@ -1,6 +1,5 @@
 import React from "react";
 import { Home, ShoppingBag } from "lucide-react";
-import CartDrawer from "../../pageComponents/cart/CartDrawer";
 import OrderButton from "./OrderButton";
 import AuthSheet from "../../Auth/AuthSheet";
 import SearchSheet from "../../SearchSheet";
