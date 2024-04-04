@@ -13,7 +13,7 @@ const ProductSample = ({ data, title }: Props) => {
   return (
     <section className="space-y-2">
       <Heading size="text-3xl" title={title} />
-      <section className="grid grid-cols-4 gap-x-6 gap-y-3 justify-items-center">
+      <section className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         {data?.slice(0, 4).map((prod) => (
           <ProductCard key={prod.id} product={prod} />
         ))}

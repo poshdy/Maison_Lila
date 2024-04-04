@@ -8,7 +8,7 @@ type Props = {
 
 const Currency = ({ price, size }: Props) => {
   return (
-    <h3 className={cn("md:text-xl text-lg font-semibold",size)}>
+    <h3 className={cn("md:text-xl text-lg font-semibold", size)}>
       {formattedPrice(+price)}
     </h3>
   );

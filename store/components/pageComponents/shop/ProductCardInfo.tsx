@@ -12,14 +12,14 @@ type Props = {
 const ProductCardInfo = ({ product }: Props) => {
   return (
     <section className="flex flex-col items-start justify-center">
-      <Heading title={product?.name} size="md:text-2xl text-lg text-left font-bold" />
-
-      <Text size="text-sm" text={product?.category?.name} />
-      {Number(product?.salePrice) > 0 ? (
-        <SaleTag product={product} />
-      ) : (
-        <Currency price={product?.price} />
-      )}
+      <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+      <h2 className="mt-1 text-lg font-medium text-gray-900">
+        {Number(product?.salePrice) > 0 ? (
+          <SaleTag product={product} />
+        ) : (
+          <Currency price={product?.price} />
+        )}
+      </h2>
     </section>
   );
 };

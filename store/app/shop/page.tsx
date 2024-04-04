@@ -5,7 +5,6 @@ import Wrapper from "@/components/Shared/Wrapper";
 import { getData } from "@/fetchers";
 import { Category, Product } from "@/types";
 import Filters from "@/components/pageComponents/shop/Filters";
-import Paging from "@/components/pageComponents/shop/Paging";
 
 const Shop = async ({
   searchParams,
@@ -47,19 +46,14 @@ const Shop = async ({
       {products?.length <= 0 ? (
         <Empty title="No Products Found" action="Return To Shop Page" />
       ) : (
-        <section>
-          <Heading
-            size="text-base text-left text-gray-400 "
-            title={`Result ${products.length} Product`}
-          />
-          <section className="grid grid-cols-4 md:grid-cols-8 gap-3 md:gap-5 justify-items-center py-10">
-            {products?.map((product) => (
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="">
+            {products.map((product) => (
               <ProductCard key={product?.id} product={product} />
             ))}
-          </section>
-        </section>
+          </div>
+        </div>
       )}
-      <Paging page={searchParams?.page} />
     </Wrapper>
   );
 };

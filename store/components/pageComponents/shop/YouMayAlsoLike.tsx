@@ -8,7 +8,7 @@ type Props = {
 
 const YouMayAlsoLike = async ({ id }: Props) => {
   const products = await getDataById("category", id);
-console.log(products)
+
   return (
     <section>
       <ProductSample data={products?.products} title="You May Also Like" />
