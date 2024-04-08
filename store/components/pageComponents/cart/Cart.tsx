@@ -41,7 +41,7 @@ const Cart = () => {
               <Separator />
             </div>
           ))}
-          <CartSummary action="" title="Cart Summary" />
+          {items && <CartSummary action="" title="Cart Summary" />}
         </section>
       )}
     </Wrapper>

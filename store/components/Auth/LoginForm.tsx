@@ -16,13 +16,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/zustand/user-store";
 import axios from "axios";
 import { BASE_URL } from "@/constants";
-import { useAlert } from "@/zustand/alert-store";
 import { useNoticationModel } from "@/zustand/notification-store";
 import { useRouter } from "next/navigation";
+import { useErrorModel } from "@/zustand/error-store";
 type Props = {};
 
 const LoginForm = (props: Props) => {
-  const { Display } = useAlert();
+  const { Display } = useErrorModel();
   const { SetUser } = useUser();
   const success = useNoticationModel();
   const { push } = useRouter();
@@ -39,12 +39,17 @@ const LoginForm = (props: Props) => {
       success.Display(
         `Welcome Back ${res?.data?.name}`,
         "Logged In Successfully",
-        "shop"
+        ""
       );
       push("/");
-    } catch (error: any) {
-      const { data } = error?.response;
-      Display("Error", data);
+    } catch (error) {
+      if (error?.response?.data?.errorCode == "this email does not exists") {
+        Display("Error", "This email does not exists");
+      } else if (
+        error?.response?.data?.errorCode == "password does not match"
+      ) {
+        Display("Error", "password does not match");
+      }
       form.reset();
     } finally {
       form.reset();

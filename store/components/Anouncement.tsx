@@ -23,7 +23,7 @@ const Anouncement = (anoun: any) => {
           Shop Now! <span aria-hidden="true">&rarr;</span>
         </Link>
       </div>
-      <div className="flex flex-1 justify-end"></div>
+  
     </div>
   );
 };

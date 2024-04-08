@@ -15,11 +15,10 @@ import Wrapper from "../../Shared/Wrapper";
 const MobileNav = () => {
   return (
     <Wrapper>
-      <nav className="flex p-2 items-center justify-between  md:hidden">
+      <nav className="flex p-2 items-center justify-between md:hidden">
         <Link href={"/cart"}>
           <ShoppingBag className="cursor-pointer w-6 h-6 text-main" />
         </Link>
-
         <Logo />
         <Sheet>
           <SheetTrigger asChild>

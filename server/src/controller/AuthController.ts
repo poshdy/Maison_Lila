@@ -12,10 +12,10 @@ export const OnCreateUser = async (req: Request, res: Response) => {
   const { newUser, refreshtoken, token } = await CreateUser(data);
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    secure: true,
-    path: "/",
-    domain: ".maisonlila.shop",
-    sameSite: "none",
+    // secure: true,
+    // path: "/",
+    // domain: ".maisonlila.shop",
+    // sameSite: "none",
     maxAge: 259200000,
   });
   res.status(201).send({
@@ -33,10 +33,10 @@ export const OnLoginUser = async (req: Request, res: Response) => {
   const { user, token, refreshtoken } = await LoginUser(data);
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    secure: true,
-    path: "/",
-    domain: ".maisonlila.shop",
-    sameSite: "none",
+    // secure: true,
+    // path: "/",
+    // domain: ".maisonlila.shop",
+    // sameSite: "none",
     maxAge: 259200000,
   });
   res.status(201).send({

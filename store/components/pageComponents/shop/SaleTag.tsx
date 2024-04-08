@@ -10,11 +10,11 @@ type Props = {
 const SaleTag = ({ product }: Props) => {
   return (
     <div className="flex items-end gap-1">
-      <Currency price={+product.salePrice} />
+       <Currency price={+product.salePrice} /> 
 
-      <del className="text-lg">
+       <del className="text-lg">
         <Currency size="text-sm" price={+product.price} />
-      </del>
+      </del> 
     </div>
   );
 };

@@ -1,38 +1,34 @@
 "use client";
-import { Heart } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-
+import { Check } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useNoticationModel } from "@/zustand/notification-store";
-import Text from "../Shared/Text";
-import Heading from "../Shared/Heading";
-import Link from "next/link";
-import ActionButton from "../Shared/NavigationButton";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export const SuccessfullModal = () => {
+  const { push } = useRouter();
   const { isOpen, message, title, Close } = useNoticationModel();
 
   return (
-    <Dialog open={isOpen} onOpenChange={Close}>
-      <DialogContent className="flex flex-col items-center justify-center h-64 space-y-4">
-        <div>
-          <DialogHeader>
-            <DialogTitle className="">
-              <Heading size="text-2xl font-semibold" title={title} />
-            </DialogTitle>
-          </DialogHeader>
-
-          <Text text={message} size="text-sm text-center" />
+    <Dialog onOpenChange={Close} open={isOpen}>
+      <DialogContent className="">
+        <DialogTitle className="text-xl space-y-3 font-semibold flex flex-col items-center justify-center leading-6 text-gray-900">
+          <Check className="text-green-600 p-1 bg-green-400 bg-opacity-50 rounded-full  text-lg" />
+          <h2>{title}</h2>  
+        </DialogTitle>
+        <div className="px-4 w-full py-3 space-y-3 flex flex-col sm:px-6">
+          <p className="text-center">{message}</p>
+          <Button
+            variant="action"
+            onClick={() => {
+              Close();
+              push("/shop");
+            }}
+            className="w-full  text-white justify-center rounded-md bg-main px-3 py-2"
+          >
+            Go Shopping Now!
+          </Button>
         </div>
-
-        <DialogFooter onClick={() => Close()}>
-          <ActionButton action="shop" title="Start Shopping Now!" />
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

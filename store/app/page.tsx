@@ -30,7 +30,7 @@ export default async function Home() {
       {bestseller && <ProductSample title="Our BestSeller" data={bestseller} />}
       {newArrival && <ProductSample title="New Arrivals" data={newArrival} />}
       {banner && <Banner banner={banner[0]} />}
-      {aboutUs && <OurStory bottomImage={aboutUs[0]} />}
+      {/* {aboutUs && <OurStory bottomImage={aboutUs[0]} />} */}
       <Footer />
     </Wrapper>
   );

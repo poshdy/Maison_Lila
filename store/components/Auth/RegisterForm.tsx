@@ -15,13 +15,13 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/zustand/user-store";
 import { useNoticationModel } from "@/zustand/notification-store";
-import { useAlert } from "@/zustand/alert-store";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/constants";
 import axios from "axios";
+import { useErrorModel } from "@/zustand/error-store";
 
 const RegisterForm = () => {
-  const { Display } = useAlert();
+  const { Display } = useErrorModel();
   const { push } = useRouter();
   const { SetUser } = useUser();
   const success = useNoticationModel();
@@ -35,7 +35,6 @@ const RegisterForm = () => {
         withCredentials: true,
       });
       SetUser(res?.data?.data);
-      console.log(res?.data?.data);
       success.Display(
         `Welcome ${res?.data?.data?.name}`,
         "Your Account Is created Successfully, Thank you for choosing Mison Lila",
@@ -44,7 +43,13 @@ const RegisterForm = () => {
       push("/");
       form.reset();
     } catch (error) {
-      Display("Error", error?.response?.data);
+      if (error?.response?.data?.errorCode == "This Email Already Exist") {
+        Display("Opps", "This email is already exists try another one");
+      } else {
+        Display("Opps", "Something went wrong please try again");
+      }
+      form.reset();
+    } finally {
       form.reset();
     }
   };
