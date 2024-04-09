@@ -4,8 +4,10 @@ import Heading from "@/components/Shared/Heading";
 import { useCart } from "@/zustand/cart-store";
 import React, { useEffect } from "react";
 import { Zone } from "@/types";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/zustand/user-store";
+import { useErrorModel } from "@/zustand/error-store";
 type Props = {
   zone?: Zone;
   title: string;
@@ -14,11 +16,25 @@ type Props = {
 
 const CartSummary = ({ zone, action, title }: Props) => {
   const { items, cartTotalAmount, calculateTotalPrice } = useCart();
+  const { user } = useUser();
+  const { Display } = useErrorModel();
   const pathName = usePathname();
+  const {push} = useRouter()
   useEffect(() => {
     calculateTotalPrice();
   }, [items, calculateTotalPrice]);
 
+  const handleClick = () => {
+    if (!user) {
+      Display(
+        "Oppss",
+        "Please create an account or login to your account to be able to proceed"
+      );
+      push("/Login");
+    } else {
+      push(`/order/shipping-info/${user?.id}`);
+    }
+  };
   return (
     <section className="bg-gray-100 rounded-lg flex flex-col justify-between space-y-3 p-5 md:w-[40%] w-full">
       <div>
@@ -35,7 +51,11 @@ const CartSummary = ({ zone, action, title }: Props) => {
         </div>
       </div>
 
-      <Button variant="action" className="w-full  text-white ">
+      <Button
+        onClick={handleClick}
+        variant="action"
+        className="w-full  text-white "
+      >
         Chechout
       </Button>
     </section>

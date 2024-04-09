@@ -3,7 +3,7 @@ import React from "react";
 
 const Anouncement = (anoun: any) => {
   return (
-    <div className="relative bg-main isolate flex items-center gap-x-6 overflow-hidden px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+    <div className="relative bg-main isolate flex items-center justify-center gap-x-6 overflow-hidden px-6 py-2.5 sm:px-3.5">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 ">
         <p className="leading-6 text-md text-white">
           <strong className="font-semibold text-lg">What is new!</strong>

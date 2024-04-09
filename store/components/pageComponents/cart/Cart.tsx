@@ -4,7 +4,6 @@ import Heading from "@/components/Shared/Heading";
 import { useCart } from "@/zustand/cart-store";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
-import { useUser } from "@/zustand/user-store";
 import Wrapper from "@/components/Shared/Wrapper";
 import { Separator } from "@/components/ui/separator";
 import CartSummary from "./CartSummary";
@@ -16,7 +15,7 @@ const Cart = () => {
   }, [mounted]);
 
   const { items } = useCart();
-  const { user } = useUser();
+
   if (!mounted) {
     return null;
   }
@@ -34,13 +33,16 @@ const Cart = () => {
         />
       ) : (
         <section className="flex flex-col space-y-3 gap-x-6 md:flex-row md:justify-between">
-          {items?.map((item) => (
-            <div className="space-y-6 w-full md:w-[60%]">
-              <Separator />
-              <CartItem product={item} key={item?.id} />
-              <Separator />
-            </div>
-          ))}
+          <div className="space-y-6 flex flex-col  w-full">
+            {items?.map((item) => (
+              <div className="space-y-6 flex flex-col  w-full md:w-[60%]">
+                <Separator />
+                <CartItem product={item} key={item?.id} />
+                <Separator />
+              </div>
+            ))}
+          </div>
+
           {items && <CartSummary action="" title="Cart Summary" />}
         </section>
       )}

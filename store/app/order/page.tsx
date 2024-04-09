@@ -1,14 +1,18 @@
+import Heading from "@/components/Shared/Heading";
+import OrderDetails from "@/components/pageComponents/order/OrderDetails";
 import OrderForm from "@/components/pageComponents/order/OrderForm";
-import UserDetails from "@/components/pageComponents/order/UserDetails";
 import { Separator } from "@/components/ui/separator";
 
 import React from "react";
 const CheckOutPage = async () => {
   return (
-    <section className="w-[90%] mx-auto space-y-5">
-      <UserDetails />
+    <section className="container space-y-5">
+      <Heading title="Chechout" size="text-3xl"/>
       <Separator />
-      <OrderForm />
+      <div className="flex lg:flex-row  lg:justify-between flex-col-reverse w-full gap-3">
+        <OrderForm />
+        <OrderDetails />
+      </div>
     </section>
   );
 };

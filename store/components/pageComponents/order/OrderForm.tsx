@@ -28,8 +28,7 @@ const OrderForm = () => {
   const { address } = AddressStore();
   const { Display } = useNoticationModel();
   const { Display: open } = useErrorModel();
-  const { subtotal, cartTotalAmount, ClearCart } = useCart();
-  console.log(address)
+  const { cartTotalAmount, ClearCart } = useCart();
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(OrderSchema),
   });
@@ -56,14 +55,14 @@ const OrderForm = () => {
       Display(
         "Your Order Placed Successfully",
         `Thank you for choosing MAISON LILA`,
-        `/order/${res?.data?.id}`
+        ``
       );
     } catch (error: any) {
       if (
         error.response.data.errorCode ==
         "Sorry Cinnamon rolls is currently out of stock"
       ) {
-        open("Opps!",`${error.response.data.errorCode}` );
+        open("Opps!", `${error.response.data.errorCode}`);
       } else {
         open("Opps!", "Something Please Try Again");
       }
@@ -73,8 +72,7 @@ const OrderForm = () => {
   };
 
   return (
-    <section className="space-y-4 pb-10">
-      <Heading title="Checkout" size="text-3xl" />
+    <section className="space-y-4 pb-10 flex md:justify-between gap-3 w-full md:w-[50%]">
       <Form {...form}>
         <form
           className="gap-x-2 gap-y-6  w-full grid grid-cols-4"
@@ -84,7 +82,7 @@ const OrderForm = () => {
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem className="col-span-2" {...field}>
+              <FormItem className="col-span-2 w-fit" {...field}>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
                   <Input type="tel" />
@@ -143,7 +141,6 @@ const OrderForm = () => {
           </Button>
         </form>
       </Form>
-      <OrderDetails />
     </section>
   );
 };

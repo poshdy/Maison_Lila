@@ -48,7 +48,6 @@ const AddressForm = ({ zone }: Props) => {
         Floor: data.Floor,
         userId: user?.id,
       });
-      console.log(res.data);
       setAddress({
         zone: {
           id: res?.data?.address?.zone?.id,
@@ -63,7 +62,7 @@ const AddressForm = ({ zone }: Props) => {
         userId: user?.id,
         id: res?.data?.address?.id,
       });
-      push("/order/review");
+      push("/order");
       form.reset();
     } catch (error) {
       toast.error("Some went Wrong Please Try again");

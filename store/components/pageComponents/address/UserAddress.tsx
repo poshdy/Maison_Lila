@@ -16,7 +16,7 @@ const UserAddress = ({ address }: Props) => {
   const { setAddress } = AddressStore();
   const handleClick = (add: Address) => {
     setAddress(add);
-    router.push("/order/review");
+    router.push("/order");
   };
   return (
     <>
