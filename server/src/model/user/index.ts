@@ -6,7 +6,25 @@ export const FindUserOrders = async (id: string) => {
       id,
     },
     select: {
-      order: true,
+      order: {
+        select: {
+          OrderItems: true,
+          Address: {
+            select: {
+              zone: true,
+              city: true,
+              BuildingNo: true,
+              apartmentNo: true,
+              Floor: true,
+              streetName: true,
+            },
+          },
+          orderStatus: true,
+          OrderSummary: true,
+          user: true,
+          createdAt: true,
+        },
+      },
       name: true,
       email: true,
       id: true,
@@ -20,11 +38,11 @@ export const FindUserAddress = async (id: string) => {
     },
     include: {
       zone: true,
-      User:{
-        select:{
-          id:true
-        }
-      }
+      User: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 };

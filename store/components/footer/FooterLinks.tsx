@@ -1,14 +1,12 @@
 import { NAVITEMS } from "@/constants";
 import React from "react";
 import Link from "next/link";
-type Props = {};
-
-const FooterLinks = (props: Props) => {
+const FooterLinks = () => {
   return (
-    <div className="flex flex-col items-center gap-1 text-base font-semibold ">
+    <div className="flex flex-col">
       {NAVITEMS.map((n) => (
         <Link
-          className="hover:scale-105 transition-all duration-100 ease-in-out"
+          className="text-gray-400"
           key={n.name}
           href={`${n.path}`}
         >

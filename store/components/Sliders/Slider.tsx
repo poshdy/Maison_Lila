@@ -9,10 +9,12 @@ type Props = {
 
 const Slider = ({ data }: Props) => {
   return (
-    <Wrapper>
+    // <Wrapper>
+    <section className="w-full">
       <DesktopView data={data} />
       <MoblieView data={data} />
-    </Wrapper>
+    </section>
+    // </Wrapper>
   );
 };
 

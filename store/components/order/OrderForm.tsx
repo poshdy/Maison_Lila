@@ -22,6 +22,7 @@ import { Client } from "@/axiosClient";
 import { AddressStore } from "@/zustand/address-store";
 import { useErrorModel } from "@/zustand/error-store";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const OrderForm = () => {
   const { user } = useUser();
@@ -29,14 +30,15 @@ const OrderForm = () => {
   const { Display } = useNoticationModel();
   const { Display: open } = useErrorModel();
   const { cartTotalAmount, ClearCart } = useCart();
+  const { push } = useRouter();
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(OrderSchema),
   });
   const onSubmit = async (data: OrderFormValues) => {
     const orderItems = useCart?.getState()?.items?.map((item) => {
       return {
-        productId: item.id,
-        quantity: item.quantity,
+        productId: item?.id,
+        quantity: item?.quantity,
       };
     });
     try {
@@ -57,6 +59,7 @@ const OrderForm = () => {
         `Thank you for choosing MAISON LILA`,
         ``
       );
+      push(`/account/${user.id}`);
     } catch (error: any) {
       if (
         error.response.data.errorCode ==

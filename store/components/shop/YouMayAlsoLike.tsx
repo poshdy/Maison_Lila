@@ -1,4 +1,4 @@
-import ProductSample from "@/components/pageComponents/shop/ProductSample";
+import ProductSample from "@/components/shop/ProductSample";
 import { getDataById } from "@/fetchers";
 import React from "react";
 

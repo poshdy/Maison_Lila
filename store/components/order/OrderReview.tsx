@@ -1,8 +1,8 @@
 "use client";
 
-import CartProduct from "@/components/pageComponents/cart/CartItem";
-import CartSummary from "@/components/pageComponents/cart/CartSummary";
-import OrderAddress from "@/components/pageComponents/order/OrderAddress";
+import CartProduct from "@/components/cart/CartItem";
+import CartSummary from "@/components/cart/CartSummary";
+import OrderAddress from "@/components/order/OrderAddress";
 import { AddressStore } from "@/zustand/address-store";
 import { useCart } from "@/zustand/cart-store";
 

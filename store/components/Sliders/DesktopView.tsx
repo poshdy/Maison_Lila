@@ -17,30 +17,29 @@ type Props = {
 
 const DesktopView = ({ data }: Props) => {
   return (
-    <Carousel className="hidden md:flex">
-      <CarouselContent className="mt-10">
+    <Carousel className="hidden w-full md:flex my-10">
+      <CarouselContent className="w-full flex">
         {data?.content?.map((slide) => (
-          <CarouselItem key={slide?.id} className="grid grid-cols-6 gap-5 ">
-            <div className="col-span-3  space-y-3">
-              <Heading
-                size="text-7xl text-left uppercase"
-                title={slide?.title}
+          <CarouselItem
+            key={slide?.id}
+            className="grid grid-cols-7 w-full justify-items-center "
+          >
+            <Heading
+              size="text-7xl w-full text-left font-bold uppercase col-span-2"
+              title={slide?.title}
+            />
+            <div className="relative w-[90%] h-[90vh] col-span-3">
+              <Image
+                fill
+                className="object-cover rounded-t-full"
+                sizes="100vh,100vh"
+                alt="slider-image"
+                src={slide?.image}
               />
+            </div>
+            <div className="self-end col-span-2 space-y-2">
               <Text text={slide?.text} size="text-lg" />
               <NavigationButton title="Shop Now" action="shop" />
-            </div>
-            <div className="col-span-3">
-              <div className="relative w-[90%] flex h-[80vh]">
-                <Image
-                  onScroll={(e) => e.currentTarget.scroll({ left: 10 })}
-                  onLoad={(e) => (e.currentTarget.style.background = "#000")}
-                  fill
-                  className="object-cover rounded-t-full"
-                  sizes="100vh,100vh"
-                  alt="slider-image"
-                  src={slide?.image}
-                />
-              </div>
             </div>
           </CarouselItem>
         ))}
@@ -50,3 +49,9 @@ const DesktopView = ({ data }: Props) => {
 };
 
 export default DesktopView;
+{
+  /* <div className="space-y-3">
+       
+          
+            </div> */
+}

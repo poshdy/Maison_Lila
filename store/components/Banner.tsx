@@ -28,7 +28,7 @@ const Banner = async ({ banner }: Props) => {
               title={banner?.title}
             />
 
-            <Text size="text-sm text-gray-300" text={banner?.text} />
+            <Text size="text-base text-gray-300" text={banner?.text} />
             <NavigationButton title="Order Now" action="customized-order" />
           </div>
         </section>

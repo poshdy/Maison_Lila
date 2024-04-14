@@ -2,11 +2,11 @@ import { getDataById } from "@/fetchers";
 import { Product } from "@/types";
 import Image from "next/image";
 import React from "react";
-import YouMayAlsoLike from "@/components/pageComponents/shop/YouMayAlsoLike";
+import YouMayAlsoLike from "@/components/shop/YouMayAlsoLike";
 import Wrapper from "@/components/Shared/Wrapper";
 import Heading from "@/components/Shared/Heading";
 import Text from "@/components/Shared/Text";
-import ProductController from "@/components/pageComponents/shop/ProductController";
+import ProductController from "@/components/shop/ProductController";
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
   const product: Product | null = await getDataById(
     "product",

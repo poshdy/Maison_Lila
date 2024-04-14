@@ -1,6 +1,6 @@
 import Heading from "@/components/Shared/Heading";
-import AddressForm from "@/components/pageComponents/address/AddressForm";
-import UserAddress from "@/components/pageComponents/address/UserAddress";
+import AddressForm from "@/components/address/AddressForm";
+import UserAddress from "@/components/address/UserAddress";
 import { getData } from "@/fetchers";
 import { Address, Zone } from "@/types";
 import React from "react";

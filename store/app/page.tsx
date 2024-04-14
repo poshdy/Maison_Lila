@@ -5,7 +5,7 @@ import Categories from "@/components/Categories";
 import Wrapper from "@/components/Shared/Wrapper";
 import { getData } from "@/fetchers";
 import { Product, slider, banner } from "@/types";
-import ProductSample from "@/components/pageComponents/shop/ProductSample";
+import ProductSample from "@/components/shop/ProductSample";
 import Footer from "@/components/footer/Footer";
 
 export default async function Home() {
@@ -24,14 +24,18 @@ export default async function Home() {
   );
 
   return (
-    <Wrapper>
-      {SLIDER && <Slider data={SLIDER[0]} />}
-      <Categories />
-      {bestseller && <ProductSample title="Our BestSeller" data={bestseller} />}
-      {newArrival && <ProductSample title="New Arrivals" data={newArrival} />}
-      {banner && <Banner banner={banner[0]} />}
-      {/* {aboutUs && <OurStory bottomImage={aboutUs[0]} />} */}
+    <section className="space-y-6">
+      <Wrapper>
+        {SLIDER && <Slider data={SLIDER[0]} />}
+        <Categories />
+        {bestseller && (
+          <ProductSample title="Our BestSeller" data={bestseller} />
+        )}
+        {newArrival && <ProductSample title="New Arrivals" data={newArrival} />}
+        {/* {aboutUs && <OurStory bottomImage={aboutUs[0]} />} */}
+      </Wrapper>
+        {banner && <Banner banner={banner[0]} />}
       <Footer />
-    </Wrapper>
+    </section>
   );
 }

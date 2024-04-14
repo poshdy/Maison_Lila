@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { IoIosArrowRoundForward } from "react-icons/io";
+import { FaAngleRight } from "react-icons/fa";
 type Props = {
   title: string;
   action: string;
@@ -8,10 +8,10 @@ type Props = {
 const NavigationButton = ({ title, action }: Props) => {
   return (
     <Link
-      className="flex items-center font-semibold text-lg gap-1"
+      className="text-lila text-lg rounded-2xl font-bold tracking-tighter leading-tight border-lila px-7 py-3 border flex items-center justify-center"
       href={`${action}`}
     >
-      {title} <IoIosArrowRoundForward className="w-7 h-7" />
+      {title} <FaAngleRight className="w-5 h-5 ml-2" />
     </Link>
   );
 };

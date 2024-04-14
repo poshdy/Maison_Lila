@@ -24,7 +24,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SearchSchema, SearchValues } from "@/Schemas";
-import ProductSearch from "./pageComponents/shop/product-search";
+import ProductSearch from "./shop/product-search";
 import Heading from "./Shared/Heading";
 type Props = {
   color: string;
