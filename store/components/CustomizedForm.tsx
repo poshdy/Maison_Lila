@@ -19,18 +19,19 @@ import { useNoticationModel } from "@/zustand/notification-store";
 type Props = {};
 
 const CustomizedForm = (props: Props) => {
-  // const { onOpen } = useNoticationModel();
+  const { Display } = useNoticationModel();
   const form = useForm<CustomziedFormValues>({
     resolver: zodResolver(CustomziedSchema),
   });
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (data: CustomziedFormValues) => {
     try {
-      await Client.post("/special-order", data);
-      // onOpen(
-      //   "We Recieved Your Message We Will Get In Touch As soon As Possible",
-      //   `Thank You, ${data?.name}!`
-      // );
+      await Client.post("/custom-order", data);
+      Display(
+        "We Recieved Your Message We Will Get In Touch As soon As Possible",
+        `Thank You, ${data?.name}!`,
+        ""
+      );
       form.reset();
     } catch (error: any) {
     } finally {

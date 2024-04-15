@@ -1,11 +1,10 @@
 import React from "react";
-import Logo from "@/public/whiteLogo.png";
-import Image from "next/image";
 import FooterLinks from "./FooterLinks";
 import MediaLinks from "./MediaLinks";
 import { getData } from "@/fetchers";
 import FooterCategories from "./footer-categories";
 import FooterAccount from "./footer-account";
+import Heading from "../Shared/Heading";
 
 const Footer = async () => {
   const categories = await getData("category");
@@ -15,24 +14,13 @@ const Footer = async () => {
       className="w-full p-10 flex  items-center justify-center text-white bg-lila"
     >
       <section className="grid grid-cols-1 md:grid-cols-4 space-y-4 justify-items-center items-start container">
-        <div className="flex flex-col md:items-start items-center md:text-left text-center justify-center space-y-2"> 
-          <div className="relative w-20 aspect-square md:w-36 md:col-span-1">
-            <Image
-              alt="Maison Lila logo"
-              src={Logo}
-              className="object-cover"
-              priority
-              fill
-              sizes="100vw,100vh"
-            />
-          </div>
+        <div className="flex flex-col md:items-start items-center md:text-left text-center justify-center space-y-2">
+          <Heading size="text-3xl text-white" title="Maison Lila" />
           <p className="text-gray-400 text-sm">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
-            neque sequi recusandae dolores ipsam atque assumenda natus accusamus
-            veniam fuga quod, dicta maxime libero error quos facere odit
-            suscipit? Odio.
+            Welcome to Maison Lila we are located in Mivida we accepting order
+            form 8:AM to 10:PM
           </p>
-          <MediaLinks/>
+          <MediaLinks />
         </div>
         <div className="md:col-span-1 md:text-left  flex flex-col md:items-start items-center text-center justify-center space-y-2">
           <h3 className="text-xl font-semibold">Information</h3>
@@ -52,19 +40,3 @@ const Footer = async () => {
 };
 
 export default Footer;
-{
-  /* <div className="relative w-20 md:w-28 aspect-square">
-<Image
-  fill
-  src={Logo}
-  alt="logo"
-  className="object-cover"
-  sizes="100vh , 100vw"
-  priority
-/>
-</div> */
-}
-
-{
-  /* <MediaLinks />  */
-}

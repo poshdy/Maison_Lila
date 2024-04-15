@@ -1,5 +1,3 @@
-import React from "react";
-import { CiSearch } from "react-icons/ci";
 import Logo from "./Logo";
 import { NAVITEMS } from "@/constants";
 import Link from "next/link";
@@ -12,13 +10,11 @@ const Navbar = () => {
       <nav className="hidden w-[90%] mx-auto md:flex justify-between items-center px-6 py-2">
         <Logo />
         <div className="flex items-center gap-5">
-          <>
-            {NAVITEMS?.map((link) => (
-              <Link className="text-base" href={`${link.path}`} key={link.name}>
-                {link.name}
-              </Link>
-            ))}
-          </>
+          {NAVITEMS?.map((link) => (
+            <Link className="text-base" href={`${link.path}`} key={link.name}>
+              {link.name}
+            </Link>
+          ))}
           <SearchSheet color="text-text" />
         </div>
       </nav>

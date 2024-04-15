@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/carousel";
 import { Category } from "@/types";
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
 import Text from "../Shared/Text";
 type Props = {
@@ -25,22 +24,25 @@ const CategoriesSlider = ({ categories }: Props) => {
       <CarouselContent>
         {filterd?.map((category) => (
           <CarouselItem
-            className="basis-1/4 md:basis-1/4 text-center md:flex md:flex-col md:items-center"
+            className="basis-1/3 md:basis-1/4 lg:basis-1/5 text-center md:flex md:flex-col md:items-center space-y-2"
             key={category?.id}
           >
             <div
               onClick={() => router.push(`/shop?category=${category?.name}`)}
-              className="relative cursor-pointer w-16 md:w-32 aspect-square"
+              className="w-30 md:w-48 lg:w-52 aspect-square relative"
             >
               <Image
-                alt="category"
-                className="object-cover  rounded-full"
+                alt={category?.name}
+                className="object-cover rounded-full"
                 fill
                 sizes="100wv,100vh"
                 src={category?.imageUrl}
               />
             </div>
-            <Text size="text-sm md:text-base" text={category?.name} />
+            <Text
+              size="font-semibold text-base md:text-lg text-center"
+              text={category?.name}
+            />
           </CarouselItem>
         ))}
       </CarouselContent>

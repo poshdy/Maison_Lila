@@ -1,8 +1,6 @@
 import { Product } from "@/types";
 import React from "react";
-import SaleTag from "./SaleTag";
 import Text from "@/components/Shared/Text";
-import Heading from "@/components/Shared/Heading";
 import Currency from "@/components/Shared/Currency";
 
 type Props = {
@@ -11,15 +9,19 @@ type Props = {
 
 const ProductCardInfo = ({ product }: Props) => {
   return (
-    <section className="flex flex-col items-start justify-center">
-      <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-       <div className="mt-1 text-lg font-medium text-gray-900">
-        {Number(product?.salePrice) > 0 ? (
-          <SaleTag product={product} />
-        ) : (
-          <Currency price={product?.price} />
-        )}
-      </div> 
+    <section className="pt-1">
+      <Text
+        size="text-2xl font-bold leading-tight tracking-tighter"
+        text={product?.name}
+      />
+      <Text
+        size="text-base font-semibold text-gray-500"
+        text={product?.category?.name}
+      />
+
+      <Currency
+        price={product?.salePrice > 0 ? product?.salePrice : product?.price}
+      />
     </section>
   );
 };

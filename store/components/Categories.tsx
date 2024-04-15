@@ -7,7 +7,7 @@ import Heading from "./Shared/Heading";
 const Categories = async () => {
   const categories: Category[] | null = await getData("category");
   return (
-    <section className="space-y-2 md:space-y-4">
+    <section className="space-y-4">
       <Heading size="text-3xl md:text-4xl" title="Categories" />
       {categories && <CategoriesSlider categories={categories} />}
     </section>

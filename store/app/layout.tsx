@@ -30,9 +30,10 @@ export default async function RootLayout({
     <html lang="en">
       <ClientProvider>
         <body
+          suppressHydrationWarning={true}
           className={`${font.className} min-h-screen relative flex flex-col text-lila overflow-x-hidden bg-[#fffcf8]`}
         >
-          <main className="flex-1 pb-28 md:pb-0">
+          <main className="flex-1 pb-20 md:pb-0">
             {anoun && <Anouncement anoun={anoun[0]} />}
             <Navbar />
             {children}

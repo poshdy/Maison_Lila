@@ -1,37 +1,60 @@
 import Heading from "@/components/Shared/Heading";
-import Wrapper from "@/components/Shared/Wrapper";
-import { fetchProducts, getData } from "@/fetchers";
+import { getData } from "@/fetchers";
 import { Category, Product } from "@/types";
-import Filters from "@/components/shop/Filters";
 import Products from "@/components/shop/Products";
 import Loadmore from "@/components/shop/Loadmore";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import CategoriesSlider from "@/components/Sliders/Categories-Slider";
+import Empty from "@/components/Shared/Empty";
+import { BreadCrumbs } from "@/components/Shared/bread-crumbs";
 
 const Shop = async ({
   searchParams,
 }: {
   searchParams: {
-    bestSeller: string;
-    newArrival: string;
-    recommended: string;
     category: string;
-    page: string;
   };
 }) => {
-  const { category, bestSeller, newArrival, page } = searchParams;
-  const query = { category, bestSeller, newArrival };
-  const products: Product[] | null = await getData(`product?page=1`);
+  const { category } = searchParams;
+  let url;
+  if (category) {
+    url = `product?page=1&category=${category}`;
+  }
+  const products: Product[] | null = await getData(url || `product?page=1`);
   const categories: Category[] | null = await getData("category");
 
   return (
-    <Wrapper>
-      <Heading size="text-3xl" title="Shop" />
-      <section>
-        {/* <Filters categories={categories} /> */}
-        <Products products={products} />
-        {/* <Loadmore category={searchParams?.category} /> */}
+    <main className="container mt-10 space-y-10 min-h-screen">
+      <div className="flex flex-col items-center justify-center md:items-start md:justify-start">
+        <Heading size="md:text-3xl text-2xl" title="Shop" />
+        <BreadCrumbs
+          data={[
+            { href: "home", name: "Home" },
+            { href: "shop", name: "Shop" },
+            { href: "shop", name: "Products" },
+            { href: `shop?category=${category}`, name: category },
+          ]}
+        />
+      </div>
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <Heading size="md:text-3xl text-2xl" title="Filter by Category" />
+          <CategoriesSlider categories={categories} />
+        </div>
+
+        {products.length <= 0 ? (
+          <Empty
+            action="/shop?page=1"
+            text="Go Back"
+            title="Sorry! No Products Found"
+          />
+        ) : (
+          <>
+            <Products products={products} />
+            <Loadmore category={category} />
+          </>
+        )}
       </section>
-    </Wrapper>
+    </main>
   );
 };
 

@@ -61,7 +61,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         uploadPreset="a4umugsr"
       >
         {({ open, error }) => {
-          console.log(error);
           return (
             <Button
               className="w-full h-[40vh] bg-gray-300"

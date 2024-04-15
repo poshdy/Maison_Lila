@@ -20,7 +20,8 @@ const AddToCartButton = ({ quantity, product }: Props) => {
   return (
     <Button
       onClick={() => addItem(ItemAdded)}
-      className="w-full bg-main text-white rounded-xl"
+      variant="main"
+      className="w-full bg-lila text-white rounded-xl"
     >
       Add to Cart
     </Button>

@@ -24,24 +24,3 @@ export const Search = async (formData: FormData) => {
   const data = await getData(`product/search?name=${name}`);
   return data;
 };
-
-type Filter = {
-  bestSeller: string;
-  newArrival: string;
-  category: string;
-};
-export const fetchProducts = async (page: string = "1", query: Filter) => {
-  const { bestSeller, category, newArrival } = query;
-  let url = `/product?page=${page}`;
-  if (category) {
-    url + `&category=${category}`;
-  }
-  if (bestSeller) {
-    url + `&bestSeller=true`;
-  }
-  if (newArrival) {
-    url + `&newArrival=true`;
-  }
-  const data = await Server.get(url);
-  return data.data.data;
-};

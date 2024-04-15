@@ -5,10 +5,10 @@ import React from "react";
 
 const FooterAccount = () => {
   const { user } = useUser();
-
+  const herf = user ? `/account/${user?.id}` : "/Login";
   return (
     <div className="flex flex-col text-gray-400">
-      <Link href={user?.id ? `account/${user?.id}` : "Login"}>Account</Link>
+      <Link href={herf}>Account</Link>
       <Link href={"Login"}>Login</Link>
       <Link href={"Register"}>Register</Link>
     </div>

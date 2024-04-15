@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Text from "@/components/Shared/Text";
 import Currency from "@/components/Shared/Currency";
-import AddToCartButton from "./AddToCartButton";
+import AddToCartButton from "../cart/AddToCartButton";
 import ProductQuantityControl from "./ProductQuantityControl";
 import { Product } from "@/types";
 type Props = {

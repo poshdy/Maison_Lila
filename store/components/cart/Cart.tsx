@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Wrapper from "@/components/Shared/Wrapper";
 import { Separator } from "@/components/ui/separator";
 import CartSummary from "./CartSummary";
+import { BreadCrumbs } from "../Shared/bread-crumbs";
 const Cart = () => {
   const [mounted, setMounted] = useState(false);
 
@@ -21,15 +22,23 @@ const Cart = () => {
   }
   return (
     <Wrapper>
-      <Heading
-        title="Shopping Cart"
-        size="md:text-3xl md:text-left text-2xl text-center"
-      />
+      <div className="flex flex-col items-center justify-center md:items-start md:justify-start">
+        <Heading
+          title="Shopping Cart"
+          size="md:text-3xl md:text-left text-2xl text-center"
+        />
+        <BreadCrumbs
+          data={[
+            { href: "home", name: "Home" },
+            { href: "cart", name: "Cart" },
+          ]}
+        />
+      </div>
       {items?.length <= 0 ? (
         <Empty
-          title="Your Cart Is Empty"
-          text="Start shopping to fill it up!"
-          action="GO SHOPPING"
+          action="/shop?page=1"
+          text="Go Shopping Now!"
+          title="Your Cart Is Empty Go and Fill It Now!"
         />
       ) : (
         <section className="flex flex-col space-y-3 gap-x-6 md:flex-row md:justify-between">

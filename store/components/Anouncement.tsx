@@ -18,12 +18,11 @@ const Anouncement = (anoun: any) => {
         </p>
         <Link
           href="shop"
-          className="flex-none rounded-full border-white border-2 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+          className="text-white text-base font-bold tracking-tighter leading-tight border-white px-4 rounded-full py-2 border flex items-center justify-center"
         >
-          Shop Now! <span aria-hidden="true">&rarr;</span>
+          Shop Now <span className="ml-2" aria-hidden="true">&rarr;</span>
         </Link>
       </div>
-  
     </div>
   );
 };
