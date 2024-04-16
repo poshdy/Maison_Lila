@@ -2,8 +2,11 @@ import Heading from "@/components/Shared/Heading";
 import OrderDetails from "@/components/order/OrderDetails";
 import OrderForm from "@/components/order/OrderForm";
 import { Separator } from "@/components/ui/separator";
+import { Metadata } from "next";
 
-import React from "react";
+export const metadata: Metadata = {
+  title: "Order",
+};
 const CheckOutPage = async () => {
   return (
     <section className="container space-y-5">

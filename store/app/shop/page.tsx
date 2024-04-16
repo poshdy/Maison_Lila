@@ -6,7 +6,11 @@ import Loadmore from "@/components/shop/Loadmore";
 import CategoriesSlider from "@/components/Sliders/Categories-Slider";
 import Empty from "@/components/Shared/Empty";
 import { BreadCrumbs } from "@/components/Shared/bread-crumbs";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Shop"
+};
 const Shop = async ({
   searchParams,
 }: {
