@@ -44,7 +44,7 @@ const Cart = () => {
         <section className="flex flex-col space-y-3 gap-x-6 md:flex-row md:justify-between">
           <div className="space-y-6 flex flex-col  w-full">
             {items?.map((item) => (
-              <div className="space-y-6 flex flex-col  w-full md:w-[60%]">
+              <div key={item?.id} className="space-y-6 flex flex-col  w-full md:w-[60%]">
                 <Separator />
                 <CartItem product={item} key={item?.id} />
                 <Separator />

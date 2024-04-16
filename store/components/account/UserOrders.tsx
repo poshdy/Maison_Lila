@@ -28,8 +28,8 @@ const UserOrders = (order: any) => {
         </h3>
       </CardHeader>
       <CardContent className="space-y-3">
-        {OrderItems.map((item) => (
-          <OrderItem item={item} />
+        {OrderItems.map((item,i) => (
+          <OrderItem key={i} item={item} />
         ))}
         <div className="flex flex-col item-start justify-start">
           <Heading title="Order Total" size="text-sm md:text-base text-left" />

@@ -12,10 +12,10 @@ export const OnCreateUser = async (req: Request, res: Response) => {
   const { newUser, refreshtoken, token } = await CreateUser(data);
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    // secure: true,
-    // path: "/",
-    // domain: ".maisonlila.shop",
-    // sameSite: "none",
+    secure: true,
+    path: "/",
+    domain: ".maisonlila.shop",
+    sameSite: "none",
     maxAge: 259200000,
   });
   res.status(201).send({
@@ -33,10 +33,10 @@ export const OnLoginUser = async (req: Request, res: Response) => {
   const { user, token, refreshtoken } = await LoginUser(data);
   res.cookie("token", refreshtoken, {
     httpOnly: true,
-    // secure: true,
-    // path: "/",
-    // domain: ".maisonlila.shop",
-    // sameSite: "none",
+    secure: true,
+    path: "/",
+    domain: ".maisonlila.shop",
+    sameSite: "none",
     maxAge: 259200000,
   });
   res.status(201).send({
@@ -55,10 +55,10 @@ export const OnRefreshToken = async (req: Request, res: Response) => {
   const data = await RefreshToken(token);
   res.cookie("token", data.newRefreshToken, {
     httpOnly: true,
-    // secure: true,
-    // path: "/",
-    // domain: ".maisonlila.shop",
-    // sameSite: "none",
+    secure: true,
+    path: "/",
+    domain: ".maisonlila.shop",
+    sameSite: "none",
     maxAge: 259200000,
   });
   res.status(200).send({ accessToken: data.newAccessToken });
@@ -69,16 +69,3 @@ export const OnLogOut = async (req: Request, res: Response) => {
   res.status(200).send("Logged Out Successfully");
 };
 
-// export const getUser = async (req: Request, res: Response) => {
-//   const user = await GetUser(req);
-//   res.status(200).send(user);
-// };
-// export const getUserAddress = async (req: Request, res: Response) => {
-//   const { id } = req.params;
-//   const userAddress = await prismadb.address.findMany({
-//     where: {
-//       User: { id: id },
-//     },
-//   });
-//   res.status(200).send(userAddress);
-// };

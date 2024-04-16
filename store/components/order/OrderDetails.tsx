@@ -28,7 +28,7 @@ const OrderDetails = () => {
         <Heading title="Order Summary" size="text-xl font-bold text-left" />
         <div className="space-y-6 flex flex-col  w-full">
           {items?.map((item) => (
-            <div className="space-y-6 flex flex-col w-full">
+            <div key={item?.id} className="space-y-6 flex flex-col w-full">
               <Separator />
               <CartItem product={item} key={item?.id} />
               <Separator />
