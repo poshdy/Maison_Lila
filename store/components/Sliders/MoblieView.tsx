@@ -28,12 +28,7 @@ const MoblieView = ({ data }: Props) => {
                 size="text-4xl font-bold uppercase  leading-tight tracking-tighter font-bold"
                 title={slide?.title}
               />
-              <Text
-                text={
-                  "Ana esmy roshdy bas by2oloy ya abo el apshash wana 3ayez a3mel kaka awe begad w 3ayez 9 million dollers cash right now or i will take a shit right here!"
-                }
-                size="text-sm text-center"
-              />
+              <Text text={slide?.text} size="text-sm text-center" />
             </div>
             <div className="relative w-full h-[70vh]">
               <Image

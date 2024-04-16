@@ -25,7 +25,7 @@ const DesktopView = ({ data }: Props) => {
             className="grid grid-cols-7 w-full justify-items-center "
           >
             <Heading
-              size="text-7xl w-full text-left font-bold uppercase col-span-2"
+              size="text-7xl w-full text-left font-bold uppercase col-span-2  z-20"
               title={slide?.title}
             />
             <div className="relative w-[90%] h-[90vh] col-span-3">
