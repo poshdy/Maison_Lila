@@ -8,7 +8,9 @@ import Heading from "@/components/Shared/Heading";
 import ProductController from "@/components/shop/ProductController";
 import Link from "next/link";
 import { BreadCrumbs } from "@/components/Shared/bread-crumbs";
+import { Metadata } from "next";
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
+  
   const product: Product | null = await getDataById(
     "product",
     params.productId
@@ -69,3 +71,20 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
 };
 
 export default ProductPage;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { productId: string };
+}): Promise<Metadata> {
+  const product: Product | null = await getDataById(
+    "product",
+    params.productId
+  );
+  const title = product.name
+  const description = product.description
+  return {
+    title,
+    description
+  };
+}

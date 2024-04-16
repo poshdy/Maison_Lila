@@ -11,6 +11,7 @@ type Props = {
 
 const OrderSummary = ({ summary }: Props) => {
   const { Address, OrderSummary, createdAt } = summary;
+  console.log(OrderSummary)
   let container = "flex item-center justify-between";
 
   return (
@@ -37,7 +38,7 @@ const OrderSummary = ({ summary }: Props) => {
         <div className={container}>
           <h2>Sub-Total</h2>
           <span className="font-bold">
-            {formattedPrice(+OrderSummary.OrderTotal)}
+            {formattedPrice(+OrderSummary.Subtotal)}
           </span>
         </div>
         <div className={container}>
@@ -56,9 +57,7 @@ const OrderSummary = ({ summary }: Props) => {
           <h2>Order Total</h2>
           <span className="font-bold">
             {formattedPrice(
-              +OrderSummary.OrderTotal +
-                +Address.zone.fees -
-                +OrderSummary?.Discount
+              +OrderSummary.OrderTotal - +OrderSummary?.Discount
             )}
           </span>
         </div>

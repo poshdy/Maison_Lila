@@ -84,7 +84,7 @@ export const RestockSchema = z.object({
 });
 
 export const CouponSchema = z.object({
-  name: z.string().min(1, "Coupon name must contains atleast one character"),
+  couponCode: z.string().min(1, "Coupon name must contains atleast one character"),
   amount: z.coerce.number(),
   decription: z.string().min(1, "desc must contains atleast one character"),
   Minimum: z.coerce.number(),

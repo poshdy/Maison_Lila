@@ -15,7 +15,10 @@ const font = Abhaya_Libre({
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 export const metadata: Metadata = {
-  title: "MAISON LILA",
+  title: {
+    default: "MIASON LILA",
+    template: '%s | MAISON LILA'
+  },
   description: "Maison lila is Home made healthy bakery",
 };
 

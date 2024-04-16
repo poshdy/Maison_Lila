@@ -1,18 +1,15 @@
 import { OrderItems } from "@prisma/client";
 import { prismadb } from "../../lib/prismadb.js";
 import { CalculateOrderPrice } from "../../services/sales/index.js";
-
 type saleData = {
   productId: string;
   quantitySold: number;
   orderPrice: number;
   soldAtPrice: any;
 };
-
-export const DailySales = async () => {
-  const order = await prismadb.order.findMany({
-    select: {
-      createdAt: true,
+const GetOrders = async () => {
+  const orders = await prismadb.order.findMany({
+    include: {
       OrderSummary: {
         select: {
           OrderTotal: true,
@@ -20,13 +17,17 @@ export const DailySales = async () => {
       },
     },
   });
-  const dailySales = order.reduce((acc, order) => {
-    const date = order.createdAt.toISOString().split("T")[0];
-    acc[date] = (acc[date] || 0) + order.OrderSummary.OrderTotal;
-    console.log(acc);
-    return acc;
-  }, 0);
-  return dailySales;
+  return orders;
+};
+
+function formatNumber(number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "EGP",
+  }).format(number);
+}
+export const DailySales = async () => {
+  return "hi";
 };
 
 export const InsertSale = async (orderItems: OrderItems[]) => {
@@ -84,4 +85,12 @@ export const GetSales = async () => {
       },
     },
   });
+};
+export const TotalSales = async () => {
+  const total = await prismadb.orderSummary.aggregate({
+    _sum: {
+      OrderTotal: true,
+    },
+  });
+  return total
 };

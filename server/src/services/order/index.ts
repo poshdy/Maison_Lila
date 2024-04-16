@@ -38,24 +38,23 @@ export const ApplyCoupon = async (
 ) => {
   const coupon = await IsValid(couponCode);
   if (!coupon) {
+    throw new AppError("not vaild", "this coupon is not vaild", 400);
+  }
+  const user = await CanUseIt(userId, couponCode);
+  if (user) {
     throw new AppError(
-      "this coupon is not vaild",
-      "this coupon is not vaild",
+      `used before`,
+      "Sorry You Already Used This Coupon",
       400
     );
   }
   if (coupon.minimumAmount > orderTotal) {
     throw new AppError(
-      `Please add ${orderTotal - coupon.minimumAmount} to use coupon`,
+      `Please add ${coupon.minimumAmount - orderTotal} to use coupon`,
       "doesn't reach minimum amount",
       400
     );
   }
-  const user = await CanUseIt(userId, couponCode);
-
-  // if (!user?.canRedeem) {
-  //   throw new AppError(`Sorry You Already Used This Coupon`, "", 400);
-  // }
 
   await UsedCoupons(userId, couponCode);
   Coupon.emit("increment", coupon.id);

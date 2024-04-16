@@ -8,7 +8,19 @@ export const FindUserOrders = async (id: string) => {
     select: {
       order: {
         select: {
-          OrderItems: true,
+          OrderItems: {
+            select: {
+              Product: {
+                select: {
+                  name: true,
+                  price: true,
+                  image: true,
+                },
+              },
+              quantity: true,
+              orderId: true,
+            },
+          },
           Address: {
             select: {
               zone: true,

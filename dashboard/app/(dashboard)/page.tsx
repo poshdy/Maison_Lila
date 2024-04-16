@@ -9,11 +9,14 @@ import Orders from "@/components/Home/Delivery";
 import OrdersTable from "@/components/PageComponents/order/orders-table";
 import { OrderColumn } from "@/types";
 import Wrapper from "@/components/ui/wrapper";
+import { formattedPrice } from "@/actions/shared";
 
 const OverViewpage = async () => {
   const usersCount = await getData("stats/users");
   const ordersCount = await getData("stats/orders");
   const productsStock = await getData("stats/products");
+  const total = await getData("sales/total");
+  console.log();
   const orders: OrderColumn[] = await getData("/order");
   return (
     <Wrapper>
@@ -29,9 +32,9 @@ const OverViewpage = async () => {
         />
         <StatsCard
           Icon={DollarSign}
-          title="Daily Sales"
+          title="Total Sales"
           text="Sales"
-          data={"500"}
+          data={formattedPrice(total._sum.OrderTotal)}
         />
         <Orders orders={ordersCount} />
         <ProductStock stock={productsStock} />

@@ -1,7 +1,16 @@
-import { DailySales, GetSales, InsertSale } from "../../model/sales/index.js";
+import { DailySales, GetSales, InsertSale, TotalSales } from "../../model/sales/index.js";
 
 export const GetDailySales = async () => {
   return await DailySales();
+};
+export const GetMontlySales = async () => {
+  return await DailySales();
+};
+export const GetWeeklySales = async () => {
+  return await DailySales();
+};
+export const GetTotalSales = async () => {
+  return await TotalSales();
 };
 
 export const GetProductSales = async () => {

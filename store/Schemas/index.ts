@@ -9,7 +9,7 @@ export const CustomziedSchema = z.object({
 });
 
 export const couponSchema = z.object({
-  name: z.string(),
+  couponCode: z.string(),
 });
 export const AddressSchema = z.object({
   apartmentNo: z.string(),

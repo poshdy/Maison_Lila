@@ -29,7 +29,7 @@ const OrderForm = () => {
   const { address } = AddressStore();
   const { Display } = useNoticationModel();
   const { Display: open } = useErrorModel();
-  const { cartTotalAmount, ClearCart } = useCart();
+  const { cartTotalAmount, ClearCart, discount } = useCart();
   const { push } = useRouter();
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(OrderSchema),
@@ -46,6 +46,7 @@ const OrderForm = () => {
         userId: user?.id,
         OrderTotal: cartTotalAmount + +address?.zone?.fees,
         orderItems,
+        Discount: discount,
         Subtotal: cartTotalAmount,
         DeliveryFee: +address.zone.fees,
         paymentMethod: "CASH",
@@ -61,13 +62,11 @@ const OrderForm = () => {
       );
       push(`/account/${user.id}`);
     } catch (error: any) {
-      if (
-        error.response.data.errorCode ==
-        "Sorry Cinnamon rolls is currently out of stock"
-      ) {
-        open("Opps!", `${error.response.data.errorCode}`);
-      } else {
-        open("Opps!", "Something Please Try Again");
+      const { errorCode } = error?.response?.data;
+      if (errorCode.includes("out of stock")) {
+        open("Opps!", `${errorCode}`);
+      } if(errorCode.includes("we only")) {
+        open("Opps!", errorCode);
       }
     } finally {
       form.reset();

@@ -85,7 +85,7 @@ export const CouponForm = ({ initialData }: Props) => {
         >
           <FormField
             control={form.control}
-            name="name"
+            name="couponCode"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Coupon Name</FormLabel>

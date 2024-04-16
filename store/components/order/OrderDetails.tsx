@@ -1,20 +1,23 @@
 "use client";
 import Currency from "@/components/Shared/Currency";
 import Heading from "@/components/Shared/Heading";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { AddressStore } from "@/zustand/address-store";
 import { useCart } from "@/zustand/cart-store";
 import React, { useEffect, useState } from "react";
 import CartItem from "../cart/CartItem";
+import CouponForm from "./CouponForm";
 
 const OrderDetails = () => {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);
   }, []);
-  const { cartTotalAmount, items } = useCart();
+  const { cartTotalAmount, items, discount, calculateTotalPrice } = useCart();
   const { address } = AddressStore();
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [items, calculateTotalPrice]);
   if (!isClient) {
     return null;
   }
@@ -40,10 +43,22 @@ const OrderDetails = () => {
           <Heading title="Shipping" size="text-md font-semibold" />
           <Currency price={address?.zone?.fees} />
         </div>
+        {discount > 0 ? (
+          <div className="flex items-center justify-between w-full">
+            <Heading title="- Discount" size="text-md font-semibold" />
+            <Currency price={discount} />
+          </div>
+        ) : null}
+
         <div className="flex items-center justify-between w-full">
           <Heading title="Total-order" size="text-md font-semibold" />
-          <Currency price={+address?.zone?.fees + +cartTotalAmount} />
+          <Currency
+            price={+address?.zone?.fees + +cartTotalAmount - discount}
+          />
         </div>
+      </div>
+      <div>
+        <CouponForm />
       </div>
 
       {/* <Button variant="action" className="w-full  text-white ">

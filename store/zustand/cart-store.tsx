@@ -5,8 +5,9 @@ import { devtools, persist } from "zustand/middleware";
 
 interface CartStore {
   items: CartItems[];
-  subtotal: number;
   cartTotalAmount: number;
+  discount: number;
+  applyDiscount: (value: number) => void;
   addItem: (item: CartItems) => void;
   removeItem: (id: string) => void;
   increaseQuntity: (itemId: string) => void;
@@ -20,7 +21,7 @@ export const useCart = create<CartStore>()(
     persist(
       (set, get) => ({
         items: [],
-        subtotal: 0,
+        discount: 0,
         cartTotalAmount: 0,
         addItem(item) {
           const currentItems = get()?.items;
@@ -69,13 +70,16 @@ export const useCart = create<CartStore>()(
           set({ items: removedItem });
           toast(`item removed from your cart`);
         },
+        applyDiscount(value) {
+          set({ discount: value });
+        },
         ClearCart() {
-          set({ items: null, cartTotalAmount: 0 });
+          set({ items: null, cartTotalAmount: 0, discount: 0 });
         },
       }),
 
       {
-        name: "cart-storage",
+        name: "cart",
       }
     )
   )

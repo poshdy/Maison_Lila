@@ -10,14 +10,14 @@ export const formattedPrice = (price: number) => {
   const p = new Intl.NumberFormat("en-US", {
     currency: "EGP",
     style: "currency",
-  }).format(price);
+  }).format(Number(price));
 
   return p;
 };
 
 
 export const DATE = (createdAt: string) => {
-  const formattedDate = format(parseISO(createdAt), "PPP");
+  const formattedDate = format(parseISO(createdAt), "Pp");
   return formattedDate;
 };
 
