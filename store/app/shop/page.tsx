@@ -21,11 +21,10 @@ const Shop = async ({
   const { category } = searchParams;
   let url;
   if (category) {
-    url = `product?page=1&category=${category}`;
+    url = `product?page=1&category=${category }`;
   }
   const products: Product[] | null = await getData(url || `product?page=1`);
   const categories: Category[] | null = await getData("category");
-
   return (
     <main className="container mt-10 space-y-10 min-h-screen">
       <div className="flex flex-col items-center justify-center md:items-start md:justify-start">

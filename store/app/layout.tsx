@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 export const metadata: Metadata = {
   title: {
-    default: "MIASON LILA",
+    default: "MAISON LILA",
     template: '%s | MAISON LILA'
   },
   description: "Maison lila is Home made healthy bakery",

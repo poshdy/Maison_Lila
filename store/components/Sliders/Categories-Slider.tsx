@@ -10,6 +10,7 @@ import {
 import { Category } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 import Text from "../Shared/Text";
 type Props = {
   categories: Category[];
@@ -43,6 +44,23 @@ const CategoriesSlider = ({ categories }: Props) => {
               size="font-semibold text-base md:text-lg text-center"
               text={category?.name}
             />
+            <div className="flex flex-col items-center md:flex-row gap-2">
+              {category.Category.length != 0
+                ? category.Category.map((subCat) => (
+                    <div key={subCat?.id} className="flex flex-row ">
+                      <Button
+                        variant="main"
+                        className="w-fit py-1 text-sm px-2"
+                        onClick={() =>
+                          router.push(`shop?category=${subCat?.name}`)
+                        }
+                      >
+                        {subCat.name}
+                      </Button>
+                    </div>
+                  ))
+                : null}
+            </div>
           </CarouselItem>
         ))}
       </CarouselContent>

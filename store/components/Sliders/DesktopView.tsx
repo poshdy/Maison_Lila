@@ -49,9 +49,3 @@ const DesktopView = ({ data }: Props) => {
 };
 
 export default DesktopView;
-{
-  /* <div className="space-y-3">
-       
-          
-            </div> */
-}

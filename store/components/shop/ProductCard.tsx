@@ -15,7 +15,7 @@ const ProductCard = ({ product }: Props) => {
       href={`/shop/${product.id}`}
       className="group space-x-1"
     >
-      <div className="w-full h-[25vh] md:h-[50vh] relative cursor-pointer">
+      <div className="w-full h-[30vh] md:h-[50vh] relative cursor-pointer">
         <Image
           alt={`${product?.name}`}
           fill
